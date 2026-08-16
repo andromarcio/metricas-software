@@ -63,3 +63,34 @@ Estrutura conforme o sumário ("Conteúdo") do manual (páginas i–ii do origin
 - [Apêndice B — A Mudança em Relação à Versão Anterior](Parte-5-Apendices-e-Glossario/02-apendice-b-mudanca-versao-anterior.md) — *B-1*
 - [Apêndice C — Tamanho Funcional Ajustado](Parte-5-Apendices-e-Glossario/03-apendice-c-tamanho-funcional-ajustado.md) — *C-1*
 - [Glossário IFPUG](Parte-5-Apendices-e-Glossario/04-glossario.md) — *G-1*
+
+---
+
+## Notas de conversão
+
+- **Organização:** um arquivo Markdown por capítulo/apêndice, em diretórios por Parte,
+  espelhando o Sumário Principal ("Conteúdo") do manual.
+- **Fidelidade:** o texto foi reproduzido fielmente em português, sem resumir nem
+  parafrasear. Erros de digitação e inconsistências do original foram **preservados**
+  (não corrigidos) para manter a fidelidade ao PDF.
+- **Tabelas:** todas as tabelas de dados foram convertidas para Markdown (GFM). Tabelas
+  em matriz com cabeçalhos agrupados usam um cabeçalho de canto no formato
+  `Linhas \ Colunas`, pois o Markdown não mescla células.
+- **Figuras:** diagramas (MER/ER, DFD), telas/janelas *mockup* e fluxogramas — que são
+  gráficos vetoriais, não texto — foram recortados do PDF como imagens PNG (em
+  `images/` de cada Parte) e referenciados no local exato, com legenda descritiva.
+- **Cabeçalhos/rodapés** de página (título corrente, "Janeiro de 2010", numeração)
+  foram removidos por não fazerem parte do conteúdo.
+- **Validação:** cada arquivo foi validado (verificação automática de referências de
+  imagem e de resíduos de paginação) e conferido visualmente contra as páginas do PDF.
+
+### Inconsistências conhecidas do documento original (preservadas)
+
+- **Parte 2, Cap. 3:** o Sumário chama o capítulo de "Reunir Informações Disponíveis";
+  o cabeçalho impresso do capítulo diz "Obter Documentação Disponível".
+- **Parte 3, Cap. 3 (Cenário 8):** o diagrama da solução (p. 222 do PDF) rotula o
+  Arquivo Y do Sistema B como "AIE", enquanto o texto e a tabela de contagem o tratam
+  como ALI. O diagrama foi mantido como no original.
+
+> Em qualquer divergência, a fonte autoritativa é o PDF original
+> [`CPM-v4.3.1-Portuguese.pdf`](../CPM-v4.3.1-Portuguese.pdf).
