@@ -1,6 +1,8 @@
 # Parte 2 · Capítulo 3 — Reunir Informações Disponíveis
 
 > Parte 2 — A Transição (Aplicando o Método FSM do IFPUG) · CPM v4.3.1
+>
+> *Observação: o título acima segue o Sumário Principal (Conteúdo). No corpo do manual impresso, o cabeçalho deste capítulo aparece como "Obter Documentação Disponível".*
 
 **Introdução**
 
