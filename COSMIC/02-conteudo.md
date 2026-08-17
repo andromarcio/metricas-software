@@ -1,0 +1,86 @@
+# Conteúdo
+
+> Método COSMIC v3.0.1 — Manual de Medição
+
+- **1 INTRODUÇÃO** … 10
+  - 1.1 Aplicabilidade do Método COSMIC … 10
+    - 1.1.1 Domínios aplicáveis … 10
+    - 1.1.2 Domínio não-aplicável … 10
+    - 1.1.3 Limitações nos fatores que contribuem para o tamanho funcional … 10
+    - 1.1.4 Limitação na medição de pedaços de software muito pequenos … 11
+  - 1.2 Requisitos Funcionais do Usuário … 11
+    - 1.2.1 Extraindo os requisitos funcionais do usuário dos artefatos de software, na prática … 11
+    - 1.2.2 Derivando os requisitos funcionais do usuário a partir de software instalado … 12
+    - 1.2.3 Extraindo ou derivando os requisitos funcionais do usuário dos artefatos de software … 12
+  - 1.3 O Modelo de Contexto de Software COSMIC … 13
+  - 1.4 O Modelo Genérico de Software … 13
+  - 1.5 O Processo de Medição COSMIC … 14
+- **2 A FASE ESTRATÉGIA DE MEDIÇÃO** … 16
+  - 2.1 Definindo o propósito da medição … 17
+    - 2.1.1 O propósito da medição – uma analogia … 17
+    - 2.1.2 A importância do propósito … 18
+  - 2.2 Definindo o escopo da medição … 18
+    - 2.2.1 Derivando o escopo a partir do propósito de uma medição … 19
+    - 2.2.2 Tipos genéricos de escopo … 20
+    - 2.2.3 Níveis de decomposição … 20
+    - 2.2.4 Camadas … 21
+    - 2.2.5 Componentes pares … 23
+  - 2.3 Identificando os usuários funcionais … 24
+    - 2.3.1 O tamanho funcional varia com o usuário funcional … 24
+    - 2.3.2 Usuários funcionais … 25
+  - 2.4 Identificando o nível de granularidade … 26
+    - 2.4.1 A necessidade de um nível de granularidade padrão … 26
+    - 2.4.2 Esclarecimento do 'nível de granularidade' … 27
+    - 2.4.3 O nível padrão de granularidade … 28
+  - 2.5 Comentários finais sobre a fase estratégia de medição … 31
+- **3 A FASE DE MAPEAMENTO** … 32
+  - 3.1 Aplicando o Modelo Genérico de Software … 33
+  - 3.2 Identificando processos funcionais … 34
+    - 3.2.1 Definições … 34
+    - 3.2.2 A abordagem para a identificação de processos funcionais … 35
+    - 3.2.3 Eventos disparadores e processos funcionais no domínio de aplicações de negócio … 36
+    - 3.2.4 Eventos disparadores e processos funcionais no domínio de aplicações 'real-time' … 37
+    - 3.2.5 Mais sobre processos funcionais distintos … 38
+    - 3.2.6 Os processos funcionais de componentes pares … 38
+  - 3.3 Identificando objetos de interesse e grupos de dados … 39
+    - 3.3.1 Definições e princípios … 39
+    - 3.3.2 Sobre a materialização de um grupo de dados … 40
+    - 3.3.3 Sobre a identificação de objetos de interesse e grupos de dados … 40
+    - 3.3.4 Dados ou grupos de dados que não são candidatos a movimentações de dados … 41
+    - 3.3.5 O usuário funcional como um objeto de interesse … 41
+  - 3.4 Identificando atributos de dados (opcional) … 42
+    - 3.4.1 Definição … 42
+    - 3.4.2 Sobre a associação de atributos de dados e grupos de dados … 42
+- **4 A FASE DE MEDIÇÃO** … 43
+  - 4.1 Identificando as movimentações de dados … 43
+    - 4.1.1 Definição dos tipos de movimentações de dados … 44
+    - 4.1.2 Identificando Entries (E) … 45
+    - 4.1.3 Identificar Exits (X) … 46
+    - 4.1.4 Identificando Reads (R) … 47
+    - 4.1.5 Identificando Writes (W) … 47
+    - 4.1.6 Sobre as manipulaçoes de dados associadas a movimentações de dados … 48
+    - 4.1.7 Unicidade nas movimentações de dados e possíveis exceções … 49
+    - 4.1.8 Quando um processo funcional movimenta dados de ou para o armazenamento persistente … 51
+    - 4.1.9 Quando um processo funcional requer dados de um usuário funcional … 54
+    - 4.1.10 Comandos de controle … 55
+  - 4.2 Aplicando a função de medição … 56
+  - 4.3 Agregando os resultados da medição … 56
+    - 4.3.1 Regras gerais de agregação … 56
+    - 4.3.2 Mais sobre a agregação do tamanho funcional … 58
+  - 4.4 Mais sobre a medição do tamanho das mudanças no software … 58
+    - 4.4.1 Modificando funcionalidade … 59
+    - 4.4.2 Tamanho do software funcionalmente modificado … 60
+  - 4.5 Ampliando o método de medição COSMIC … 60
+    - 4.5.1 Introdução … 60
+    - 4.5.2 Extensão local com algoritmos complexos … 61
+    - 4.5.3 Extensão local com subunidades de medição … 61
+- **5 REPORTANDO A MEDIÇÃO** … 62
+  - 5.1 Rotulando … 62
+  - 5.2 Arquivando os resultados de medição COSMIC … 63
+- **APÊNDICE A - DOCUMENTANDO UMA MEDIÇÃO DE TAMANHO COSMIC** … 64
+- **APÊNDICE B – RESUMO DOS PRINCÍPIOS DO MÉTODO COSMIC** … 65
+- **APÊNDICE C – RESUMO DAS REGRAS DO MÉTODO COSMIC** … 69
+- **APÊNDICE D - HISTÓRIA DAS VERSÕES DO MÉTODO COSMIC** … 75
+  - Da versão 2.2 para a versão 3.0 … 75
+  - Da versão 3.0 para a versão 3.0.1 … 78
+- **APÊNDICE E - PROCEDIMENTO COSMIC PARA SOLICITAÇÃO DE MUDANÇA E COMENTÁRIOS** … 80
