@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andromarcio/metricas-software/blob/main/MFO/schema/mfc.schema.json",
+  "title": "Modelo Funcional Canônico (MFC) — MFO 1.0",
+  "description": "Estrutura do modelo que a MFO (Medição Funcional Objetiva) conta. Este esquema cobre a parte estrutural das validações V-01, V-04 e V-05; as validações semânticas (V-02, V-03, V-06 a V-09) são feitas por ferramentas/mfo.py.",
+  "type": "object",
+  "required": ["mfo", "software", "proposito", "escopo", "nivel", "agente", "fontes", "usuarios_funcionais", "entidades", "processos"],
+  "properties": {
+    "mfo": { "const": "1.0", "description": "Versão do método." },
+    "software": { "type": "string", "minLength": 1, "description": "Nome do software ou do escopo medido." },
+    "versao": { "type": "string", "description": "Versão do software a que o modelo se refere." },
+    "proposito": { "type": "string", "minLength": 1, "description": "RI-01 a: por que se mede." },
+    "escopo": { "type": "string", "minLength": 1, "description": "RI-01 b: o que está incluído." },
+    "nivel": { "enum": ["R", "C", "RC"], "description": "R = requisitos; C = código ou sistema; RC = conciliado." },
+    "agente": {
+      "type": "object",
+      "required": ["tipo"],
+      "properties": {
+        "tipo": { "enum": ["humano", "ia"] },
+        "nome": { "type": "string", "description": "Pessoa, ou modelo de IA com versão." },
+        "revisao_humana": { "type": "boolean" },
+        "prompt": { "type": "string", "description": "Identificação/versão do prompt usado, quando IA." }
+      }
+    },
+    "fontes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "tipo", "ref"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$", "description": "Prefixo usado nas evidências (FONTE:localizador)." },
+          "tipo": { "enum": ["requisitos", "prototipo", "api", "codigo", "banco", "sistema", "outro"] },
+          "ref": { "type": "string", "minLength": 1, "description": "Localização e versão do artefato (caminho@versão, commit, URL)." }
+        }
+      }
+    },
+    "usuarios_funcionais": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "tipo"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "nome": { "type": "string", "minLength": 1 },
+          "tipo": { "enum": ["pessoa", "sistema", "dispositivo", "relogio"] },
+          "descricao": { "type": "string" }
+        }
+      }
+    },
+    "entidades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "not": { "enum": ["MENSAGEM", "DISPARO"] }, "description": "Nome estável da entidade; reservadas não são declaradas." },
+          "descricao": { "type": "string" },
+          "atributos": { "type": "array", "items": { "type": "string" } },
+          "evidencia": { "$ref": "#/$defs/evidencia" },
+          "inferido": { "type": "boolean" },
+          "justificativa": { "type": "string" }
+        }
+      }
+    },
+    "processos": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "disparadores", "movimentos"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "description": "Estável entre versões do mesmo software (RC-03)." },
+          "nome": { "type": "string", "minLength": 1 },
+          "descricao": { "type": "string" },
+          "disparadores": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["usuario", "evento"],
+              "properties": {
+                "usuario": { "type": "string", "description": "id de um usuário funcional declarado." },
+                "evento": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "evidencia": { "$ref": "#/$defs/evidencia" },
+          "inferido": { "type": "boolean" },
+          "justificativa": { "type": "string" },
+          "movimentos": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["tipo", "entidade"],
+              "properties": {
+                "tipo": { "enum": ["E", "X", "R", "W"] },
+                "entidade": { "type": "string", "minLength": 1, "description": "id de entidade declarada, ou MENSAGEM (só X) ou DISPARO (só E)." },
+                "usuario": { "type": "string", "description": "Opcional em E/X: id do usuário funcional de origem ou destino." },
+                "atributos": { "type": "array", "items": { "type": "string" }, "description": "Opcional; habilita o suplemento D (RC-05)." },
+                "evidencia": { "$ref": "#/$defs/evidencia" },
+                "inferido": { "type": "boolean" },
+                "justificativa": { "type": "string" },
+                "alterado": { "type": "boolean", "description": "RC-03: movimento alterado em relação ao modelo anterior." },
+                "nota": { "type": "string" }
+              },
+              "allOf": [
+                { "if": { "properties": { "entidade": { "const": "MENSAGEM" } }, "required": ["entidade"] }, "then": { "properties": { "tipo": { "const": "X" } } } },
+                { "if": { "properties": { "entidade": { "const": "DISPARO" } }, "required": ["entidade"] }, "then": { "properties": { "tipo": { "const": "E" } } } }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidencia": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[A-Za-z0-9_-]+:.+" },
+      "description": "Referências FONTE:localizador (RI-11)."
+    }
+  }
+}
