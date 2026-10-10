@@ -7,7 +7,7 @@ da estrutura de documentação N3 do siesa-engine (features em modules/**/f-*.md
 Lê, de cada N3: front-matter (id, entidade, endpoints, error_codes, estado), `## Superfície`,
 `## Campos`, `## Colunas do resultado`, `## Dados lidos e gravados`, `## Métricas de tamanho`
 com `### Memória de cálculo` (ALR por processo elementar), `## API` e `## Eventos`, e aplica
-as regras de mapeamento do capítulo 10 (RM-01 a RM-08). Toda movimentação cita a seção de
+as regras de mapeamento do capítulo 10 (RM-01 a RM-09). Toda movimentação cita a seção de
 origem como evidência (`DOC:<arquivo>#<seção>`), verificável por `mfo.py auditar`.
 
 Uso:
@@ -137,6 +137,44 @@ def limpar_entidade(nome):
         if chave in norm(nome):
             return canonico
     return nome
+
+
+# ---------------------------------------------------------------------------
+# decisões (RM-09): D1 desfechos pelos códigos de resposta, D2 regras pelas regras numeradas
+# ---------------------------------------------------------------------------
+
+CODIGOS_TECNICOS = re.compile(r"^(AUTH_|INTERNAL|RATE_|SERVICE_UNAVAILABLE|TIMEOUT)", re.I)
+
+
+def decisoes_n3(sec, fm, ev):
+    """D1: um desfecho principal mais cada código de erro distinto da tabela de erros de ## API e do
+    front-matter (códigos técnicos de autenticação e infraestrutura excluídos, RI-10).
+    D2: cada item numerado de ## Regras de negócio e cada linha de ## Derivações."""
+    desfechos = [{"id": "OK", "descricao": "desfecho principal", "evidencia": [ev("Cenários" if "Cenários" in sec else "Descrição")]}]
+    codigos = []
+    for cab, corpo in tabelas(sec.get("API", "")):
+        ic = coluna(cab, "code", "codigo", "código")
+        if ic < 0 or coluna(cab, "http") < 0:
+            continue
+        for r in corpo:
+            if ic < len(r):
+                c = re.sub(r"[`*⚠️ ]", "", r[ic]).split("(")[0].strip()
+                if c and c not in codigos and not CODIGOS_TECNICOS.match(c):
+                    codigos.append(c)
+    for c in fm.get("error_codes") or []:
+        c = str(c).strip()
+        if c and c not in codigos and not CODIGOS_TECNICOS.match(c):
+            codigos.append(c)
+    desfechos += [{"id": c, "descricao": "recusa ou erro de negócio", "tipo": "recusa", "evidencia": [ev("API")]} for c in codigos]
+    regras = []
+    for m in re.finditer(r"(?m)^\s*(\d+)\.\s+(.+)$", sec.get("Regras de negócio", "")):
+        regras.append({"id": f"R{m.group(1)}", "descricao": m.group(2).strip()[:120], "evidencia": [ev("Regras de negócio")]})
+    for cab, corpo in tabelas(sec.get("Derivações", "")):
+        ic = coluna(cab, "campo derivado")
+        for r in corpo:
+            if ic >= 0 and ic < len(r) and r[ic].strip() and not r[ic].startswith("["):
+                regras.append({"id": f"C{len(regras) + 1}", "descricao": f"cálculo: {r[ic].strip()[:100]}", "tipo": "calculo", "evidencia": [ev("Derivações")]})
+    return {"desfechos": desfechos, "regras": regras}
 
 
 # ---------------------------------------------------------------------------
@@ -307,6 +345,7 @@ def extrair_feature(caminho, raiz):
 
         processos.append({
             "id": pid, "nome": pe["nome"] if n else titulo or pe["nome"],
+            **({"decisoes": decisoes_n3(sec, fm, ev)} if n == 0 else {}),
             "disparadores": [{"usuario": UF[uf]["id"], "evento": evento}],
             "evidencia": [ev("Métricas de tamanho"), ev("API")],
             "apf": {"pf": pe["pf"] + (sum(a["pf"] for a in acessorios) if n == 0 else 0), "tipo": tipo_pe,

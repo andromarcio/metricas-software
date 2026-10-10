@@ -44,6 +44,12 @@ anterior e o posterior, calculado por diferença de chaves. Em código, o diff e
 versões delimita o que reextrair e prova o que mudou; cada movimento cita arquivo e
 trecho verificáveis por máquina.
 
+**Decisões, a segunda dimensão:** o PFO mede entidades em movimento e não vê quantas
+decisões um processo toma. O suplemento D conta, à parte e nunca somado, os desfechos
+distintos (D1) e as regras declaradas (D2) de cada processo, com evidência por item. Um
+autorizador de cartão e um aceite de convite empatam em PFO e se separam por quatro a
+cinco vezes em D.
+
 **Estimativa:** uma estimativa é o mesmo modelo com movimentos inferidos por perfis típicos,
 rotulada por nível (E0 indicativo, E1 estimado, E2 detalhado) e sempre com intervalo; o
 grau de evidência diz quanto ainda é estimativa e o número converge para a medição.
@@ -54,7 +60,7 @@ M3 IA autônoma) com evidência, e o aceite; o relatório traz PFO por modo, PFO
 PFO por hora humana e custo por PFO, que é o que um contrato precisa para repreçar.
 
 **Objetividade operacional:** o modelo só produz tamanho se passar nas validações
-V-01 a V-10; a concordância entre duas medições independentes é medida (índice de
+V-01 a V-11; a concordância entre duas medições independentes é medida (índice de
 concordância) e as divergências são resolvidas por regra e evidência, nunca por opinião.
 
 ---
@@ -72,6 +78,7 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 - [9. Medindo a produção com IA (RP-01 a RP-04)](09-producao-com-ia.md)
 - [10. Exemplo real: a documentação do Aval (siesa-doc) e a estrutura do siesa-engine (RM-01 a RM-08)](10-exemplo-real-aval.md)
 - [11. Estimativa (RE-01 a RE-04)](11-estimativa.md)
+- [12. Decisões: a segunda dimensão (RC-05, D1 e D2)](12-decisoes.md)
 
 ### Artefatos de apoio
 
@@ -87,6 +94,7 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 | Exemplo: código da biblioteca, v1 e v2 | [`exemplos/codigo-biblioteca/`](exemplos/codigo-biblioteca/README.md) | Medição por diff, auditoria de evidências e testes de aceitação por processo |
 | Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 492 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado, perfis calibrados e estimativa E1 |
 | Exemplo: estimativas da biblioteca | [`exemplos/biblioteca-backlog.json`](exemplos/biblioteca-backlog.json), [`exemplos/biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json) | E1 por backlog e E0 por entidades, comparadas aos 51 PFO medidos |
+| Exemplo: autorizador de cartão (hipotético) | [`exemplos/cartao/`](exemplos/cartao/autorizacao-requisitos.md) | 13 PFO e 18 decisões num processo só: a segunda dimensão |
 
 ### Uso rápido
 

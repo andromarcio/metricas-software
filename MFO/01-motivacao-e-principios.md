@@ -92,15 +92,16 @@ medido à parte, é esforço, custo, modo de produção e qualidade.
 | Medição a partir do código | Não prevista; exige requisitos | Admite derivar RFU do software instalado | Nível C com evidência `arquivo#trecho` verificável por máquina; diff delimita e prova a mudança (capítulo 8) |
 | Produtor do software | Não distingue | Não distingue | Neutro no tamanho; modo de produção e aceite por processo (capítulo 9) |
 | Estimativa antecipada | Contagem estimativa e indicativa (NESMA), exige funções já classificadas | Dimensionamento aproximado por tamanhos médios | Mesmo modelo com movimentos inferidos; níveis E0 a E2 com intervalo; calibração por modelos medidos (capítulo 11) |
+| Complexidade de decisão | Três faixas por DER e ALR, com teto | Não medida | Segunda dimensão contada à parte: desfechos distintos e regras declaradas, com evidência por item (capítulo 12) |
 
 ## 1.5 O que a MFO não mede
 
 - Esforço, custo, prazo ou produtividade. O PFO é tamanho; esses indicadores derivam dele
   quando combinados com dados da organização (seção 5.3).
 - Requisitos não funcionais e qualidade do código.
-- Complexidade algorítmica. Como o COSMIC, a MFO assume que a manipulação de dados está
-  embutida nos movimentos. Para software intensivo em cálculo existe um suplemento
-  opcional (RC-05), sempre reportado à parte e nunca somado ao PFO.
+- Complexidade algorítmica dentro do tamanho. Como o COSMIC, a MFO assume que a
+  manipulação de dados está embutida nos movimentos. A dimensão de decisão é contada à
+  parte, como segundo número (RC-05, capítulo 12), e nunca somada ao PFO.
 - Riqueza de interface. Dois processos com os mesmos movimentos têm o mesmo tamanho,
   ainda que um tenha uma tela sofisticada e o outro um comando de terminal.
 - Pedaços muito pequenos. Como em qualquer método funcional, uma mudança de um ou dois

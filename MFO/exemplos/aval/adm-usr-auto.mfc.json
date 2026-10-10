@@ -70,6 +70,71 @@
     {
       "id": "ADM-USR-06",
       "nome": "Aceitar convite",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_INVALID",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só um convite pendente pode ser aceito — cancelado ou expirado não ativa acesso (→ ver Convite no DATA-MODEL.md).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O aceite ativa o usuário na organização já com o perfil definido no convite (→ ver ADM-USR-02: regra 1).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Se o e-mail já pertence a uma pessoa do Aval, o aceite exige a prova da identidade dela (senha atual ou Google do mesmo ",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O aceite conclui o convite e é registrado na trilha de auditoria.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -182,6 +247,49 @@
     {
       "id": "ADM-USR-03",
       "nome": "Alterar perfil do usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Cada usuário tem exatamente um perfil; a troca substitui o anterior (→ ver N1 Administração: Regras transversais de negó",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -262,6 +370,64 @@
     {
       "id": "ADM-USR-02",
       "nome": "Convidar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O convite define o perfil único que a pessoa terá ao ingressar.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O e-mail convidado não pode pertencer a outro usuário ativo da organização.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Convite expira sem uso em 24 horas após o envio (decisão do PO de 2026-07-18).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -352,6 +518,49 @@
     {
       "id": "ADM-USR-04",
       "nome": "Desativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A desativação revoga o acesso imediatamente e não remove registros (desativação sem remoção).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -416,6 +625,34 @@
     {
       "id": "ADM-USR-01",
       "nome": "Pesquisar usuários",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A pesquisa abrange apenas usuários da organização da sessão.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -495,6 +732,49 @@
     {
       "id": "ADM-USR-05",
       "nome": "Reativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_NOT_INACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A reativação restaura o perfil anterior do usuário.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente usuários com situação \"Inativo\" podem ser reativados.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/andromarcio/metricas-software/blob/main/MFO/schema/mfc.schema.json",
   "title": "Modelo Funcional Canônico (MFC) — MFO 1.0",
-  "description": "Estrutura do modelo que a MFO (Medição Funcional Objetiva) conta. Este esquema cobre a parte estrutural das validações V-01, V-04, V-05 e V-10; as validações semânticas (V-02, V-03, V-06 a V-09 e o restante de V-10) são feitas por ferramentas/mfo.py.",
+  "description": "Estrutura do modelo que a MFO (Medição Funcional Objetiva) conta. Este esquema cobre a parte estrutural das validações V-01, V-04, V-05, V-10 e V-11; as validações semânticas (V-02, V-03, V-06 a V-09 e o restante de V-10) são feitas por ferramentas/mfo.py.",
   "type": "object",
   "required": [
     "mfo",
@@ -405,6 +405,79 @@
               "outro"
             ],
             "description": "Tipo do processo para perfis e estimativa (RE-01); quando ausente, inferido pelo verbo do nome."
+          },
+          "decisoes": {
+            "type": "object",
+            "description": "Suplemento D (RC-05, capítulo 12): D1 = desfechos distintos observáveis pelo usuário funcional; D2 = regras declaradas que alteram o desfecho. Contados à parte, nunca somados ao PFO.",
+            "required": [
+              "desfechos",
+              "regras"
+            ],
+            "properties": {
+              "desfechos": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
+                    },
+                    "evidencia": {
+                      "$ref": "#/$defs/evidencia"
+                    },
+                    "inferido": {
+                      "type": "boolean"
+                    },
+                    "justificativa": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "regras": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
+                    },
+                    "evidencia": {
+                      "$ref": "#/$defs/evidencia"
+                    },
+                    "inferido": {
+                      "type": "boolean"
+                    },
+                    "justificativa": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

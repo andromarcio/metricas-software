@@ -4,7 +4,7 @@
 mfo.py — ferramenta de referência do método MFO (Medição Funcional Objetiva) 1.0.
 
 Subcomandos:
-  validar       <modelo.json>                      valida o Modelo Funcional Canônico (V-01 a V-10)
+  validar       <modelo.json>                      valida o Modelo Funcional Canônico (V-01 a V-11)
   contar        <modelo.json> [--json]             PFO, perfil funcional, suplemento D, produção e rótulo
   mudanca       <antes.json> <depois.json> [--json] tamanho de uma mudança (RC-03), por modo de produção
   concordancia  <a.json> <b.json> [--json]         índice de concordância entre duas medições (seção 4.4)
@@ -222,6 +222,31 @@ def validar(modelo):
             elif situacao_evidencia(ac, fontes) is None:
                 erros.append(f"V-10: processo '{pid}': 'aceite' sem evidência válida (ou 'inferido': true com 'justificativa')")
 
+        # V-11 decisões (suplemento D, capítulo 12): desfechos (D1) e regras (D2)
+        dec = p.get("decisoes")
+        if dec is not None:
+            if not isinstance(dec, dict):
+                erros.append(f"V-11: processo '{pid}': 'decisoes' deve ser objeto com 'desfechos' e 'regras'")
+            else:
+                for lista in ("desfechos", "regras"):
+                    itens = dec.get(lista)
+                    if not isinstance(itens, list):
+                        erros.append(f"V-11: processo '{pid}': 'decisoes.{lista}' deve ser lista")
+                        continue
+                    if lista == "desfechos" and not itens:
+                        erros.append(f"V-11: processo '{pid}': 'decisoes.desfechos' precisa de ao menos o desfecho principal")
+                    ids = set()
+                    for k, it in enumerate(itens):
+                        rot = f"processo '{pid}', {lista} #{k + 1}"
+                        if not isinstance(it, dict) or not str(it.get("id", "")).strip():
+                            erros.append(f"V-11: {rot} precisa de 'id'")
+                            continue
+                        if it["id"] in ids:
+                            erros.append(f"V-11: {rot} repete o id '{it['id']}'")
+                        ids.add(it["id"])
+                        if situacao_evidencia(it, fontes) is None:
+                            erros.append(f"V-11: {rot} ('{it['id']}') sem evidência válida (ou 'inferido': true com 'justificativa')")
+
         movs = p.get("movimentos")
         if not isinstance(movs, list) or not movs:
             erros.append(f"V-02: processo '{pid}' sem movimentos")
@@ -392,6 +417,22 @@ def indicadores_producao(pm, pfo_produzidos):
     return ind
 
 
+def decisoes_de(p):
+    """(D1, D2) do processo: número de desfechos e de regras declaradas; None quando não registrado."""
+    dec = p.get("decisoes")
+    if not isinstance(dec, dict):
+        return None, None
+    return len(dec.get("desfechos") or []), len(dec.get("regras") or [])
+
+
+def resumo_decisoes(linhas):
+    com = [l for l in linhas if l["d1"] is not None]
+    return {"D1": sum(l["d1"] for l in com), "D2": sum(l["d2"] for l in com),
+            "processos_com_registro": len(com), "processos_sem_registro": len(linhas) - len(com),
+            "D1_por_processo": (sum(l["d1"] for l in com) / len(com)) if com else None,
+            "D2_por_processo": (sum(l["d2"] for l in com) / len(com)) if com else None}
+
+
 def contar(modelo):
     fontes = fontes_do(modelo)
     linhas = []
@@ -410,11 +451,12 @@ def contar(modelo):
             d_sim += 1
         elif d is None:
             d_nd += 1
+        d1, d2 = decisoes_de(p)
         linhas.append({
             "id": p["id"], "nome": p.get("nome", ""),
             "E": tipos["E"], "X": tipos["X"], "R": tipos["R"], "W": tipos["W"],
             "pfo": pfo, "derivacao": d, "evidenciados": ev, "inferidos": inf,
-            "modo": modo_de(p), "aceite": status_aceite_de(p),
+            "modo": modo_de(p), "aceite": status_aceite_de(p), "d1": d1, "d2": d2,
         })
         pfo_por_processo[p["id"]] = pfo
         total_tipos.update(tipos)
@@ -447,6 +489,7 @@ def contar(modelo):
         "producao": producao, "indicadores_producao": indicadores,
         "producao_abrange": pm.get("abrange") if isinstance(pm, dict) else None,
         "estimativa": modelo.get("estimativa"),
+        "decisoes": resumo_decisoes(linhas),
     }
 
 
@@ -532,6 +575,10 @@ def relatorio_md(rel):
     if rel.get("estimativa"):
         e = rel["estimativa"]
         out.append(f"**Estimativa:** nível {e.get('nivel')} · {e.get('pfo_min')} a {e.get('pfo_max')} PFO · base: {e.get('base')}\n")
+    dz = rel.get("decisoes") or {}
+    if dz.get("processos_com_registro"):
+        sem = f" · {dz['processos_sem_registro']} processos sem registro" if dz["processos_sem_registro"] else ""
+        out.append(f"**Decisões (suplemento D):** D1 = {dz['D1']} desfechos · D2 = {dz['D2']} regras{sem}\n")
     out.append(f"**Propósito:** {rel['proposito']}\n")
     out.append("## Perfil funcional\n")
     out.append("| Indicador | Valor |\n|---|---|")
@@ -545,18 +592,27 @@ def relatorio_md(rel):
     out.append(f"| Entidades por processo (NE/NP) | {fmt_num(p['entidades_por_processo'])} |")
     out.append(f"| Evidência | {p['evidencia_pct']:.0f}% ({p['inferidos']} inferidos) |")
     d_txt = f"{p['D']} de {p['NP'] - p['D_nd']}" + (f" ({p['D_nd']} n/d)" if p["D_nd"] else "")
-    out.append(f"| D (derivação, RC-05) | {d_txt} |")
+    out.append(f"| Derivação (processos com atributo calculado) | {d_txt} |")
+    dz = rel.get("decisoes") or {}
+    if dz.get("processos_com_registro"):
+        out.append(f"| D1 desfechos (RC-05) | {dz['D1']} · {fmt_num(dz['D1_por_processo'])} por processo |")
+        out.append(f"| D2 regras declaradas (RC-05) | {dz['D2']} · {fmt_num(dz['D2_por_processo'])} por processo |")
     out.append("\n## Processos\n")
     com_prod = rel["producao"]["declarado"]
-    cab = "| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. |" + (" Modo | Aceite |" if com_prod else "")
-    out.append(cab + "\n|---|---|---|---|---|---|---|---|---|" + ("---|---|" if com_prod else ""))
+    com_dec = bool((rel.get("decisoes") or {}).get("processos_com_registro"))
+    cab = "| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. |" + (" D1 | D2 |" if com_dec else "") + (" Modo | Aceite |" if com_prod else "")
+    out.append(cab + "\n|---|---|---|---|---|---|---|---|---|" + ("---|---|" if com_dec else "") + ("---|---|" if com_prod else ""))
     for l in rel["processos"]:
         d = {True: "sim", False: "não", None: "n/d"}[l["derivacao"]]
         linha = f"| {l['id']} | {l['nome']} | {l['E']} | {l['X']} | {l['R']} | {l['W']} | **{l['pfo']}** | {d} | {l['evidenciados']}/{l['pfo']} |"
+        if com_dec:
+            linha += f" {l['d1'] if l['d1'] is not None else 'n/d'} | {l['d2'] if l['d2'] is not None else 'n/d'} |"
         if com_prod:
             linha += f" {l['modo']} | {l['aceite'] or '—'} |"
         out.append(linha)
-    out.append(f"| | **Total** | {p['E']} | {p['X']} | {p['R']} | {p['W']} | **{p['PFO']}** | | |" + (" | |" if com_prod else ""))
+    dz = rel.get("decisoes") or {}
+    out.append(f"| | **Total** | {p['E']} | {p['X']} | {p['R']} | {p['W']} | **{p['PFO']}** | | |"
+               + (f" **{dz.get('D1')}** | **{dz.get('D2')}** |" if com_dec else "") + (" | |" if com_prod else ""))
     if com_prod:
         out.append("")
         out.append(md_producao(rel["producao"], rel["indicadores_producao"], rel["producao_abrange"]))
@@ -1158,7 +1214,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(prog="mfo.py", description="Ferramenta de referência do método MFO 1.0")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("validar", help="valida um Modelo Funcional Canônico (V-01 a V-10)")
+    s = sub.add_parser("validar", help="valida um Modelo Funcional Canônico (V-01 a V-11)")
     s.add_argument("modelo")
 
     s = sub.add_parser("contar", help="calcula PFO, perfil funcional, produção e rótulo")

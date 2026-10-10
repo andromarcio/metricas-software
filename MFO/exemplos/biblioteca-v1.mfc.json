@@ -205,6 +205,39 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
         ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro cadastrado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-01",
+              "COD:v1/biblioteca/servicos.py#Livro cadastrado"
+            ]
+          },
+          {
+            "id": "ISBN_DUPLICADO",
+            "descricao": "ISBN já cadastrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-01 (ISBN único)",
+              "COD:v1/biblioteca/servicos.py#ISBN já cadastrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "o ISBN deve ser único no acervo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-01",
+              "COD:v1/biblioteca/servicos.py#buscar_livro_por_isbn"
+            ]
+          }
+        ]
       }
     },
     {
@@ -288,6 +321,38 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
         ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro alterado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-02",
+              "COD:v1/biblioteca/servicos.py#Livro alterado"
+            ]
+          },
+          {
+            "id": "NAO_ENCONTRADO",
+            "descricao": "livro não encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-02",
+              "COD:v1/biblioteca/servicos.py#Livro não encontrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "a unicidade do ISBN continua valendo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-02"
+            ]
+          }
+        ]
       }
     },
     {
@@ -359,6 +424,39 @@
         "modo": "M0",
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro excluído",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#Livro excluído"
+            ]
+          },
+          {
+            "id": "EMPRESTIMO_ATIVO",
+            "descricao": "recusa se houver empréstimo ativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#empréstimo ativo"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "livro com empréstimo ativo não pode ser excluído",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#emprestimos_ativos"
+            ]
+          }
         ]
       }
     },
@@ -440,6 +538,29 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
         ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "lista de livros",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-04",
+              "COD:v1/biblioteca/servicos.py#consultar_livros"
+            ]
+          },
+          {
+            "id": "VAZIO",
+            "descricao": "nenhum livro encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-04",
+              "COD:v1/biblioteca/servicos.py#Nenhum livro encontrado"
+            ]
+          }
+        ],
+        "regras": []
       }
     },
     {
@@ -518,6 +639,39 @@
         "modo": "M0",
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "leitor cadastrado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#Leitor cadastrado"
+            ]
+          },
+          {
+            "id": "CPF_DUPLICADO",
+            "descricao": "CPF já cadastrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#CPF já cadastrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "o CPF deve ser único",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#buscar_leitor_por_cpf"
+            ]
+          }
         ]
       }
     },
@@ -633,6 +787,93 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
         ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "empréstimo registrado com data prevista",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Empréstimo registrado"
+            ]
+          },
+          {
+            "id": "LEITOR_INATIVO",
+            "descricao": "leitor inexistente ou inativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Leitor inexistente ou inativo"
+            ]
+          },
+          {
+            "id": "LIVRO_INEXISTENTE",
+            "descricao": "livro não encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Livro não encontrado"
+            ]
+          },
+          {
+            "id": "SEM_EXEMPLAR",
+            "descricao": "nenhum exemplar disponível",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Nenhum exemplar disponível"
+            ]
+          },
+          {
+            "id": "LIMITE",
+            "descricao": "leitor atingiu o limite de empréstimos",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#limite de empréstimos"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "leitor deve estar ativo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#situacao != \"ativo\""
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "exemplar disponível: quantidade maior que empréstimos ativos do livro",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#livro.quantidade"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "leitor com menos de três empréstimos ativos",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#LIMITE_EMPRESTIMOS"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "data prevista = data do empréstimo + 14 dias",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#PRAZO_DIAS"
+            ]
+          }
+        ]
       }
     },
     {
@@ -731,6 +972,48 @@
         "modo": "M0",
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "devolução registrada com a multa",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#Devolução registrada"
+            ]
+          },
+          {
+            "id": "NAO_ATIVO",
+            "descricao": "empréstimo não encontrado ou já devolvido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "só empréstimo ativo pode ser devolvido",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "multa = dias de atraso × valor diário",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#dias_atraso * repositorio.parametro_multa"
+            ]
+          }
         ]
       }
     },
@@ -862,6 +1145,57 @@
         "modo": "M0",
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "relatório de atrasos",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#relatorio_atrasos"
+            ]
+          },
+          {
+            "id": "VAZIO",
+            "descricao": "não há empréstimos em atraso",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#Não há empréstimos em atraso"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "em atraso = ativo com data prevista anterior à data atual",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/repositorio.py#data_prevista < ?"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "dias de atraso = hoje − data prevista",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#dias_atraso"
+            ]
+          },
+          {
+            "id": "C2",
+            "descricao": "multa estimada = dias × valor diário",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#multa_estimada"
+            ]
+          }
         ]
       }
     },
@@ -1005,6 +1339,48 @@
         "modo": "M0",
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "ENVIADO",
+            "descricao": "notificação enviada",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/email_cliente.py#enviado"
+            ]
+          },
+          {
+            "id": "FALHA",
+            "descricao": "falha de envio registrada",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/email_cliente.py#falha"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "notifica apenas empréstimos ativos em atraso",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "dias de atraso = hoje − data prevista",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/servicos.py#notificar_atrasos"
+            ]
+          }
         ]
       }
     }

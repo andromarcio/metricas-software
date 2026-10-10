@@ -35,7 +35,7 @@ total, o **perfil funcional**, calculado pela ferramenta:
 | Interface | (E + X) / PFO | quanto gira em torno de troca com usuários e sistemas |
 | Entidades por processo | NE / NP | acoplamento médio entre funções e dados |
 | Evidência | movimentos com evidência / PFO | confiabilidade do modelo |
-| D (opcional) | processos com derivação / NP | peso de cálculo e transformação |
+| D1, D2 (suplemento D) | desfechos distintos e regras declaradas, totais e por processo | a dimensão de decisão que o PFO não vê (capítulo 12) |
 
 Perfis típicos:
 
@@ -56,6 +56,7 @@ O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da
 |---|---|---|
 | Produtividade | PFO entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
 | Custo unitário | custo / PFO | idem |
+| Preço com duas dimensões | a × PFO + b × D, com a e b por regressão sobre o histórico | mesma classe de sistema; D na base escolhida (D1 ou D2) |
 | Densidade de defeitos | defeitos / PFO | mesma definição de defeito e janela |
 | Velocidade de evolução | PFO de mudança por período | mesmo software, modelos consecutivos |
 | Aderência R × C | PFO(C) / PFO(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |

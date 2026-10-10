@@ -161,6 +161,48 @@
     {
       "id": "ADM-AUD-01",
       "nome": "Pesquisar auditoria",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A trilha é somente leitura: eventos não são alterados nem removidos (→ ver NFR: AUD-01).",
+            "evidencia": [
+              "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A consulta abrange apenas eventos da conta da sessão.",
+            "evidencia": [
+              "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Na conta pessoal, a mesma tela vale — sem o filtro e a coluna de usuário (a conta tem um único usuário, o dono); a grava",
+            "evidencia": [
+              "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -246,6 +288,40 @@
     {
       "id": "ADM-CTA-02",
       "nome": "Autenticar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-autenticar-usuario.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Pessoa sem nenhum vínculo ativo não abre sessão; vínculo desativado não conta.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-autenticar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A sessão carrega o perfil único do vínculo e a conta ativa (→ ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-autenticar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A sessão abre na última conta usada pela pessoa; sem ela (ou com o vínculo de lá desativado), na conta mais antiga com v",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-autenticar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -365,6 +441,48 @@
     {
       "id": "ADM-CTA-01",
       "nome": "Criar conta",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O e-mail identifica a pessoa e é único no Aval; a mesma pessoa pode ter vínculos em várias contas (→ ver ADM-USR-06: reg",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A conta criada por senha e a criada pelo Google são a mesma conta quando o e-mail coincide.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A conta pessoal do usuário é criada automaticamente junto do cadastro.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -473,6 +591,55 @@
     {
       "id": "ADM-CTA-03",
       "nome": "Recuperar senha",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O link de redefinição é enviado ao e-mail da conta e expira em 24 horas (decisão do PO de 2026-07-19); a nova senha segu",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A resposta da solicitação não revela se o e-mail existe no Aval.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Conta sem senha (acesso só pelo Google) não tem o que redefinir — o acesso segue pelo Google.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Criar a nova senha encerra as sessões abertas do usuário.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -630,6 +797,63 @@
     {
       "id": "ADM-CTA-04",
       "nome": "Trocar de conta",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A pessoa só troca para conta em que tem vínculo ativo.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A sessão tem exatamente uma conta ativa por vez (→ ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A troca preserva a autenticação — nenhuma senha é pedida de novo.",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A conta escolhida vira a última conta usada da pessoa (→ ver ADM-CTA-02: regra 3).",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-trocar-conta.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -729,6 +953,77 @@
     {
       "id": "ADM-INT-01",
       "nome": "Configurar conexão GitHub",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_INSTALL_FAILED",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#API"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_INACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A conexão vale para toda a conta e é **no máximo uma por conta**; os sistemas herdam — a esteira lê e escreve nos reposi",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Conectar é instalar a GitHub App na organização (ou usuário) GitHub de destino; a credencial da instalação fica no cofre",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "As permissões têm dois degraus, concedidos no GitHub: o básico (conteúdo, pull requests e checks — a esteira) e o de cri",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "As operações que dependem do GitHub só iniciam com a conexão ativa e com o degrau correspondente (→ ver SIS-CAD-05: regr",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Revogar ou trocar a conexão corta o acesso ao GitHub **imediatamente** — inclusive para execuções em andamento, que para",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "Na conta pessoal, a mesma conexão é configurada na tela Minha conta — a administração da própria conta, de usuário único",
+            "evidencia": [
+              "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -915,6 +1210,77 @@
     {
       "id": "ADM-MOD-01",
       "nome": "Configurar modelo por etapa",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Cenários"
+            ]
+          },
+          {
+            "id": "MODELO_IA_NAO_SUPORTADO",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_DESCONHECIDA",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O modelo padrão da conta vale para toda etapa que não tiver modelo próprio.",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Etapa sem modelo próprio e conta sem modelo padrão usam o padrão da plataforma.",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O modelo escolhido pertence à lista de modelos suportados pela plataforma.",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A configuração vale para todas as etapas da esteira de todos os sistemas da conta.",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "A troca vale para as execuções de agente iniciadas depois dela; execução em andamento conclui com o modelo em que começo",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "Alterar a configuração é registrado na trilha de auditoria da conta.",
+            "evidencia": [
+              "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -993,6 +1359,56 @@
     {
       "id": "ADM-ORG-03",
       "nome": "Alterar organização",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_IDENTIFICADOR_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O identificador segue único no Aval após a alteração.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A alteração não afeta usuários, perfis, sistemas nem a trilha de auditoria.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Na conta pessoal, a mesma alteração (nome e identificador, entidade Conta) acontece na tela Minha conta.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1061,6 +1477,63 @@
     {
       "id": "ADM-ORG-01",
       "nome": "Criar organização",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_IDENTIFICADOR_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O identificador da organização é único no Aval.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Quem cria recebe o perfil Administrador na organização.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Criar organização é opcional: a alternativa é seguir na conta pessoal.",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Quem cria mantém os vínculos que já tinha — a conta de origem permanece ativa e acessível pela troca de conta (→ ver ADM",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-criar-organizacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1154,6 +1627,33 @@
     {
       "id": "ADM-ORG-02",
       "nome": "Visualizar organização",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-visualizar-organizacao.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A consulta abrange apenas a organização da sessão (isolamento por conta).",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-visualizar-organizacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Na conta pessoal, a mesma consulta acontece na tela Minha conta — os dados são da mesma entidade (Conta: nome, identific",
+            "evidencia": [
+              "DOC:modules/administracao/organizacao/f-visualizar-organizacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1249,6 +1749,34 @@
     {
       "id": "ADM-PER-05",
       "nome": "Ativar funcionalidade",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-ativar-funcionalidade.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-ativar-funcionalidade.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A ativação restaura o comportamento definido pelos vínculos por perfil existentes.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-ativar-funcionalidade.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1331,6 +1859,49 @@
     {
       "id": "ADM-PER-02",
       "nome": "Conceder funcionalidade",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#Cenários"
+            ]
+          },
+          {
+            "id": "PERFIL_ADMIN_IMMUTABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A concessão vincula um perfil a uma funcionalidade do catálogo (→ ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A coluna do perfil Administrador é fixa: acesso total, sem concessão manual.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1438,6 +2009,41 @@
     {
       "id": "ADM-PER-01",
       "nome": "Criar perfil",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-criar-perfil.md#Cenários"
+            ]
+          },
+          {
+            "id": "PERFIL_NAME_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-criar-perfil.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O nome do perfil é único na conta.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-criar-perfil.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Perfil novo nasce sem vínculos (nega por padrão — → ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-criar-perfil.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1520,6 +2126,48 @@
     {
       "id": "ADM-PER-04",
       "nome": "Desativar funcionalidade",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Funcionalidade desativada globalmente fica inacessível a todos os perfis, inclusive Administrador (→ ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Os vínculos por perfil são preservados durante a desativação.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A desativação exige confirmação explícita.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1602,6 +2250,49 @@
     {
       "id": "ADM-PER-03",
       "nome": "Revogar funcionalidade",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#Cenários"
+            ]
+          },
+          {
+            "id": "PERFIL_ADMIN_IMMUTABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A revogação remove o vínculo perfil × funcionalidade sem afetar os demais perfis.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O acesso do perfil Administrador não é revogável.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1701,6 +2392,62 @@
     {
       "id": "ADM-PER-06",
       "nome": "Visualizar matriz de perfis e funcionalidades",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A matriz reflete o catálogo de funcionalidades (fonte de verdade: N3/INDEX — → ver AUTHZ.md) e os vínculos por perfil da",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Funcionalidade sem vínculo com um perfil é inacessível para esse perfil — nega por padrão (→ ver AUTHZ.md).",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O perfil Administrador tem acesso a todo o catálogo sem vínculo explícito; sua coluna na matriz é travada (→ ver AUTHZ.m",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Funcionalidade desabilitada globalmente (interruptor da linha) é inacessível para todos os perfis, inclusive o Administr",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "A matriz abrange apenas a conta da sessão.",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1773,6 +2520,71 @@
     {
       "id": "ADM-USR-06",
       "nome": "Aceitar convite",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_INVALID",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só um convite pendente pode ser aceito — cancelado ou expirado não ativa acesso (→ ver Convite no DATA-MODEL.md).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O aceite ativa o usuário na organização já com o perfil definido no convite (→ ver ADM-USR-02: regra 1).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Se o e-mail já pertence a uma pessoa do Aval, o aceite exige a prova da identidade dela (senha atual ou Google do mesmo ",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O aceite conclui o convite e é registrado na trilha de auditoria.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -1895,6 +2707,49 @@
     {
       "id": "ADM-USR-03",
       "nome": "Alterar perfil do usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Cada usuário tem exatamente um perfil; a troca substitui o anterior (→ ver N1 Administração: Regras transversais de negó",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -1981,6 +2836,64 @@
     {
       "id": "ADM-USR-02",
       "nome": "Convidar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O convite define o perfil único que a pessoa terá ao ingressar.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O e-mail convidado não pode pertencer a outro usuário ativo da organização.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Convite expira sem uso em 24 horas após o envio (decisão do PO de 2026-07-18).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2078,6 +2991,49 @@
     {
       "id": "ADM-USR-04",
       "nome": "Desativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A desativação revoga o acesso imediatamente e não remove registros (desativação sem remoção).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -2146,6 +3102,34 @@
     {
       "id": "ADM-USR-01",
       "nome": "Pesquisar usuários",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A pesquisa abrange apenas usuários da organização da sessão.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -2230,6 +3214,49 @@
     {
       "id": "ADM-USR-05",
       "nome": "Reativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_NOT_INACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A reativação restaura o perfil anterior do usuário.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente usuários com situação \"Inativo\" podem ser reativados.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -2298,6 +3325,47 @@
     {
       "id": "AGT-EXE-02",
       "nome": "Detalhar requisitos",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-detalhar-requisitos.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Cada feature impactada recebe o próprio detalhamento, gravado como rascunho na documentação do sistema-alvo.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-detalhar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Critérios de aceite derivados na triagem viram regra de negócio, cenário ou ambos (rastreabilidade semântica).",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-detalhar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Quando o detalhamento de uma feature fica com lacuna (falta informação para especificar), o agente anexa perguntas de es",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-detalhar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O detalhamento classifica a feature (domínio, feature set, tipo) e resume, em linguagem de negócio, o que muda para quem",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-detalhar-requisitos.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2370,6 +3438,47 @@
     {
       "id": "AGT-EXE-07",
       "nome": "Executar testes do sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-executar-testes-do-sistema.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A execução usa o ambiente de testes provisionado para a demanda.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-executar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Cada caso executado registra resultado e evidência.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-executar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Reexecução após loop-back preserva o histórico das rodadas anteriores.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-executar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada resultado referencia o caso pelo seu identificador estável (CT-NN, de AGT-EXE-04) — a esteira valida cada resultado",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-executar-testes-do-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2449,6 +3558,61 @@
     {
       "id": "AGT-EXE-10",
       "nome": "Gerar análise de impacto",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A análise parte da história e dos critérios aprovados no gate anterior e da especificação existente do sistema-alvo — se",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Todo item do escopo referencia um artefato identificável do repositório de documentação, com a feature a que pertence e ",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O agente classifica cada item do escopo por natureza: funcional, não-funcional ou dados.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O agente marca a origem de cada item como \"derivado\" quando a linha nasce de um elo do sistema (rastreabilidade, \"usado ",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O agente marca a origem como \"a eliciar\" quando nenhum elo revela o item — tipicamente um requisito não-funcional — e nã",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "O escopo aprovado limita o detalhamento das etapas seguintes (→ ver N1 Esteira: Regras transversais de negócio); desvio ",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-analise-impacto.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2521,6 +3685,54 @@
     {
       "id": "AGT-EXE-04",
       "nome": "Gerar casos de teste",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Todo critério de aceite e regra da demanda tem ao menos um caso que o cobre.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Os casos incluem caminhos felizes e de exceção.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Cada caso recebe um identificador estável (CT-NN) atribuído pela esteira na ordem de geração — é por ele que os Testes d",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada caso declara o seu resultado esperado — o desfecho que o caso verifica (ex.: \"Renda salva\", \"Observação exigida\") —",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Os passos de cada caso são escritos no formato Gherkin (Dado/Quando/Então) — o exemplo automatizável que alimenta a auto",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-casos-de-teste.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2593,6 +3805,33 @@
     {
       "id": "AGT-EXE-06",
       "nome": "Gerar código",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-codigo.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A implementação segue o plano aprovado no gate técnico.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-codigo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A entrega referencia o identificador da demanda e da feature para rastreabilidade.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-codigo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2665,6 +3904,54 @@
     {
       "id": "AGT-EXE-03",
       "nome": "Gerar modelo de dados",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A proposta referencia o modelo existente e destaca o que é novo ou alterado.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A proposta materializa os campos citados no detalhamento de requisitos aprovado.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Cada campo traz o tipo, a nulabilidade (obrigatório ou opcional) e uma descrição funcional (o que representa ou a regra ",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada relacionamento traz a cardinalidade e o estado de cada entidade envolvida (nova ou existente não alterada).",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "A proposta inclui os índices por entidade (nome e colunas) e o DDL correspondente.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-modelo-de-dados.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2737,6 +4024,33 @@
     {
       "id": "AGT-EXE-05",
       "nome": "Gerar plano de implementação",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-plano-de-implementacao.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O plano precede a implementação: código só após o plano aprovado.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-plano-de-implementacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O plano referencia a especificação aprovada e o repositório de código configurado do sistema.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-plano-de-implementacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2809,6 +4123,47 @@
     {
       "id": "AGT-EXE-09",
       "nome": "Gerar preparação do sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-preparacao-do-sistema.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O agente conduz a entrevista de arquitetura (negócio, tipo de aplicação, dados, banco, time, integrações) e adapta as pe",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-preparacao-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A proposta cobre stack técnica, MASTER preenchido, visão de produto (N0) rascunho e a lista de repositórios a criar; o q",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-preparacao-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O agente só materializa — criação dos repositórios, engine de documentação instalado, globais commitados e esqueletos de",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-preparacao-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Solicitação de ajustes devolve a proposta ao agente com as instruções, preservando a entrevista.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-preparacao-do-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -2932,6 +4287,48 @@
     {
       "id": "AGT-EXE-11",
       "nome": "Gerar protótipo",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O protótipo parte da história e do mapa de features aprovados no gate anterior — sem telas fora do escopo da demanda.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O protótipo usa exclusivamente a biblioteca do Design System (AVAL DS) — não inventa estilos próprios.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O protótipo é navegável (as telas do escopo conectadas) e serve de alinhamento visual, não de contrato: os requisitos de",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -3017,6 +4414,33 @@
     {
       "id": "AGT-EXE-08",
       "nome": "Preparar implantação",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-preparar-implantacao.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A preparação só inicia após a homologação da entrega.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-preparar-implantacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A subida em produção nunca ocorre sem a autorização humana do gate final.",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-preparar-implantacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -3089,6 +4513,33 @@
     {
       "id": "AGT-EXE-01",
       "nome": "Processar triagem",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-processar-triagem.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A triagem parte exclusivamente do que foi informado no intake (texto, anexos e tipo).",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-processar-triagem.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O produto da triagem é a história derivada com os critérios de aceite; o mapa de artefatos impactados nasce na etapa Aná",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-processar-triagem.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -3154,6 +4605,71 @@
     {
       "id": "DEM-INT-02",
       "nome": "Iniciar esteira",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#Cenários"
+            ]
+          },
+          {
+            "id": "ESTEIRA_ALREADY_RUNNING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
+            ]
+          },
+          {
+            "id": "SISTEMA_REPOSITORIES_MISSING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só inicia esteira de demanda com a descrição da necessidade válida.",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O sistema da demanda precisa ter os repositórios configurados (→ ver N1 Sistemas: Regras transversais de negócio: 3).",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Uma demanda tem no máximo uma esteira em execução.",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O escopo da esteira determina o roteiro de etapas: em \"só protótipo\", o roteiro é História → Protótipo; em \"só especific",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3242,6 +4758,79 @@
     {
       "id": "DEM-INT-03",
       "nome": "Iniciar execução do acervo",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#Cenários"
+            ]
+          },
+          {
+            "id": "DEMANDA_FEATURE_ALREADY_RUNNING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          },
+          {
+            "id": "DEMANDA_FEATURE_NOT_APPROVED·VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          },
+          {
+            "id": "DEMANDA_FEATURE_NOT_APPROVED",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só entra na execução a feature com o aval de requisitos aprovado no repositório e sem demanda em andamento (→ ver SIS-AC",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A demanda criada tem origem \"acervo\" e as features selecionadas como escopo — uma demanda para o lote inteiro.",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A esteira entra na primeira etapa pendente do conjunto; as etapas de negócio já aprovadas constam como satisfeitas por r",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Das etapas de entrada em diante, a execução segue os gates normais do sistema (→ ver SIS-CFG-02).",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3320,6 +4909,48 @@
     {
       "id": "DEM-INT-01",
       "nome": "Registrar demanda",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A descrição da necessidade é obrigatória (→ ver N1 Demandas: Regras transversais de negócio: 3).",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A chave externa, quando informada, fica registrada apenas como referência de rastreabilidade.",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Sem chave externa, o identificador `AVAL` + 7 dígitos é gerado no registro e nunca muda. 📄 nova-demanda.html",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3399,6 +5030,64 @@
     {
       "id": "DEM-PAI-02",
       "nome": "Cancelar demanda",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#Cenários"
+            ]
+          },
+          {
+            "id": "DEMANDA_NOT_CANCELABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só é possível cancelar uma demanda que ainda não terminou — enquanto está registrada ou em esteira, antes de a implantaç",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O cancelamento exige um motivo.",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Cancelar é definitivo: a demanda cancelada não volta a andar.",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3484,6 +5173,40 @@
     {
       "id": "DEM-PAI-01",
       "nome": "Pesquisar demandas",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-pesquisar-demandas.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A pesquisa retorna somente demandas do sistema ativo da sessão.",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-pesquisar-demandas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Demandas com pendência de aprovação do usuário aparecem destacadas. 📄 painel.html",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-pesquisar-demandas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Demanda com sinal de saúde ativo (→ EST-ACO-09) aparece destacada com o sinal junto à situação, e o contador \"precisando",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-pesquisar-demandas.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3615,6 +5338,76 @@
     {
       "id": "EST-ACO-01",
       "nome": "Acompanhar esteira",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A visão reflete o estado corrente da execução, incluindo progresso e log ao vivo das etapas em execução.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Etapa concluída exibe quem aprovou e quando (→ ver NFR: AUD-01).",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O percentual de progresso de uma etapa em execução deriva sempre de um denominador natural da própria etapa (nunca de es",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Etapa com sinal de saúde ativo (→ EST-ACO-09) exibe o sinal junto à situação, com o diagnóstico em texto humano e desde ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Numa rodada de recuperação (loop-back após a reprovação dos Testes do sistema — EST-APR-05), a visão sinaliza o reajuste",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "O cabeçalho da demanda traz a prioridade, a estratégia de esteira e o número de features do escopo, além do código, do t",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "Cada etapa exibe um resumo humano do que produziu (derivado do resultado da etapa), a rastreabilidade quando houver (ex.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -3696,6 +5489,62 @@
     {
       "id": "EST-ACO-10",
       "nome": "Consultar consumo de IA",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O consumo de uma demanda é a soma dos tokens registrados nas execuções de agente das etapas da sua esteira.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O total do sistema no mês considera as execuções iniciadas no mês corrente (calendário).",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A consulta considera somente demandas do sistema ativo da sessão.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada item aponta a demanda, o consumo total e a quebra por etapa com o agente e os tokens, ordenado do maior consumo.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Execução ainda sem consumo registrado (em andamento) conta zero — o consumo aparece quando o agente conclui (é assim que",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3774,6 +5623,76 @@
     {
       "id": "EST-ACO-09",
       "nome": "Consultar saúde das esteiras",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O sinal FALHA está ativo quando a execução mais recente do agente na etapa terminou em falha.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O sinal SILÊNCIO está ativo quando a execução em andamento está sem evento novo há mais do que o limiar de silêncio.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O sinal GATE PARADO está ativo quando uma pendência de aprovação está aberta há mais do que o limiar de gate.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O sinal AJUSTE LONGO está ativo quando a etapa em ajuste está sem execução nova há mais do que o limiar de ajuste.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Os limiares dos sinais são parâmetros da aplicação (padrões: silêncio 10 minutos, gate parado 48 horas, ajuste longo 30 ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "A consulta considera somente demandas do sistema ativo da sessão.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "Cada item aponta a demanda, a etapa afetada, o sinal, o diagnóstico em texto humano e desde quando o sinal está ativo, o",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3852,6 +5771,83 @@
     {
       "id": "EST-ACO-08",
       "nome": "Visualizar análise de impacto",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A visualização agrupa o escopo por feature impactada; cada item traz o artefato, o tipo, a operação (criar ou alterar), ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Um item é de origem \"derivado\" quando nasce de um elo do sistema (rastreabilidade, \"usado em\", modelo de dados ou implem",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Um item é de origem \"a eliciar\" quando nenhum elo o revela — tipicamente um requisito não-funcional — e depende da passa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A cobertura do escopo é avaliada por três verificações: C1 — a demanda ancora em ao menos uma feature; C2 — toda mudança",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O aval do escopo fica bloqueado enquanto qualquer verificação de cobertura (C1, C2 ou C3) estiver pendente.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "O aval do escopo fica bloqueado enquanto houver item de origem \"a eliciar\" não resolvido.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "O escopo tem um delta de pontos de função (a recontagem que a demanda provoca).",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R8",
+            "descricao": "A tela exibe o painel do agente (progresso, log e a origem de cada linha do escopo) enquanto e depois da análise.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -3933,6 +5929,62 @@
     {
       "id": "EST-ACO-04",
       "nome": "Visualizar casos de teste",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A tela abre com o cabeçalho da demanda (código e título) e o painel do Agente de QA — situação, consumo e atividade da e",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A cobertura é apresentada em quatro indicadores: total de casos, critérios e regras cobertos, caminhos felizes e exceçõe",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Cada caso exibe o seu identificador estável (CT-NN), o título, o tipo (feliz ou exceção), o critério ou regra que cobre ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4014,6 +6066,69 @@
     {
       "id": "EST-ACO-05",
       "nome": "Visualizar codificação",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A fase do plano exibe o desenho técnico por camada afetada, a quebra em tarefas (cada uma com id e as regras que cobre) ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A fase da entrega exibe o pull request (número, título, branch → base), a quebra das verificações por check (com o total",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Numa rodada de recuperação (após a reprovação dos Testes do sistema), a Codificação exibe cada defeito corrigido com o c",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "Aprovar a correção conclui a trilha de Codificação e reexecuta os Testes do sistema sobre a correção (o aval de recupera",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4095,6 +6210,41 @@
     {
       "id": "EST-ACO-07",
       "nome": "Visualizar implantação",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4174,6 +6324,90 @@
     {
       "id": "EST-ACO-03",
       "nome": "Visualizar modelo de dados",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O topo traz o resumo das mudanças: entidades novas, campos novos, relacionamentos e índices.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada entidade lista seus campos com tipo, nulabilidade (obrigatório ou opcional) e descrição funcional (o que o campo re",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O relacionamento é exibido com a cardinalidade e o estado de cada entidade envolvida (nova ou existente não alterada), p",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "Os índices propostos são listados por entidade (nome do índice e colunas).",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "O detalhe técnico (DDL) da entidade é opcional para a revisão de negócio — fica recolhido; o resumo e o relacionamento j",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R8",
+            "descricao": "O detalhe físico traz, por entidade, o nome físico da tabela e, por campo, o nome físico da coluna e o tipo.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R9",
+            "descricao": "O painel do agente exibe o progresso e o log da execução do Modelador (mesma convenção das demais etapas), recolhível.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4262,6 +6496,48 @@
     {
       "id": "EST-ACO-11",
       "nome": "Visualizar protótipo",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o protótipo navegável gravado pela execução do agente na etapa Protótipo (resultado `prototipoRef` ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da conclusão da geração, inclusive durante reexecuções por ajuste (a última gera",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O protótipo é de alinhamento visual, não de contrato: os requisitos detalhados depois prevalecem (→ ver AGT-EXE-11: regr",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4333,6 +6609,55 @@
     {
       "id": "EST-ACO-02",
       "nome": "Visualizar requisitos",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Cada feature impactada exibe o detalhe completo produzido pelo agente: classificação (domínio, feature set, tipo), o que",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Em features de alteração, o detalhe destaca o delta — regras e campos novos ou alterados aparecem marcados, e os campos ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4414,6 +6739,55 @@
     {
       "id": "EST-ACO-06",
       "nome": "Visualizar testes do sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O conteúdo exibido é o resultado registrado pela execução do agente da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A visualização fica disponível a partir da primeira execução da etapa, inclusive durante ajustes.",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Cada caso do resultado é identificado pelo seu id estável (CT-NN, de AGT-EXE-04) — o mesmo id da tela de Casos de teste ",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Após uma reexecução (loop-back), a rodada corrente fica em destaque e as rodadas anteriores continuam acessíveis na próp",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4495,6 +6869,92 @@
     {
       "id": "EST-APR-09",
       "nome": "Aprovar escopo de impacto",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O aval do escopo só fica disponível após a validação técnica da etapa.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A pendência é direcionada ao perfil Product Owner do sistema.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Este gate é opcional por sistema (→ ver SIS-CFG-02: exigir aval do PO por etapa); quando não exigido, a etapa conclui co",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Com a ferramenta de gestão de demandas configurada no sistema (→ ver SIS-CFG-04), a tarefa deste aval é aberta na ferram",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Os Requisitos só iniciam após este gate (ou após a validação técnica, quando o aval não é exigido).",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "O aval do escopo não fica disponível enquanto houver furo de cobertura do escopo — verificação C1, C2 ou C3 pendente (→ ",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "O aval do escopo não fica disponível enquanto houver item de origem \"a eliciar\" não resolvido (→ ver EST-ACO-08; produzi",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -4576,6 +7036,64 @@
     {
       "id": "EST-APR-01",
       "nome": "Aprovar etapa",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só o perfil aprovador configurado para a etapa no sistema pode aprovar. **Vigência (Fase 1 — decisão D3)**: enquanto a m",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A aprovação registra decisão, autor, data e comentário na trilha de auditoria.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Etapa aprovada não volta a ficar pendente — retrabalho passa por solicitar ajustes ou loop-back.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4662,6 +7180,49 @@
     {
       "id": "EST-APR-03",
       "nome": "Aprovar feature",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Cada feature impactada é aprovada individualmente.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A etapa de Requisitos só segue ao aval de negócio depois de todas as features aprovadas.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4734,6 +7295,78 @@
     {
       "id": "EST-APR-04",
       "nome": "Aprovar história",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_FEATURES_NOT_APPROVED",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O aval de negócio só fica disponível com todas as features impactadas aprovadas.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A pendência é direcionada ao perfil Product Owner do sistema.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O Modelo de dados só inicia após este aval.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Este gate é opcional por sistema (→ ver SIS-CFG-02: exigir aval do PO **por etapa** — flag da etapa Requisitos); quando ",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Com a ferramenta de gestão de demandas configurada no sistema (→ ver SIS-CFG-04), a tarefa deste aval é aberta na ferram",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -4813,6 +7446,65 @@
     {
       "id": "EST-APR-07",
       "nome": "Autorizar implantação",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A autorização exige o aceite explícito marcado pelo aprovador.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Só o perfil configurado para o gate de produção pode autorizar.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -4906,6 +7598,57 @@
     {
       "id": "EST-APR-06",
       "nome": "Homologar entrega",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A homologação só fica disponível após a validação técnica dos testes.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A pendência é direcionada ao perfil Product Owner do sistema.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -4985,6 +7728,33 @@
     {
       "id": "EST-APR-08",
       "nome": "Listar pendências",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-listar-pendencias.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A fila lista apenas pendências cujo perfil aprovador é o do usuário. **Vigência (Fase 1 — decisão D3)**: até SIS-CFG-02,",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-listar-pendencias.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A pendência sai da fila no momento da decisão (dele ou de outro usuário do mesmo perfil).",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-listar-pendencias.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -5064,6 +7834,65 @@
     {
       "id": "EST-APR-05",
       "nome": "Reprovar testes do sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_APPROVER_MISMATCH",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A reprovação exige a escolha do destino do loop-back.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O loop-back reabre somente as trilhas escolhidas; as demais permanecem aprovadas.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5150,6 +7979,86 @@
     {
       "id": "EST-APR-10",
       "nome": "Responder esclarecimentos",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_SEM_ESCLARECIMENTOS",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Responder esclarecimentos só é possível quando a etapa tem perguntas de esclarecimento abertas.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Cada pergunta aberta exige uma resposta para enviar.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Ao enviar, a etapa é devolvida ao agente, que reexecuta o detalhamento guiado pelas respostas.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A etapa permanece pendente de decisão até a nova execução concluir e ser decidida.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Cada pergunta é ancorada na feature em que a lacuna foi encontrada — no gate, as perguntas são listadas e respondidas no",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5235,6 +8144,49 @@
     {
       "id": "EST-APR-02",
       "nome": "Solicitar ajustes",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#Cenários"
+            ]
+          },
+          {
+            "id": "ETAPA_NOT_PENDING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A solicitação exige a descrição do que ajustar.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A etapa permanece pendente de aprovação até a nova execução ser concluída e decidida.",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5314,6 +8266,55 @@
     {
       "id": "OPE-GCO-02",
       "nome": "Criar organização",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_IDENTIFICADOR_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Nome e identificador da organização são obrigatórios; o identificador é único na plataforma (→ ver DATA-MODEL.md: Conta ",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização criada pelo operador nasce com a situação **Ativa**.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O primeiro Administrador é indicado por e-mail e recebe um convite para assumir a organização (→ ver ADM-USR-06 — aceite",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Criar organização pelo operador não cria vínculo do operador com ela — o operador não é usuário do tenant.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5399,6 +8400,56 @@
     {
       "id": "OPE-GCO-06",
       "nome": "Definir limites de consumo",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O teto de consumo de IA é definido **por conta** e **por mês**.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Ao atingir o teto no mês, novas execuções de agente da conta são cortadas (→ ver NFR: SEG-12).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O sistema alerta ao atingir o percentual do teto configurado (os Administradores da conta e o operador).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5470,6 +8521,56 @@
     {
       "id": "OPE-GCO-03",
       "nome": "Editar organização",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_IDENTIFICADOR_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Nome e identificador são obrigatórios; o identificador é único na plataforma (→ ver DATA-MODEL.md: Conta · mesma regra d",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Alterar o identificador mantém o histórico e os vínculos existentes da organização.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A edição pelo operador não altera a situação da conta (ativar/desativar é OPE-GCO-04/05).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5541,6 +8642,55 @@
     {
       "id": "OPE-GCO-07",
       "nome": "Entrar como",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#Cenários"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Entrar como abre a sessão na conta escolhida **sem** a senha do cliente.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Durante toda a sessão de impersonation, uma **faixa de aviso** fica visível indicando que é um acesso de suporte.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O acesso é registrado como **impersonation** na trilha de auditoria da plataforma — do operador e da conta.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Entrar como é exclusivo do operador da plataforma (conta SIESA interna).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-entrar-como.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5612,6 +8762,47 @@
     {
       "id": "OPE-GCO-01",
       "nome": "Listar contas",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-listar-contas.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A listagem abrange **todas** as contas da plataforma (organizações e pessoais) — visão cross-tenant, exclusiva do operad",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-listar-contas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Cada conta exibe a situação na escala **Ativa · Suspensa** e os indicadores de uso (usuários, sistemas e consumo de IA n",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-listar-contas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A conta suspensa aparece destacada, distinta da ativa (→ ver OPE-GCO-04).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-listar-contas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A listagem é somente leitura: as ações sobre a conta pertencem às demais features do Feature Set (criar, editar, suspend",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-listar-contas.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5761,6 +8952,56 @@
     {
       "id": "OPE-GCO-05",
       "nome": "Reativar conta",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_NOT_SUSPENDED",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só uma conta na situação **Suspensa** pode ser reativada.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Reativar restaura a execução das esteiras e a criação de novas demandas da conta.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A reativação é registrada na trilha de auditoria da plataforma.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5832,6 +9073,77 @@
     {
       "id": "OPE-GCO-04",
       "nome": "Suspender conta",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONTA_NOT_SUSPENDABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Suspender uma conta **congela a execução das esteiras** em andamento dessa conta.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Suspender uma conta **bloqueia a criação de novas demandas** dessa conta.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A suspensão **não** bloqueia o login: os usuários da conta continuam entrando e consultando.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "A suspensão **não** apaga dados: nada é removido e a conta pode ser reativada (→ ver OPE-GCO-05).",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O motivo da suspensão é obrigatório.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "Só uma conta na situação **Ativa** pode ser suspensa.",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5903,6 +9215,78 @@
     {
       "id": "SIS-ACE-01",
       "nome": "Visualizar catálogo de features",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Cenários"
+            ]
+          },
+          {
+            "id": "SISTEMA_REPOSITORIES_MISSING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
+            ]
+          },
+          {
+            "id": "GITHUB_APP_UNAVAILABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A situação de cada feature é derivada exclusivamente do repositório de documentação — carimbo da passada técnica e gates",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A situação segue a escala: Rascunho (sem passada técnica) · Especificada (aguarda o aval de requisitos) · Aprovada (aval",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A próxima etapa exibida decorre da situação: o aval de requisitos quando pendente; a primeira etapa técnica pendente qua",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Feature envolvida em demanda em andamento não é selecionável para nova execução — a demanda que a carrega é apontada.",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O catálogo abrange apenas o sistema ativo da sessão.",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -5981,6 +9365,78 @@
     {
       "id": "SIS-ACE-02",
       "nome": "Visualizar mapa de features",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Cenários"
+            ]
+          },
+          {
+            "id": "SISTEMA_REPOSITORIES_MISSING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
+            ]
+          },
+          {
+            "id": "GITHUB_APP_UNAVAILABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A árvore reflete o repositório de documentação do sistema ativo — produto, domínios, feature sets e features — sem manut",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A situação de cada feature é a derivada dos gates, na mesma escala do catálogo (→ ver SIS-ACE-01: regra 2) — reaproveita",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O mapa é de orientação e navegação: não seleciona features nem dispara execução — isso é do catálogo (SIS-ACE-01 · DEM-I",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O mapa abrange apenas o sistema ativo da sessão.",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Feature sets sem features e domínios sem feature sets aparecem como lacunas (\"a especificar\"); o mapa mostra a cobertura",
+            "evidencia": [
+              "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6052,6 +9508,56 @@
     {
       "id": "SIS-CAD-04",
       "nome": "Alterar sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "FIELD_IMMUTABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Sigla e nome são obrigatórios; a sigla tem até 5 caracteres, identifica o sistema no topo das telas e é única na conta.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O identificador do sistema não muda na alteração — é a chave usada em endereços e na confirmação da transferência.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A alteração vale imediatamente para todas as demandas e telas do sistema, sem afetar esteiras em andamento.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6124,6 +9630,41 @@
     {
       "id": "SIS-CAD-01",
       "nome": "Cadastrar sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-cadastrar-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "SISTEMA_IDENTIFIER_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-cadastrar-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O identificador do sistema é único dentro da conta (→ ver N1 Sistemas: Regras transversais de negócio: 2).",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-cadastrar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O sistema nasce sem repositórios configurados e, portanto, sem poder iniciar demandas.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-cadastrar-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6198,6 +9739,33 @@
     {
       "id": "SIS-CAD-02",
       "nome": "Definir sistema ativo",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-definir-sistema-ativo.md#Cenários"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A sessão tem exatamente um sistema ativo por vez.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-definir-sistema-ativo.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A troca de sistema não altera nenhum dado — apenas o contexto de navegação.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-definir-sistema-ativo.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6256,6 +9824,86 @@
     {
       "id": "SIS-CAD-05",
       "nome": "Preparar sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_REPO_PERMISSION_MISSING·CONEXAO_GITHUB_INACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_VERSION_CONFLICT",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_REPO_PERMISSION_MISSING",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A preparação vale para sistema sem repositórios (situação Em preparação); o caminho \"já tenho aplicação\" segue pelas def",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A entrevista alimenta a proposta do agente — stack, MASTER, visão de produto (N0) e repositórios a criar (→ ver AGT-EXE-",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Nenhum repositório é criado antes do aval: a proposta passa por um gate de preparação dos perfis Product Owner e Líder t",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Aprovada a proposta, os repositórios são criados com os globais commitados e o sistema sai de Em preparação, apto a inic",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "A lista de repositórios é proposta do agente e editável na revisão — o de documentação é único e fixo; a criação usa a c",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",
@@ -6524,6 +10172,63 @@
     {
       "id": "SIS-CAD-03",
       "nome": "Transferir sistema",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só o Administrador da conta atual pode transferir; o destino é uma conta em que ele também é Administrador. ⚠️ fluxo com",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A transferência preserva demandas, esteiras e trilha de auditoria do sistema.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A confirmação exige digitar o identificador do sistema.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Os aprovadores por etapa ficam pendentes de revisão na conta de destino após a transferência.",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6606,6 +10311,48 @@
     {
       "id": "SIS-CFG-02",
       "nome": "Configurar aprovadores",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A configuração vale por sistema e não afeta os demais sistemas da conta.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente o perfil Administrador altera as configurações do sistema.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O aval de negócio do PO é opcional por sistema e configurado **por etapa** nas etapas com passo de negócio — Análise de ",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6688,6 +10435,70 @@
     {
       "id": "SIS-CFG-03",
       "nome": "Configurar estratégia",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A configuração vale por sistema e não afeta os demais sistemas da conta.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente o perfil Administrador altera as configurações do sistema.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O gate técnico do plano de implementação é opcional por sistema (padrão: exigido).",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Na estratégia Paralelo, a Codificação pode ser test-aware — o agente Desenvolvedor considera os casos do agente de QA co",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "O loop-back seletivo em reprovação é opcional por sistema (padrão: ligado).",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6755,6 +10566,63 @@
     {
       "id": "SIS-CFG-04",
       "nome": "Configurar ferramenta de demandas",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A integração é opcional e vale por sistema; sem ela, aprovações e histórias ficam no Aval (pendência nativa).",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Com a ferramenta configurada — endereço, projeto/fila e credencial — a tarefa do aval de negócio do PO é aberta na ferra",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "A credencial fica no cofre de segredos; o Aval guarda apenas a referência.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Trocar ou remover a ferramenta vale para as próximas demandas; as em andamento mantêm o canal com que começaram.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-PESSOA",
@@ -6822,6 +10690,78 @@
     {
       "id": "SIS-CFG-01",
       "nome": "Configurar repositórios",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Cenários"
+            ]
+          },
+          {
+            "id": "REPOSITORIO_UNREACHABLE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#API"
+            ]
+          },
+          {
+            "id": "REPOSITORIO_DUPLICATE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#API"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_INACTIVE",
+            "descricao": "recusa ou erro de negócio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A configuração vale por sistema e não afeta os demais sistemas da conta.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente o perfil Administrador altera as configurações do sistema.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "O repositório de documentação é único por sistema; os repositórios de código são um ou vários — nunca menos de um.",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "Cada repositório de código tem papel e branch base próprios; o papel orienta o Agente Desenvolvedor sobre o que vive em ",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "Os repositórios apontados são acessados e validados ao salvar — repositório inacessível não é aceito. **Vigência (Fase 1",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
       "disparadores": [
         {
           "usuario": "UF-SISTEMA",

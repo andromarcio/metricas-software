@@ -45,9 +45,10 @@ não impedem a contagem, mas são listados no relatório.
 | V-08 | erro | Todo processo tem pelo menos um disparador cujo `usuario` é um usuário funcional declarado (RI-02, RI-04 T1). |
 | V-09 | aviso | Dois processos com o mesmo conjunto de chaves e os mesmos atributos (quando informados) podem ser o mesmo processo (RI-04 b). O relatório os lista para revisão. |
 | V-10 | erro | Quando declarados: `producao.modo` é M0, M1, M2 ou M3 e `aceite.status` é aceito, pendente ou rejeitado, ambos com evidência ou inferência justificada; o bloco `producao` do modelo tem `abrange` (software ou mudanca) e valores numéricos não negativos (capítulo 9). |
+| V-11 | erro | Quando declarado: `decisoes` tem as listas `desfechos` (ao menos um item) e `regras`; cada item tem `id` único na lista e evidência ou inferência justificada (RC-05, capítulo 12). |
 
 A ferramenta de referência (`ferramentas/mfo.py validar`) implementa todas as validações.
-O esquema JSON cobre a parte estrutural de V-01, V-04, V-05 e V-10; as demais são
+O esquema JSON cobre a parte estrutural de V-01, V-04, V-05, V-10 e V-11; as demais são
 semânticas. O campo `agente.tipo` admite `humano`, `ia` e `ferramenta` (extrator
 determinístico, como o do capítulo 10).
 
@@ -100,24 +101,36 @@ contagem.
 > c) Camadas diferentes (aplicação e serviço de infraestrutura, por exemplo) são medidas
 >    separadamente e reportadas separadamente.
 
-## 3.5 Suplemento opcional: derivação
+## 3.5 Suplemento D: decisões
 
-A MFO, como o COSMIC, não mede manipulação de dados. Para quem precisa de um indicador de
-processamento algorítmico, existe um suplemento com definição mecânica, reportado à parte.
+A MFO, como o COSMIC, não mede manipulação de dados no tamanho. O que o PFO não vê, o
+capítulo 12 mostra: dois processos com as mesmas entidades em movimento podem diferir em
+uma ordem de grandeza no número de decisões que tomam. O suplemento D conta essa segunda
+dimensão com a mesma disciplina do PFO e a reporta sempre à parte.
 
-> **RC-05 — Suplemento D (derivação)**
+> **RC-05 — Suplemento D (decisões)**
 >
-> Para um processo cujos movimentos declaram `atributos`, o processo **tem derivação**
-> quando o conjunto de atributos de seus movimentos X e W contém pelo menos um atributo
-> que não aparece em nenhum de seus movimentos E ou R. D(software) = número de processos
-> com derivação. Atributos de `MENSAGEM` e `DISPARO` são ignorados.
+> a) **D1, desfechos distintos:** número de resultados distintos que o processo pode
+>    produzir para o usuário funcional: o desfecho principal, cada variante de sucesso com
+>    efeito diferente e cada código ou mensagem de recusa ou erro de negócio distinto.
+>    Códigos técnicos de autenticação, autorização e infraestrutura não contam (RI-10).
 >
-> D é reportado como "D = n de NP processos" e **nunca** é somado ao PFO. Processos sem
-> `atributos` declarados em todos os movimentos ficam fora do denominador e são
-> indicados como "n/d".
+> b) **D2, regras declaradas:** número de regras de negócio enumeradas na fonte que
+>    validam, restringem, mudam estado ou calculam, inclusive cada atributo derivado por
+>    cálculo próprio. Regras de apresentação e técnicas não contam.
+>
+> c) Cada desfecho e cada regra é um item do bloco `decisoes` do processo, com
+>    identificador, descrição e evidência (RI-11). D1 tem ao menos o desfecho principal.
+>
+> d) D1 e D2 são reportados por processo e no total, ao lado do PFO, e **nunca** somados a
+>    ele. Processos sem o bloco aparecem como "n/d" e ficam fora das médias.
+>
+> e) Enquanto a organização não fixar uma das bases, as duas são registradas; o capítulo
+>    12 compara as duas contra os critérios de objetividade e resistência a inflar.
 
-O suplemento corresponde, de forma objetiva, ao critério "dados derivados" que a APF usa
-para distinguir Saída Externa de Consulta Externa.
+O relatório mantém, a título informativo, a derivação por atributos (processo cujas
+saídas ou gravações têm atributo ausente das entradas e leituras), que corresponde ao
+critério "dados derivados" da APF; ela não substitui D1 nem D2.
 
 ## 3.6 Rotulagem
 
