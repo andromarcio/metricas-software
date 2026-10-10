@@ -62,7 +62,9 @@ O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da
 | Cobertura de testes funcional | processos com teste automatizado / NP | nível C |
 
 Os valores de referência (taxa de entrega, custo por PFO) devem ser calibrados pela
-própria organização, como se faz com PF e PFC. A MFO não publica valores de mercado.
+própria organização, como se faz com PF e PFC. A MFO não publica valores de mercado. Os
+indicadores de produção com IA (PFO por modo, alavancagem humana, custo por PFO, aceite,
+excedente) estão no capítulo 9.
 
 ## 5.4 Relação com APF e COSMIC
 
@@ -90,7 +92,9 @@ própria organização, como se faz com PF e PFC. A MFO não publica valores de 
 - **Em relação à APF:** a APF conta funções de dados diretamente (7 a 15 PF por arquivo
   lógico) e limita cada transação a 7 PF. Sistemas com muitos arquivos e transações
   simples tendem a ter mais PF que PFO; sistemas com transações ricas (muitas entidades por
-  processo) tendem ao contrário. Não existe fator fixo de conversão.
+  processo) tendem ao contrário. Não existe fator fixo de conversão. No sistema real do
+  capítulo 10, a razão PFO/PF de transação variou de 0,87 a 1,39 entre domínios (1,17 no
+  total), pelos motivos acima.
 
 ### Procedimento de calibração local
 

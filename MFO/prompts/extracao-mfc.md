@@ -145,3 +145,28 @@ Você recebe duas medições MFO 1.0 do mesmo software (A e B) e a lista de chav
 3. Responda no formato: "<chave> — <regra> — <decisão: manter|remover> — <evidência que decide>".
 Não altere chaves que estão nas duas medições. Não proponha pesos nem ajustes no total.
 ```
+
+---
+
+## Prompt complementar: atribuição do modo de produção (capítulo 9)
+
+Use depois da extração de nível C, com acesso ao histórico do repositório (git), às PRs
+e, quando houver, aos logs de sessão de agentes. A saída alimenta `producao.modo` de cada
+processo e é auditada por amostragem.
+
+```text
+Você recebe um Modelo Funcional Canônico (MFO 1.0) de nível C e o histórico do
+repositório entre as versões <REF_A> e <REF_B>. Para cada processo do modelo:
+1. Liste os commits que tocam os arquivos citados nas evidências COD do processo
+   (git log <REF_A>..<REF_B> -- <arquivos>).
+2. Para cada commit, registre: autor, trailers de coautoria (Co-Authored-By), PR de
+   origem, quem aprovou a PR e se há log de sessão de agente associado.
+3. Atribua o modo pela regra RP-01: M0 (nenhum commit com IA), M1 (minoria dos commits
+   com IA, pessoa escreveu), M2 (maioria dos commits com coautoria de IA e revisão
+   humana registrada), M3 (PR aberta por agente, testes gerados, intervenção humana só
+   no aceite). Sem evidência suficiente: "nd".
+4. Responda com um objeto JSON por processo:
+   {"id": "<processo>", "producao": {"modo": "<M0|M1|M2|M3|nd>", "evidencia": ["PROC:<commits, PR e logs>"], "nota": "<como decidiu>"}}
+Não altere movimentos nem tamanhos. Não infira modo pelo estilo do código: só por
+evidência de autoria.
+```

@@ -4,7 +4,9 @@
 
 | Termo | Definição |
 |---|---|
-| **Agente** | Quem produziu o modelo: pessoa, IA (identificada por nome e versão) ou combinação. Faz parte do rótulo. |
+| **Aceite** | Registro, por processo, de que o contratante aceitou a entrega, com evidência (RP-03). PFO aceitos são a base de remuneração. |
+| **Agente** | Quem produziu o modelo: pessoa (`humano`), modelo de linguagem (`ia`) ou extrator determinístico (`ferramenta`), identificado por nome e versão. Faz parte do rótulo. |
+| **Alavancagem humana** | PFO produzidos por hora humana de todo o ciclo (RP-02). |
 | **Alterado** | Movimento presente em dois modelos consecutivos cujos atributos ou manipulação mudaram (RC-03). |
 | **Armazenamento persistente** | Qualquer meio em que dados sobrevivem ao término de um processo e podem ser lidos por outro: banco de dados, arquivo, memória não volátil. |
 | **Chave de movimento** | Tripla (processo, tipo, entidade) que identifica um movimento. Cada chave vale 1 PFO. |
@@ -16,7 +18,8 @@
 | **Entidade** | Grupo nomeado de atributos que descreve uma única coisa de interesse, persistida ou trocada como unidade (RI-03). |
 | **Entrada (E)** | Movimento de uma entidade de um usuário funcional para o processo (RI-05). |
 | **Escopo** | Conjunto de funcionalidades incluídas na medição (RI-01). |
-| **Evidência** | Referência `FONTE:localizador` que permite confirmar um elemento do modelo no artefato (RI-11). |
+| **Evidência** | Referência `FONTE:localizador` que permite confirmar um elemento do modelo no artefato (RI-11). Em código, `FONTE:caminho#trecho`, verificável por máquina (RD-03). |
+| **Excedente** | PFO presentes no modelo de código sem correspondente no modelo de requisitos: produção não solicitada (RP-03). |
 | **Fonte** | Artefato declarado no modelo, com identificador e versão, de onde vêm as evidências. |
 | **Fronteira** | Linha conceitual entre o software medido e seus usuários funcionais (RI-01). |
 | **Grau de evidência** | Porcentagem de movimentos não inferidos. Faz parte do rótulo. |
@@ -26,6 +29,7 @@
 | **MENSAGEM** | Entidade reservada para a única X por processo que representa mensagens de erro, validação, sucesso e estado. |
 | **MFC — Modelo Funcional Canônico** | Documento JSON que descreve usuários funcionais, entidades, processos e movimentos com evidências. Insumo único da contagem. |
 | **MFO — Medição Funcional Objetiva** | O método descrito nesta especificação. |
+| **Modo de produção** | Classificação, por processo e por versão, de como ele foi produzido: M0 humano, M1 IA assistida, M2 IA dirigida, M3 IA autônoma (RP-01). |
 | **Movimento** | Deslocamento de uma entidade em um processo; tipos E, X, R, W. |
 | **Nível de medição** | Origem do modelo: R (requisitos), C (código ou sistema) ou RC (conciliado). |
 | **NP, NE** | Número de processos e número de entidades declaradas. |
@@ -36,3 +40,4 @@
 | **Saída (X)** | Movimento de uma entidade do processo para um usuário funcional (RI-06). |
 | **Usuário funcional (UF)** | Origem ou destino de dados através da fronteira: pessoa, sistema, dispositivo ou relógio (RI-02). |
 | **Validação (V-xx)** | Verificação que o modelo deve satisfazer para ser contado (seção 3.2). |
+| **Regras RD, RP e RM** | Regras do diff e do código (capítulo 8), da produção com IA (capítulo 9) e de mapeamento da estrutura N3 do siesa-engine (capítulo 10). |

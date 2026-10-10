@@ -44,9 +44,12 @@ não impedem a contagem, mas são listados no relatório.
 | V-07 | erro | Todo processo e todo movimento tem evidência com prefixo de fonte declarada, ou `inferido: true` com `justificativa` (RI-11). |
 | V-08 | erro | Todo processo tem pelo menos um disparador cujo `usuario` é um usuário funcional declarado (RI-02, RI-04 T1). |
 | V-09 | aviso | Dois processos com o mesmo conjunto de chaves e os mesmos atributos (quando informados) podem ser o mesmo processo (RI-04 b). O relatório os lista para revisão. |
+| V-10 | erro | Quando declarados: `producao.modo` é M0, M1, M2 ou M3 e `aceite.status` é aceito, pendente ou rejeitado, ambos com evidência ou inferência justificada; o bloco `producao` do modelo tem `abrange` (software ou mudanca) e valores numéricos não negativos (capítulo 9). |
 
 A ferramenta de referência (`ferramentas/mfo.py validar`) implementa todas as validações.
-O esquema JSON cobre a parte estrutural de V-01, V-04 e V-05; as demais são semânticas.
+O esquema JSON cobre a parte estrutural de V-01, V-04, V-05 e V-10; as demais são
+semânticas. O campo `agente.tipo` admite `humano`, `ia` e `ferramenta` (extrator
+determinístico, como o do capítulo 10).
 
 ## 3.3 Tamanho de uma mudança
 
@@ -71,10 +74,9 @@ O esquema JSON cobre a parte estrutural de V-01, V-04 e V-05; as demais são sem
 > tratadas fora da métrica, por acordo contratual, como faz o Guia STI para manutenção
 > corretiva e adaptações não funcionais.
 
-Marcação automática: em medição de nível C, uma ferramenta pode marcar `alterado` todo
-movimento cuja evidência aponta para um arquivo ou trecho modificado entre as duas
-versões. A marcação deve ser revisada, pois nem toda modificação de código muda o
-movimento (RI-10).
+Marcação automática: em medição de nível C, `mfo.py impacto` aponta os movimentos cuja
+evidência está em trecho modificado entre as duas versões (candidatos). A confirmação
+segue a RD-01 do capítulo 8, pois nem toda modificação de código muda o movimento.
 
 O tamanho de uma mudança também é um inteiro sem peso: incluir, alterar ou excluir um
 movimento custa 1 PFO. Organizações que precisem remunerar esses três casos de forma

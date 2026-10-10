@@ -53,8 +53,8 @@ status devolvido pelo serviço.
 |---|---|
 | Propósito | Dimensionar o sistema para contratação |
 | Escopo | RF-01 a RF-09 |
-| Nível | `R` (só requisitos; não há código) |
-| Fontes | `REQ` = este capítulo, seção 6.1 |
+| Nível | `RC` (requisitos conciliados com o código entregue em [`exemplos/codigo-biblioteca/v1`](exemplos/codigo-biblioteca/README.md); a extração aqui descrita é a de requisitos, e o capítulo 8 cobre a parte de código) |
+| Fontes | `REQ` = este capítulo, seção 6.1; `COD` = código da v1; `TST` = testes de aceitação; `PROC` = histórico de produção |
 | Usuários funcionais | UF1 Bibliotecário (`pessoa`); UF2 Relógio diário (`relogio`); UF3 Serviço de e-mail (`sistema`) |
 | Glossário de entidades | Livro, Leitor, Emprestimo, ParametroMulta, Notificacao |
 
@@ -151,7 +151,9 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 ```
 # Relatório MFO — Biblioteca 1.0
 
-**Rótulo:** 51 PFO · MFO 1.0 · nível R · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos)
+**Rótulo:** 51 PFO · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue
+
+**Produção:** M0 humano 51 PFO (100%) · aceitos 51/51
 
 **Propósito:** Dimensionar o sistema para contratação e servir de exemplo de referência da MFO
 
@@ -172,19 +174,22 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 
 ## Processos
 
-| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. |
-|---|---|---|---|---|---|---|---|---|
-| P01 | Cadastrar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 |
-| P02 | Alterar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 |
-| P03 | Excluir livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 |
-| P04 | Consultar livros | 1 | 2 | 1 | 0 | **4** | não | 4/4 |
-| P05 | Cadastrar leitor | 1 | 1 | 1 | 1 | **4** | não | 4/4 |
-| P06 | Registrar empréstimo | 1 | 2 | 3 | 1 | **7** | sim | 7/7 |
-| P07 | Registrar devolução | 1 | 2 | 2 | 1 | **6** | sim | 6/6 |
-| P08 | Relatório de atrasos | 1 | 4 | 4 | 0 | **9** | sim | 9/9 |
-| P09 | Notificar atrasos | 2 | 3 | 3 | 1 | **9** | sim | 9/9 |
-| | **Total** | 10 | 17 | 17 | 7 | **51** | | |
+| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. | Modo | Aceite |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P01 | Cadastrar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P02 | Alterar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P03 | Excluir livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P04 | Consultar livros | 1 | 2 | 1 | 0 | **4** | não | 4/4 | M0 | aceito |
+| P05 | Cadastrar leitor | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P06 | Registrar empréstimo | 1 | 2 | 3 | 1 | **7** | sim | 7/7 | M0 | aceito |
+| P07 | Registrar devolução | 1 | 2 | 2 | 1 | **6** | sim | 6/6 | M0 | aceito |
+| P08 | Relatório de atrasos | 1 | 4 | 4 | 0 | **9** | sim | 9/9 | M0 | aceito |
+| P09 | Notificar atrasos | 2 | 3 | 3 | 1 | **9** | sim | 9/9 | M0 | aceito |
+| | **Total** | 10 | 17 | 17 | 7 | **51** | | | | |
 ```
+
+O relatório segue com a seção **Produção** (modo de produção, aceite e indicadores de
+alavancagem e custo), descrita no capítulo 9.
 
 Leitura do perfil: densidade alta (5,67) para um sistema de cadastro, puxada pelos dois
 processos de atraso, que cruzam quatro entidades. O suplemento D aponta exatamente os
@@ -208,9 +213,11 @@ um atributo (marcada alterada); P10 foi incluído. Saída de
 `mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json`:
 
 ```
-**Rótulo:** 8 PFO de mudança (4 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível R · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados
+**Rótulo:** 8 PFO de mudança (4 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
 
-Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO
+**Produção da mudança:** M2 IA dirigida 4 PFO (50%) · M3 IA autônoma 4 PFO (50%) · aceitos 8/8
+
+Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO · níveis: RC → RC
 
 ## Incluídos (4)
 - P10 · E Leitor
@@ -229,13 +236,15 @@ Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO
 
 A mudança mede 8 PFO embora o software tenha crescido apenas 3 PFO (51 para 54): o
 tamanho da mudança inclui o que foi alterado e removido, exatamente como PF e PFC de
-melhoria.
+melhoria. A mesma mudança, vista pelo diff do código, está na seção 8.5; sua composição
+por modo de produção e os indicadores de custo, na seção 9.9.
 
 ## 6.6 Segunda medição e concordância (passos 4 e 5)
 
 Um segundo medidor, sem acesso ao primeiro modelo e com o mesmo glossário, produziu
-[`exemplos/biblioteca-v1-medicao-B.mfc.json`](exemplos/biblioteca-v1-medicao-B.mfc.json).
-Saída de `mfo.py concordancia`:
+[`exemplos/biblioteca-v1-medicao-B.mfc.json`](exemplos/biblioteca-v1-medicao-B.mfc.json)
+a partir dos requisitos (nível R). Comparar uma medição de nível R com a de nível RC do
+mesmo software é legítimo (seção 3.6). Saída de `mfo.py concordancia`:
 
 ```
 **Índice de concordância:** 0,887 (47 chaves comuns de 53)

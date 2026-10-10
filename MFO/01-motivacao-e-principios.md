@@ -34,6 +34,7 @@ grandes de software:
 | O3 | Independência de tecnologia | Mede o que o software faz para seus usuários funcionais; nunca como foi construído. Aplicável a sistemas de negócio, APIs, batch, embarcados, mobile e linhas de comando. |
 | O4 | Aplicabilidade por IA | O produto da interpretação é um modelo JSON com evidências; o número sai de uma ferramenta; a reprodutibilidade é medida por índice de concordância. |
 | O5 | Comparabilidade | Rótulo obrigatório (nível, evidência, agente, escopo) e perfil funcional (distribuição E/X/R/W, densidade) além do total. |
+| O6 | Produção com IA | O tamanho não depende de quem produziu; o modo de produção (humano a IA autônoma) e o aceite são registrados por processo com evidência, e o relatório traz PFO por modo, por hora humana e por custo (capítulo 9). |
 
 ## 1.3 Princípios de projeto
 
@@ -67,6 +68,10 @@ resultado observável do processo, não uma propriedade declarada.
 **P7 — Comparar só o comparável.** Resultados carregam rótulo; só se comparam tamanhos
 do mesmo nível de medição (requisitos, código ou conciliado) com escopo declarado.
 
+**P8 — Neutralidade de produtor.** O PFO mede o produto. Pessoa, IA assistida, IA dirigida
+ou IA autônoma produzem o mesmo tamanho para a mesma funcionalidade; o que varia, e é
+medido à parte, é esforço, custo, modo de produção e qualidade.
+
 ## 1.4 Comparação conceitual
 
 | Dimensão | APF (IFPUG CPM 4.3.1) | COSMIC 3.0.1 | MFO 1.0 |
@@ -82,7 +87,9 @@ do mesmo nível de medição (requisitos, código ou conciliado) com escopo decl
 | Mensagens de erro | DER de mensagem | Uma Exit por processo | Uma X `MENSAGEM` por processo |
 | Vários canais da mesma função | Single ou multiple instance (escolha do medidor) | Geralmente um processo | Um processo (RI-04) |
 | Mudanças | PF incluído, alterado, excluído | PFC incluído, alterado, excluído | Diferença de chaves entre dois modelos |
-| Verificação automática | Não prevista | Não prevista | Validações V-01 a V-09 e índice de concordância |
+| Verificação automática | Não prevista | Não prevista | Validações V-01 a V-10, auditoria de evidências e índice de concordância |
+| Medição a partir do código | Não prevista; exige requisitos | Admite derivar RFU do software instalado | Nível C com evidência `arquivo#trecho` verificável por máquina; diff delimita e prova a mudança (capítulo 8) |
+| Produtor do software | Não distingue | Não distingue | Neutro no tamanho; modo de produção e aceite por processo (capítulo 9) |
 
 ## 1.5 O que a MFO não mede
 

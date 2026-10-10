@@ -1,0 +1,687 @@
+{
+  "mfo": "1.0",
+  "software": "Aval (siesa-doc)",
+  "versao": "5.0.0",
+  "proposito": "Exemplo real: medir o feature set Usuários (ADM-USR) a partir dos N3 e comparar com a extração mecânica e com a contagem APF existente",
+  "escopo": "Feature set ADM-USR (6 features N3: ADM-USR-01 a ADM-USR-06)",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ia",
+    "nome": "assistente de medição (leitura dos N3 com as regras RI-01 a RI-11)",
+    "revisao_humana": false,
+    "prompt": "prompts/extracao-mfc.md@1.0"
+  },
+  "fontes": [
+    {
+      "id": "DOC",
+      "tipo": "requisitos",
+      "ref": "siesa-doc@49265a9 (VERSION 5.0.0)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-ADM",
+      "nome": "Administrador da conta",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF-CONVIDADO",
+      "nome": "Pessoa convidada (abre o link do convite)",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF-GOOGLE",
+      "nome": "Identidade Google (OIDC)",
+      "tipo": "sistema"
+    },
+    {
+      "id": "UF-EMAIL",
+      "nome": "Serviço de e-mail (SMTP)",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Usuario",
+      "descricao": "Vínculo de uma pessoa com a conta, com perfil e situação",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Usuario"
+      ]
+    },
+    {
+      "id": "Convite",
+      "descricao": "Convite pendente, aceito, cancelado ou expirado",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Convite"
+      ]
+    },
+    {
+      "id": "Perfil",
+      "descricao": "Perfil de acesso da organização",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Perfil"
+      ]
+    },
+    {
+      "id": "Pessoa",
+      "descricao": "Pessoa física com credenciais (senha ou Google)",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Pessoa"
+      ]
+    },
+    {
+      "id": "Conta",
+      "descricao": "Conta/organização",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Conta"
+      ]
+    },
+    {
+      "id": "EventoAuditoria",
+      "descricao": "Trilha de auditoria consultável (ADM-AUD-01)",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#EventoAuditoria"
+      ]
+    },
+    {
+      "id": "Identidade Google",
+      "descricao": "Identidade do provedor no login social (sistema externo)",
+      "evidencia": [
+        "DOC:global/DATA-MODEL.md#Identidade Google"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "ADM-USR-01",
+      "nome": "Pesquisar usuários",
+      "disparadores": [
+        {
+          "usuario": "UF-ADM",
+          "evento": "abre a tela de usuários ou informa a busca"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+      ],
+      "apf": {
+        "pf": 5,
+        "tipo": "SE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Campos"
+          ],
+          "nota": "filtro de busca por nome ou e-mail"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Dados lidos e gravados"
+          ],
+          "nota": "nome do perfil nas linhas"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Colunas do resultado"
+          ],
+          "nota": "linhas e contagens derivadas (total, ativos, pendentes, inativos)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Colunas do resultado"
+          ],
+          "nota": "RI-06 a: nome do perfil pertence a Perfil"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+          ],
+          "nota": "422 e lista vazia"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-02",
+      "nome": "Convidar usuário",
+      "disparadores": [
+        {
+          "usuario": "UF-ADM",
+          "evento": "submete e-mail e perfil no modal de convite"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 9,
+        "tipo": "EE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Campos"
+          ],
+          "nota": "e-mail e perfilId são atributos do convite (RI-03 b)"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Memória de cálculo"
+          ],
+          "nota": "opções do combobox e validação"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Métricas de tamanho"
+          ],
+          "nota": "combobox de perfis: R+X dentro do processo (RI-04 b)"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+          ],
+          "nota": "regra 2: e-mail não pode pertencer a usuário ativo da organização — lê para decidir (RI-07 b)"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Dados lidos e gravados"
+          ],
+          "nota": "linha provisória"
+        },
+        {
+          "tipo": "W",
+          "entidade": "EventoAuditoria",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Eventos"
+          ],
+          "nota": "RegistradorAuditoria consome convite.criado; trilha exigida pelo usuário (RI-08 c)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ],
+          "nota": "resposta 201 e e-mail ao convidado pelo serviço SMTP (mesma chave: conta uma vez, RI-09 a)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ],
+          "nota": "409, 404, 422"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-03",
+      "nome": "Alterar perfil do usuário",
+      "disparadores": [
+        {
+          "usuario": "UF-ADM",
+          "evento": "escolhe novo perfil para um usuário"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 4,
+        "tipo": "EE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Campos"
+          ],
+          "nota": "usuarioId e perfilId"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Memória de cálculo"
+          ],
+          "nota": "opções e validação"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ],
+          "nota": "combobox e nome do perfil na resposta"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+          ],
+          "nota": "regra 2: ao menos um Administrador ativo — lê para decidir"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "EventoAuditoria",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Campos automáticos"
+          ],
+          "nota": "registro de auditoria com autor e data"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ],
+          "nota": "usuarioId e perfil novo"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ],
+          "nota": "409, 404"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-04",
+      "nome": "Desativar usuário",
+      "disparadores": [
+        {
+          "usuario": "UF-ADM",
+          "evento": "confirma a desativação na linha do usuário"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 3,
+        "tipo": "EE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Campos"
+          ],
+          "nota": "usuário-alvo"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+          ],
+          "nota": "regra 2: último Administrador ativo"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Campos automáticos"
+          ],
+          "nota": "situação Inativo"
+        },
+        {
+          "tipo": "W",
+          "entidade": "EventoAuditoria",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Campos automáticos"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ],
+          "nota": "usuarioId e situação"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ],
+          "nota": "409, 404"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-05",
+      "nome": "Reativar usuário",
+      "disparadores": [
+        {
+          "usuario": "UF-ADM",
+          "evento": "confirma a reativação na linha do usuário"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 3,
+        "tipo": "EE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Campos"
+          ],
+          "nota": "usuário-alvo"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+          ],
+          "nota": "situação Inativo e perfil anterior"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ],
+          "nota": "nome do perfil restaurado na resposta"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Campos automáticos"
+          ],
+          "nota": "situação Ativo e perfil restaurado"
+        },
+        {
+          "tipo": "W",
+          "entidade": "EventoAuditoria",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Campos automáticos"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ],
+          "nota": "usuarioId e situação"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ],
+          "nota": "nome do perfil restaurado (RI-06 a)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ],
+          "nota": "409, 404"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-06b",
+      "nome": "Consultar convite pelo código",
+      "disparadores": [
+        {
+          "usuario": "UF-CONVIDADO",
+          "evento": "abre o link do convite"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados",
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+      ],
+      "apf": {
+        "pf": 4,
+        "tipo": "CE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "código do convite na rota"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Conta",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ],
+          "nota": "nome da organização"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "nome do perfil na resposta"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "e-mail, situação, pessoaExistente"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Conta",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "nome da organização (RI-06 a)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "nome do perfil (RI-06 a)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "404"
+        }
+      ]
+    },
+    {
+      "id": "ADM-USR-06",
+      "nome": "Aceitar convite",
+      "disparadores": [
+        {
+          "usuario": "UF-CONVIDADO",
+          "evento": "informa nome e senha, ou entra com o Google, e confirma"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Descrição",
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+      ],
+      "apf": {
+        "pf": 6,
+        "tipo": "EE"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Pessoa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Campos"
+          ],
+          "nota": "nome completo, senha ou token Google"
+        },
+        {
+          "tipo": "E",
+          "entidade": "Identidade Google",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+          ],
+          "nota": "regra 3: prova de identidade pelo Google quando o e-mail já existe (resposta usada, RI-05 c)",
+          "usuario": "UF-GOOGLE"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ],
+          "nota": "pendente e e-mail coincidente"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Pessoa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+          ],
+          "nota": "regra 3: e-mail já pertence a uma pessoa"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ],
+          "nota": "nome no aceite"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ],
+          "nota": "concluído"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ],
+          "nota": "ativado com o perfil do convite"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Pessoa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Campos"
+          ],
+          "nota": "nome e senha criados no aceite por senha"
+        },
+        {
+          "tipo": "W",
+          "entidade": "EventoAuditoria",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Campos automáticos"
+          ],
+          "nota": "regra 4: aceite registrado na trilha"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "usuarioId e situação"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "nome do perfil (RI-06 a)"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ],
+          "nota": "409, 404, 422"
+        }
+      ]
+    }
+  ]
+}

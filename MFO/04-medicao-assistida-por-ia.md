@@ -72,7 +72,8 @@ RI-09.
 | Embarcado / tempo real | interrupção, tique, sinal de sensor | leitura de sensor, comando | comando a atuador, telemetria | memória persistente, configuração de negócio |
 | Serverless / funções | gatilho da função | evento recebido | resposta, chamadas | idem |
 
-Regras práticas para código:
+O capítulo 8 detalha a medição a partir do código e do diff entre duas versões. Regras
+práticas para código:
 
 - Um **ponto de entrada acessível a um usuário funcional** é candidato a processo. Funções
   internas, utilitárias e de framework não são.
@@ -123,10 +124,16 @@ V-09. Não tem dependências externas.
 
 ```
 python3 mfo.py validar <modelo.json>                 # lista erros e avisos; código de saída 1 se houver erro
-python3 mfo.py contar <modelo.json> [--json]         # relatório em Markdown (ou JSON) com rótulo, perfil e tabela por processo
-python3 mfo.py mudanca <antes.json> <depois.json>    # tamanho da mudança (RC-03) com a lista de chaves
+python3 mfo.py contar <modelo.json> [--json]         # relatório com rótulo, perfil, produção e tabela por processo
+python3 mfo.py mudanca <antes.json> <depois.json>    # tamanho da mudança (RC-03), por modo de produção
 python3 mfo.py concordancia <a.json> <b.json>        # índice de concordância e divergências por processo
+python3 mfo.py impacto <modelo.json> --dirs A B      # processos afetados por um diff (ou --git REPO REF_A REF_B)
+python3 mfo.py auditar <modelo.json> --raiz DIR      # confere que cada evidência de código existe (RD-03)
 ```
+
+O extrator `extrair_n3.py` (capítulo 10) produz modelos a partir da estrutura de
+documentação do siesa-engine sem modelo de linguagem; é um exemplo de agente do tipo
+`ferramenta`.
 
 Qualquer outra implementação é conforme se, para todo modelo válido, produzir o mesmo
 tamanho, o mesmo perfil e as mesmas validações da ferramenta de referência.
