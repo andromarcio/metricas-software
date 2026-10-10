@@ -56,7 +56,7 @@ O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da
 |---|---|---|
 | Produtividade | PFO entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
 | Custo unitário | custo / PFO | idem |
-| Preço com duas dimensões | a × PFO + b × D, com a e b por regressão sobre o histórico | mesma classe de sistema; D na base escolhida (D1 ou D2) |
+| Preço com duas dimensões | a × PFO + b × D, com a e b por regressão sobre o histórico | mesma classe de sistema; D = D1, a base contratual (capítulo 12) |
 | Densidade de defeitos | defeitos / PFO | mesma definição de defeito e janela |
 | Velocidade de evolução | PFO de mudança por período | mesmo software, modelos consecutivos |
 | Aderência R × C | PFO(C) / PFO(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |

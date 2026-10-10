@@ -46,9 +46,9 @@ trecho verificáveis por máquina.
 
 **Decisões, a segunda dimensão:** o PFO mede entidades em movimento e não vê quantas
 decisões um processo toma. O suplemento D conta, à parte e nunca somado, os desfechos
-distintos (D1) e as regras declaradas (D2) de cada processo, com evidência por item. Um
-autorizador de cartão e um aceite de convite empatam em PFO e se separam por quatro a
-cinco vezes em D.
+distinguíveis por um teste de aceite (D1, a base contratual) e as regras declaradas (D2,
+diagnóstico) de cada processo, com evidência por item. Um autorizador de cartão e um
+aceite de convite empatam em PFO e se separam por quatro a seis vezes em D.
 
 **Estimativa:** uma estimativa é o mesmo modelo com movimentos inferidos por perfis típicos,
 rotulada por nível (E0 indicativo, E1 estimado, E2 detalhado) e sempre com intervalo; o
@@ -94,7 +94,7 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 | Exemplo: código da biblioteca, v1 e v2 | [`exemplos/codigo-biblioteca/`](exemplos/codigo-biblioteca/README.md) | Medição por diff, auditoria de evidências e testes de aceitação por processo |
 | Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 492 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado, perfis calibrados e estimativa E1 |
 | Exemplo: estimativas da biblioteca | [`exemplos/biblioteca-backlog.json`](exemplos/biblioteca-backlog.json), [`exemplos/biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json) | E1 por backlog e E0 por entidades, comparadas aos 51 PFO medidos |
-| Exemplo: autorizador de cartão (hipotético) | [`exemplos/cartao/`](exemplos/cartao/autorizacao-requisitos.md) | 13 PFO e 18 decisões num processo só: a segunda dimensão |
+| Exemplo: autorizador de cartão (hipotético) | [`exemplos/cartao/`](exemplos/cartao/autorizacao-requisitos.md) | 13 PFO, 24 desfechos e 25 regras num processo só: a segunda dimensão, com seis regras de fraude sob um código único |
 
 ### Uso rápido
 

@@ -110,10 +110,13 @@ dimensão com a mesma disciplina do PFO e a reporta sempre à parte.
 
 > **RC-05 — Suplemento D (decisões)**
 >
-> a) **D1, desfechos distintos:** número de resultados distintos que o processo pode
->    produzir para o usuário funcional: o desfecho principal, cada variante de sucesso com
->    efeito diferente e cada código ou mensagem de recusa ou erro de negócio distinto.
->    Códigos técnicos de autenticação, autorização e infraestrutura não contam (RI-10).
+> a) **D1, desfechos distintos:** número de resultados que o processo pode produzir para o
+>    usuário funcional, distinguíveis na fronteira por um teste de aceite: o desfecho
+>    principal, cada variante de sucesso com efeito diferente e cada recusa ou erro de
+>    negócio distinto por código, por mensagem ou, sob o mesmo código, pela condição de
+>    entrada que o dispara, desde que declarada na fonte. Desfecho que só a condição
+>    distingue é marcado `oculto` no modelo e informado à parte no relatório. Códigos
+>    técnicos de autenticação, autorização e infraestrutura não contam (RI-10).
 >
 > b) **D2, regras declaradas:** número de regras de negócio enumeradas na fonte que
 >    validam, restringem, mudam estado ou calculam, inclusive cada atributo derivado por
@@ -125,8 +128,9 @@ dimensão com a mesma disciplina do PFO e a reporta sempre à parte.
 > d) D1 e D2 são reportados por processo e no total, ao lado do PFO, e **nunca** somados a
 >    ele. Processos sem o bloco aparecem como "n/d" e ficam fora das médias.
 >
-> e) Enquanto a organização não fixar uma das bases, as duas são registradas; o capítulo
->    12 compara as duas contra os critérios de objetividade e resistência a inflar.
+> e) A base contratual é D1. D2 é registrada ao lado, como diagnóstico, até que
+>    concordância entre medições e regressão sobre o histórico confirmem D1; o capítulo
+>    12 fundamenta a escolha pelos critérios de objetividade e resistência a inflar.
 
 O relatório mantém, a título informativo, a derivação por atributos (processo cujas
 saídas ou gravações têm atributo ausente das entradas e leituras), que corresponde ao

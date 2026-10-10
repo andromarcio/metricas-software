@@ -291,19 +291,39 @@
           },
           {
             "id": "CONVITE_EMAIL_ACTIVE",
-            "descricao": "e-mail já ativo ou convite pendente",
+            "descricao": "e-mail já ativo na organização",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
           },
           {
+            "id": "CONVITE_EMAIL_ACTIVE/2",
+            "descricao": "convite pendente para o e-mail",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true,
+            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "perfil de outra conta ou inexistente",
+            "descricao": "perfil de outra conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "perfil inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true,
+            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
           },
           {
             "id": "VALIDATION_ERROR",
@@ -444,11 +464,21 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "usuário ou perfil fora da conta",
+            "descricao": "usuário fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "perfil fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ],
+            "oculto": true,
+            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
           }
         ],
         "regras": [
@@ -945,11 +975,21 @@
           },
           {
             "id": "CONVITE_INVALID",
-            "descricao": "convite fora de pendente ou e-mail divergente",
+            "descricao": "convite fora de pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
+          },
+          {
+            "id": "CONVITE_INVALID/2",
+            "descricao": "e-mail divergente do convite",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true,
+            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
           },
           {
             "id": "RESOURCE_NOT_FOUND",
@@ -961,11 +1001,21 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "senha ou nome fora do padrão",
+            "descricao": "senha fora do padrão",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "nome fora do padrão",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true,
+            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
           }
         ],
         "regras": [

@@ -81,15 +81,24 @@
           },
           {
             "id": "CONVITE_INVALID",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "convite fora de PENDENTE",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
           },
           {
+            "id": "CONVITE_INVALID/2",
+            "descricao": "e-mail divergente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "código inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
@@ -97,11 +106,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "senha",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "nome fora do padrão",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -258,7 +276,7 @@
           },
           {
             "id": "USUARIO_LAST_ADMIN",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "último Administrador ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
@@ -266,11 +284,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "perfil fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -381,23 +408,41 @@
           },
           {
             "id": "CONVITE_EMAIL_ACTIVE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "e-mail já ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE/2",
+            "descricao": "convite pendente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil de outra conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
           },
           {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "e-mail fora do formato",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
@@ -529,7 +574,7 @@
           },
           {
             "id": "USUARIO_LAST_ADMIN",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "último Administrador ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
@@ -537,7 +582,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
@@ -636,7 +681,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "parâmetros fora do domínio",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
@@ -743,7 +788,7 @@
           },
           {
             "id": "USUARIO_NOT_INACTIVE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "situação diferente de Inativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
@@ -751,7 +796,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"

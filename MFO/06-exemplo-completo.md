@@ -190,7 +190,8 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 
 O relatório segue com a seção **Produção** (modo de produção, aceite e indicadores de
 alavancagem e custo), descrita no capítulo 9. Com o bloco `decisoes` registrado, a tabela
-ganha as colunas D1 e D2 (capítulo 12): na v1, 21 desfechos e 15 regras ao lado dos 51 PFO.
+ganha as colunas D1 e D2 (capítulo 12): na v1, 23 desfechos, dois deles distinguíveis só pela
+condição de entrada, e 15 regras ao lado dos 51 PFO.
 
 Leitura do perfil: densidade alta (5,67) para um sistema de cadastro, puxada pelos dois
 processos de atraso, que cruzam quatro entidades. O suplemento D aponta exatamente os

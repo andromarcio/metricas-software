@@ -3,7 +3,7 @@
   "software": "Autorizador de cartão (exemplo hipotético)",
   "versao": "ilustrativo",
   "proposito": "Comparar as duas dimensões da MFO, movimentos e decisões, num processo de alta complexidade de regras",
-  "escopo": "Um único processo: RF-01 Autorizar compra (doméstica e internacional, sem token)",
+  "escopo": "Um único processo: RF-01 Autorizar compra (doméstica e internacional, sem token), com bloco de prevenção à fraude sob código único",
   "nivel": "R",
   "agente": {
     "tipo": "ia",
@@ -345,6 +345,66 @@
             "evidencia": [
               "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
             ]
+          },
+          {
+            "id": "59/R20",
+            "descricao": "suspeita de fraude por mais de cinco compras em dez minutos",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R21",
+            "descricao": "suspeita de fraude por países diferentes em intervalo incompatível",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R22",
+            "descricao": "suspeita de fraude por primeiro uso em categoria de alto risco acima do limiar",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R23",
+            "descricao": "suspeita de fraude por sequência de valores crescentes no mesmo estabelecimento",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R24",
+            "descricao": "suspeita de fraude por estabelecimento e dispositivo associados a fraude",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R25",
+            "descricao": "suspeita de fraude por valor igual ao limite após três recusas",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
           }
         ],
         "regras": [
@@ -490,6 +550,62 @@
             "tipo": "validacao",
             "evidencia": [
               "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R19",
+            "descricao": "toda negativa incrementa o contador de negativas do dia, sem resposta própria",
+            "tipo": "estado",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R20",
+            "descricao": "mais de cinco compras em dez minutos",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R21",
+            "descricao": "países diferentes em intervalo incompatível",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R22",
+            "descricao": "primeiro uso em categoria de alto risco acima do limiar",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R23",
+            "descricao": "sequência de valores crescentes no mesmo estabelecimento",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R24",
+            "descricao": "estabelecimento e dispositivo associados a fraude",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R25",
+            "descricao": "valor igual ao limite após três recusas",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
             ]
           }
         ]

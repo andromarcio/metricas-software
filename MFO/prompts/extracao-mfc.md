@@ -74,6 +74,14 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
    com FONTE declarada e localizador que permita abrir o artefato e confirmar (id de
    requisito, rota, símbolo com caminho, tabela/coluna, nome de tela ou mensagem).
    Sem evidência localizável: "inferido": true e "justificativa".
+8. Decisões (RC-05, capítulo 12): cada processo leva o bloco "decisoes", contado à parte e
+   nunca somado ao PFO. "desfechos" (D1, base contratual): o desfecho principal, cada
+   variante de sucesso com efeito diferente e cada recusa ou erro de negócio distinto por
+   código, por mensagem ou, sob o mesmo código, pela condição de entrada que o dispara,
+   desde que declarada na fonte; esta última leva "oculto": true. "regras" (D2,
+   diagnóstico): cada regra de negócio enumerada na fonte que valida, restringe, muda
+   estado ou calcula. Erros técnicos (RI-10) e regras de apresentação ficam fora. Cada
+   item tem "id" único na lista, "descricao" e "evidencia".
 
 ## Casos frequentes (decisões fixadas)
 - Cadastro com unicidade (CPF único): E, R (verifica), W, X MENSAGEM.
@@ -120,7 +128,15 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
         { "tipo": "W", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
         { "tipo": "X", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
         { "tipo": "X", "entidade": "MENSAGEM", "evidencia": ["<FONTE:loc>"] }
-      ]
+      ],
+      "decisoes": {
+        "desfechos": [
+          { "id": "OK", "descricao": "<desfecho principal>", "tipo": "sucesso", "evidencia": ["<FONTE:loc>"] },
+          { "id": "<CODIGO>", "descricao": "<causa da recusa>", "tipo": "recusa", "evidencia": ["<FONTE:loc>"] },
+          { "id": "<CODIGO>/2", "descricao": "<outra causa sob o mesmo código>", "tipo": "recusa", "oculto": true, "evidencia": ["<FONTE:loc>"] }
+        ],
+        "regras": [ { "id": "R1", "descricao": "<regra>", "tipo": "<validacao|limite|estado|calculo>", "evidencia": ["<FONTE:loc>"] } ]
+      }
     }
   ]
 }

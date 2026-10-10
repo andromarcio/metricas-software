@@ -408,7 +408,7 @@
           },
           "decisoes": {
             "type": "object",
-            "description": "Suplemento D (RC-05, capítulo 12): D1 = desfechos distintos observáveis pelo usuário funcional; D2 = regras declaradas que alteram o desfecho. Contados à parte, nunca somados ao PFO.",
+            "description": "Suplemento D (RC-05, capítulo 12): D1 = desfechos distinguíveis na fronteira por um teste de aceite (código, mensagem ou condição de disparo); D2 = regras declaradas. Contados à parte, nunca somados ao PFO.",
             "required": [
               "desfechos",
               "regras"
@@ -442,6 +442,10 @@
                     },
                     "justificativa": {
                       "type": "string"
+                    },
+                    "oculto": {
+                      "type": "boolean",
+                      "description": "Desfecho distinguível na fronteira apenas pela condição de entrada declarada na fonte (mesmo código ou mensagem de outro desfecho); conta em D1 e o relatório o informa à parte (RC-05 a)."
                     }
                   }
                 }

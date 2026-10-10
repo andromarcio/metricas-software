@@ -146,26 +146,68 @@ def limpar_entidade(nome):
 CODIGOS_TECNICOS = re.compile(r"^(AUTH_|INTERNAL|RATE_|SERVICE_UNAVAILABLE|TIMEOUT)", re.I)
 
 
+SEPARADORES_CAUSA = re.compile(r"\s+ou\s+|\s*/\s*|\s*,\s*")
+SEPARADORES_CODIGO = re.compile(r"\s*[·,/]\s*|\s+ou\s+")
+
+
+def causas_de(situ):
+    """Causas distintas de uma célula 'Situação': enumeração por vírgula, 'ou' ou barra. Texto entre
+    parênteses é explicação e o que segue ponto e vírgula é nota; nenhum dos dois separa causa."""
+    base = re.sub(r"\([^)]*\)", "", situ.split(";")[0])
+    itens = []
+    for x in SEPARADORES_CAUSA.split(base):
+        x = re.sub(r"^(ou|e)\s+", "", x.strip(" .,;:—-"))
+        if x and norm(x) not in {norm(i) for i in itens}:
+            itens.append(x)
+    return itens
+
+
 def decisoes_n3(sec, fm, ev):
-    """D1: um desfecho principal mais cada código de erro distinto da tabela de erros de ## API e do
-    front-matter (códigos técnicos de autenticação e infraestrutura excluídos, RI-10).
+    """D1: um desfecho principal mais cada causa de recusa distinguível na tabela de erros de ## API
+    (RC-05 a): uma causa por código e, sob um mesmo código, uma por condição de disparo enumerada na
+    situação ("usuário ou perfil fora da conta" vale duas, a segunda marcada como oculta: só o teste a
+    distingue). Célula com vários códigos ("A · B" com "x / y") pareia código e causa. Códigos do
+    front-matter sem linha na tabela entram uma vez. Códigos técnicos de autenticação e infraestrutura
+    ficam fora (RI-10).
     D2: cada item numerado de ## Regras de negócio e cada linha de ## Derivações."""
     desfechos = [{"id": "OK", "descricao": "desfecho principal", "evidencia": [ev("Cenários" if "Cenários" in sec else "Descrição")]}]
-    codigos = []
+    vistos = set()
+
+    def registrar(codigo, causa, oculto):
+        chave = (codigo, norm(causa))
+        if chave in vistos:
+            return
+        vistos.add(chave)
+        n = sum(1 for c, _ in vistos if c == codigo)
+        ident = codigo if n == 1 else f"{codigo}/{n}"
+        desfechos.append({"id": ident, "descricao": causa[:120], "tipo": "recusa", "evidencia": [ev("API")],
+                          **({"oculto": True} if oculto else {})})
+
     for cab, corpo in tabelas(sec.get("API", "")):
-        ic = coluna(cab, "code", "codigo", "código")
+        ic, isit = coluna(cab, "code", "codigo", "código"), coluna(cab, "situacao", "situação", "quando")
         if ic < 0 or coluna(cab, "http") < 0:
             continue
         for r in corpo:
-            if ic < len(r):
-                c = re.sub(r"[`*⚠️ ]", "", r[ic]).split("(")[0].strip()
-                if c and c not in codigos and not CODIGOS_TECNICOS.match(c):
-                    codigos.append(c)
+            if ic >= len(r):
+                continue
+            cel = re.sub(r"[`*⚠️]", "", r[ic]).split("(")[0]
+            codigos = [c.strip() for c in SEPARADORES_CODIGO.split(cel) if c.strip() and not CODIGOS_TECNICOS.match(c.strip())]
+            if not codigos:
+                continue
+            situ = r[isit].strip() if 0 <= isit < len(r) else ""
+            causas = causas_de(situ) or [situ or "recusa ou erro de negócio"]
+            if len(codigos) > 1:
+                for i, c in enumerate(codigos):
+                    registrar(c, causas[i] if len(causas) == len(codigos) else situ, False)
+                continue
+            for k, causa in enumerate(causas):
+                registrar(codigos[0], causa, k > 0)
+    codigos = {c for c, _ in vistos}
     for c in fm.get("error_codes") or []:
         c = str(c).strip()
         if c and c not in codigos and not CODIGOS_TECNICOS.match(c):
-            codigos.append(c)
-    desfechos += [{"id": c, "descricao": "recusa ou erro de negócio", "tipo": "recusa", "evidencia": [ev("API")]} for c in codigos]
+            codigos.add(c)
+            desfechos.append({"id": c, "descricao": "recusa ou erro de negócio", "tipo": "recusa", "evidencia": [ev("API")]})
     regras = []
     for m in re.finditer(r"(?m)^\s*(\d+)\.\s+(.+)$", sec.get("Regras de negócio", "")):
         regras.append({"id": f"R{m.group(1)}", "descricao": m.group(2).strip()[:120], "evidencia": [ev("Regras de negócio")]})

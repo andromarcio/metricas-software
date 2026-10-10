@@ -801,12 +801,22 @@
           },
           {
             "id": "LEITOR_INATIVO",
-            "descricao": "leitor inexistente ou inativo",
+            "descricao": "leitor inexistente",
             "tipo": "recusa",
             "evidencia": [
               "REQ:RF-06",
               "COD:v1/biblioteca/servicos.py#Leitor inexistente ou inativo"
             ]
+          },
+          {
+            "id": "LEITOR_INATIVO/2",
+            "descricao": "leitor inativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Leitor inexistente ou inativo"
+            ],
+            "oculto": true
           },
           {
             "id": "LIVRO_INEXISTENTE",
@@ -987,12 +997,22 @@
           },
           {
             "id": "NAO_ATIVO",
-            "descricao": "empréstimo não encontrado ou já devolvido",
+            "descricao": "empréstimo não encontrado",
             "tipo": "recusa",
             "evidencia": [
               "REQ:RF-07",
               "COD:v1/biblioteca/servicos.py#já devolvido"
             ]
+          },
+          {
+            "id": "NAO_ATIVO/2",
+            "descricao": "empréstimo já devolvido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ],
+            "oculto": true
           }
         ],
         "regras": [

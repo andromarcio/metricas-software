@@ -11,10 +11,11 @@
 | **Armazenamento persistente** | Qualquer meio em que dados sobrevivem ao término de um processo e podem ser lidos por outro: banco de dados, arquivo, memória não volátil. |
 | **Chave de movimento** | Tripla (processo, tipo, entidade) que identifica um movimento. Cada chave vale 1 PFO. |
 | **Concordância (índice de)** | Razão entre chaves comuns e chaves totais de dois modelos do mesmo software (seção 4.4). |
-| **D1, desfechos distintos** | Resultados distintos que um processo pode produzir para o usuário funcional: desfecho principal, variantes de sucesso e cada código ou mensagem de recusa de negócio (RC-05 a, capítulo 12). |
-| **D2, regras declaradas** | Regras de negócio enumeradas na fonte que validam, restringem, mudam estado ou calculam (RC-05 b, capítulo 12). |
+| **D1, desfechos distintos** | Resultados que um processo pode produzir para o usuário funcional, distinguíveis na fronteira por um teste de aceite: por código, por mensagem ou, sob o mesmo código, pela condição de entrada declarada na fonte que os dispara (RC-05 a, capítulo 12). Base contratual do suplemento D. |
+| **D2, regras declaradas** | Regras de negócio enumeradas na fonte que validam, restringem, mudam estado ou calculam (RC-05 b, capítulo 12). Registrada como diagnóstico ao lado de D1. |
 | **Decisão** | Condição sobre dados de negócio que muda o desfecho de um processo; a segunda dimensão da MFO, contada à parte do PFO (capítulo 12). |
 | **Derivação** | Indicador informativo: processo cujas saídas ou gravações contêm atributo ausente das entradas e leituras. |
+| **Desfecho oculto** | Desfecho que só a condição de disparo distingue de outro com o mesmo código ou mensagem; conta em D1, é marcado `oculto` no modelo e informado à parte no relatório (RC-05 a). |
 | **Densidade** | PFO dividido pelo número de processos. |
 | **DISPARO** | Entidade reservada para o movimento E de um disparador sem atributos de entidade. |
 | **Disparador** | Evento percebido por um usuário funcional que inicia um processo, com o usuário funcional que o gera. |

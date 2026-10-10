@@ -418,19 +418,23 @@ def indicadores_producao(pm, pfo_produzidos):
 
 
 def decisoes_de(p):
-    """(D1, D2) do processo: número de desfechos e de regras declaradas; None quando não registrado."""
+    """(D1, D2, ocultos) do processo: desfechos distinguíveis na fronteira, regras declaradas e, entre os
+    desfechos, quantos só um teste separa (mesmo código ou mensagem, condição de disparo distinta).
+    None quando não registrado."""
     dec = p.get("decisoes")
     if not isinstance(dec, dict):
-        return None, None
-    return len(dec.get("desfechos") or []), len(dec.get("regras") or [])
+        return None, None, None
+    desf = dec.get("desfechos") or []
+    return len(desf), len(dec.get("regras") or []), sum(1 for d in desf if isinstance(d, dict) and d.get("oculto") is True)
 
 
 def resumo_decisoes(linhas):
     com = [l for l in linhas if l["d1"] is not None]
-    return {"D1": sum(l["d1"] for l in com), "D2": sum(l["d2"] for l in com),
+    d1, d2, oc = sum(l["d1"] for l in com), sum(l["d2"] for l in com), sum(l["ocultos"] for l in com)
+    return {"D1": d1, "D2": d2, "D1_ocultos": oc, "D1_visiveis": d1 - oc,
             "processos_com_registro": len(com), "processos_sem_registro": len(linhas) - len(com),
-            "D1_por_processo": (sum(l["d1"] for l in com) / len(com)) if com else None,
-            "D2_por_processo": (sum(l["d2"] for l in com) / len(com)) if com else None}
+            "D1_por_processo": (d1 / len(com)) if com else None,
+            "D2_por_processo": (d2 / len(com)) if com else None}
 
 
 def contar(modelo):
@@ -451,12 +455,12 @@ def contar(modelo):
             d_sim += 1
         elif d is None:
             d_nd += 1
-        d1, d2 = decisoes_de(p)
+        d1, d2, ocultos = decisoes_de(p)
         linhas.append({
             "id": p["id"], "nome": p.get("nome", ""),
             "E": tipos["E"], "X": tipos["X"], "R": tipos["R"], "W": tipos["W"],
             "pfo": pfo, "derivacao": d, "evidenciados": ev, "inferidos": inf,
-            "modo": modo_de(p), "aceite": status_aceite_de(p), "d1": d1, "d2": d2,
+            "modo": modo_de(p), "aceite": status_aceite_de(p), "d1": d1, "d2": d2, "ocultos": ocultos,
         })
         pfo_por_processo[p["id"]] = pfo
         total_tipos.update(tipos)
@@ -578,7 +582,8 @@ def relatorio_md(rel):
     dz = rel.get("decisoes") or {}
     if dz.get("processos_com_registro"):
         sem = f" · {dz['processos_sem_registro']} processos sem registro" if dz["processos_sem_registro"] else ""
-        out.append(f"**Decisões (suplemento D):** D1 = {dz['D1']} desfechos · D2 = {dz['D2']} regras{sem}\n")
+        oc = f" (dos quais {dz['D1_ocultos']} só um teste distingue)" if dz.get("D1_ocultos") else ""
+        out.append(f"**Decisões (suplemento D):** D1 = {dz['D1']} desfechos{oc} · D2 = {dz['D2']} regras{sem}\n")
     out.append(f"**Propósito:** {rel['proposito']}\n")
     out.append("## Perfil funcional\n")
     out.append("| Indicador | Valor |\n|---|---|")
@@ -595,7 +600,8 @@ def relatorio_md(rel):
     out.append(f"| Derivação (processos com atributo calculado) | {d_txt} |")
     dz = rel.get("decisoes") or {}
     if dz.get("processos_com_registro"):
-        out.append(f"| D1 desfechos (RC-05) | {dz['D1']} · {fmt_num(dz['D1_por_processo'])} por processo |")
+        oc = f" · {dz['D1_visiveis']} visíveis por código ou mensagem, {dz['D1_ocultos']} só por teste" if dz.get("D1_ocultos") else ""
+        out.append(f"| D1 desfechos (RC-05) | {dz['D1']} · {fmt_num(dz['D1_por_processo'])} por processo{oc} |")
         out.append(f"| D2 regras declaradas (RC-05) | {dz['D2']} · {fmt_num(dz['D2_por_processo'])} por processo |")
     out.append("\n## Processos\n")
     com_prod = rel["producao"]["declarado"]

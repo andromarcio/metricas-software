@@ -28,6 +28,18 @@ A rede ou adquirente envia a mensagem de autorização (dados do cartão, valor,
 16. A reserva de limite é igual ao valor autorizado (cálculo).
 17. Transação repetida (mesmo identificador na janela de duplicidade) é recusada.
 18. O canal da compra (presencial, não presencial) deve estar habilitado para o cartão.
+19. Toda negativa incrementa o contador de negativas do cartão no dia, sem resposta própria (regra de estado).
+
+### Regras de prevenção à fraude
+
+Todas respondem com o mesmo código 59, por decisão de segurança: a rede e o portador não devem saber qual regra recusou. Cada regra tem teste de aceite próprio, com a entrada que a dispara.
+
+20. Mais de cinco compras em dez minutos no mesmo cartão.
+21. Compras em países diferentes com intervalo incompatível com deslocamento.
+22. Primeiro uso do cartão em categoria de alto risco com valor acima do limiar.
+23. Sequência de valores crescentes no mesmo estabelecimento em uma hora (teste de cartão).
+24. Estabelecimento e dispositivo presentes na lista de associação a fraude.
+25. Valor exatamente igual ao limite disponível após três recusas por limite.
 
 ### Códigos de resposta à rede
 
@@ -47,7 +59,7 @@ A rede ou adquirente envia a mensagem de autorização (dados do cartão, valor,
 | 88 | criptograma inválido |
 | 55 | senha inválida |
 | 75 | tentativas de senha excedidas |
-| 59 | suspeita de fraude |
+| 59 | suspeita de fraude (score acima do limiar e qualquer regra de prevenção, 20 a 25) |
 | 94 | transação duplicada |
 | 58 | canal não permitido |
 | 30 | erro de formato |

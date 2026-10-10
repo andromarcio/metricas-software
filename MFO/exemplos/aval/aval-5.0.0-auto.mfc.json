@@ -172,7 +172,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "filtro fora do domínio",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/auditoria/f-pesquisar-auditoria.md#API"
@@ -452,11 +452,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "campos",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/conta/f-criar-conta.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "política de senha",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-criar-conta.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -602,11 +611,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "senha fora da política",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/conta/f-recuperar-senha.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "confirmação divergente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/conta/f-recuperar-senha.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -808,7 +826,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta sem vínculo ativo da pessoa",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/conta/f-trocar-conta.md#API"
@@ -816,7 +834,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "contaId inválido",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/conta/f-trocar-conta.md#API"
@@ -964,7 +982,7 @@
           },
           {
             "id": "CONEXAO_GITHUB_INSTALL_FAILED",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "verificação falhou",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/integracoes/f-configurar-conexao-github.md#API"
@@ -1221,7 +1239,7 @@
           },
           {
             "id": "MODELO_IA_NAO_SUPORTADO",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "modelo fora da lista suportada",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#API"
@@ -1229,7 +1247,7 @@
           },
           {
             "id": "ETAPA_DESCONHECIDA",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "chave de etapa fora do roteiro",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md#API"
@@ -1370,7 +1388,7 @@
           },
           {
             "id": "CONTA_IDENTIFICADOR_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador em uso",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#API"
@@ -1378,7 +1396,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "campos fora do padrão",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/organizacao/f-alterar-organizacao.md#API"
@@ -1488,7 +1506,7 @@
           },
           {
             "id": "CONTA_IDENTIFICADOR_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador em uso",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/organizacao/f-criar-organizacao.md#API"
@@ -1496,7 +1514,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "campos fora do padrão",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/organizacao/f-criar-organizacao.md#API"
@@ -1760,7 +1778,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "funcionalidade inexistente no catálogo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-ativar-funcionalidade.md#API"
@@ -1870,7 +1888,7 @@
           },
           {
             "id": "PERFIL_ADMIN_IMMUTABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil com acessoTotal não recebe concessão manual",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#API"
@@ -1878,11 +1896,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "funcionalidade inexistentes",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-conceder-funcionalidade.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -2020,7 +2047,7 @@
           },
           {
             "id": "PERFIL_NAME_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "nome duplicado na conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-criar-perfil.md#API"
@@ -2137,7 +2164,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "funcionalidade inexistente no catálogo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-desativar-funcionalidade.md#API"
@@ -2261,7 +2288,7 @@
           },
           {
             "id": "PERFIL_ADMIN_IMMUTABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil com acessoTotal não tem vínculo revogável",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#API"
@@ -2269,11 +2296,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "funcionalidade inexistentes",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/perfis/f-revogar-funcionalidade.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -2403,7 +2439,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta de outra sessão",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/perfis/f-visualizar-matriz-de-perfis.md#API"
@@ -2531,15 +2567,24 @@
           },
           {
             "id": "CONVITE_INVALID",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "convite fora de PENDENTE",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
           },
           {
+            "id": "CONVITE_INVALID/2",
+            "descricao": "e-mail divergente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "código inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
@@ -2547,11 +2592,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "senha",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "nome fora do padrão",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -2718,7 +2772,7 @@
           },
           {
             "id": "USUARIO_LAST_ADMIN",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "último Administrador ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
@@ -2726,11 +2780,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "perfil fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -2847,23 +2910,41 @@
           },
           {
             "id": "CONVITE_EMAIL_ACTIVE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "e-mail já ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE/2",
+            "descricao": "convite pendente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil de outra conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
             ]
           },
           {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "e-mail fora do formato",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
@@ -3002,7 +3083,7 @@
           },
           {
             "id": "USUARIO_LAST_ADMIN",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "último Administrador ativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
@@ -3010,7 +3091,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
@@ -3113,7 +3194,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "parâmetros fora do domínio",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
@@ -3225,7 +3306,7 @@
           },
           {
             "id": "USUARIO_NOT_INACTIVE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "situação diferente de Inativo",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
@@ -3233,7 +3314,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "usuário fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
@@ -4298,11 +4379,29 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/agentes/execucao/f-gerar-prototipo.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/3",
+            "descricao": "que não é Protótipo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/agentes/execucao/f-gerar-prototipo.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -4616,7 +4715,7 @@
           },
           {
             "id": "ESTEIRA_ALREADY_RUNNING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "máx. uma esteira em execução por demanda",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
@@ -4624,7 +4723,7 @@
           },
           {
             "id": "SISTEMA_REPOSITORIES_MISSING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "repositórios não configurados",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
@@ -4632,11 +4731,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "demanda inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-esteira.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -4769,23 +4877,7 @@
           },
           {
             "id": "DEMANDA_FEATURE_ALREADY_RUNNING",
-            "descricao": "recusa ou erro de negócio",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
-            ]
-          },
-          {
-            "id": "DEMANDA_FEATURE_NOT_APPROVED·VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "feature em demanda em andamento",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
@@ -4793,7 +4885,23 @@
           },
           {
             "id": "DEMANDA_FEATURE_NOT_APPROVED",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "aval pendente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "payload inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "sistema fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-iniciar-execucao-do-acervo.md#API"
@@ -4920,11 +5028,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "descrição ausente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/intake/f-registrar-demanda.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "limites de campo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/intake/f-registrar-demanda.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5041,7 +5158,7 @@
           },
           {
             "id": "DEMANDA_NOT_CANCELABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "demanda já terminou",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
@@ -5049,7 +5166,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "motivo ausente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
@@ -5057,11 +5174,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "demanda inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/demandas/painel/f-cancelar-demanda.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5349,11 +5475,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "demanda inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-acompanhar-esteira.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5500,11 +5635,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5634,11 +5778,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5782,11 +5935,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-analise-impacto.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -5940,11 +6102,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6077,11 +6248,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-codificacao.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6221,11 +6401,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-implantacao.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6335,11 +6524,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6507,11 +6705,29 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/3",
+            "descricao": "que não é Protótipo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-prototipo.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6620,11 +6836,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-requisitos.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6750,11 +6975,20 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#API"
             ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -6880,15 +7114,42 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "gate dispensado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
             ]
           },
           {
+            "id": "ETAPA_NOT_PENDING/2",
+            "descricao": "decidido",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "ETAPA_NOT_PENDING/3",
+            "descricao": "escopo com furo de cobertura",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "ETAPA_NOT_PENDING/4",
+            "descricao": "item a eliciar",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "não é o PO",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
@@ -6896,7 +7157,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-escopo.md#API"
@@ -7047,7 +7308,7 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa não pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
@@ -7055,7 +7316,7 @@
           },
           {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil não é o aprovador",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
@@ -7063,7 +7324,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-etapa.md#API"
@@ -7191,7 +7452,7 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa não pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#API"
@@ -7199,7 +7460,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-feature.md#API"
@@ -7306,7 +7567,7 @@
           },
           {
             "id": "ETAPA_FEATURES_NOT_APPROVED",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "features pendentes",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
@@ -7314,15 +7575,24 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "gate dispensado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
             ]
           },
           {
+            "id": "ETAPA_NOT_PENDING/2",
+            "descricao": "decidido",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "não é o PO",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-aprovar-historia.md#API"
@@ -7457,7 +7727,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "aceite ausente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
@@ -7465,7 +7735,7 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sem pendência aberta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
@@ -7473,7 +7743,7 @@
           },
           {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil não é o aprovador",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
@@ -7481,7 +7751,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-autorizar-implantacao.md#API"
@@ -7609,15 +7879,24 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "validação técnica pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
             ]
           },
           {
+            "id": "ETAPA_NOT_PENDING/2",
+            "descricao": "já homologada",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "não é o PO",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
@@ -7625,7 +7904,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-homologar-entrega.md#API"
@@ -7845,15 +8124,24 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "destino",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
             ]
           },
           {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "justificativa inválidos",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sem pendência aberta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
@@ -7861,7 +8149,7 @@
           },
           {
             "id": "ETAPA_APPROVER_MISMATCH",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "perfil não é o aprovador",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
@@ -7869,7 +8157,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "ETag desatualizado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md#API"
@@ -7990,7 +8278,7 @@
           },
           {
             "id": "ETAPA_SEM_ESCLARECIMENTOS",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa sem perguntas abertas",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
@@ -7998,7 +8286,7 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa não pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
@@ -8006,7 +8294,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "resposta em branco",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
@@ -8014,7 +8302,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "decisão concorrente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-responder-esclarecimentos.md#API"
@@ -8155,7 +8443,7 @@
           },
           {
             "id": "ETAPA_NOT_PENDING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa não pendente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#API"
@@ -8163,7 +8451,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "decisão concorrente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/esteira/aprovacoes/f-solicitar-ajustes.md#API"
@@ -8277,7 +8565,7 @@
           },
           {
             "id": "CONTA_IDENTIFICADOR_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador já usado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-criar-organizacao-operador.md#API"
@@ -8411,15 +8699,24 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "teto",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#API"
             ]
           },
           {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "percentual inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-definir-limites-de-consumo.md#API"
@@ -8532,7 +8829,7 @@
           },
           {
             "id": "CONTA_IDENTIFICADOR_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador já usado",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#API"
@@ -8540,7 +8837,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-editar-organizacao-operador.md#API"
@@ -8653,7 +8950,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-entrar-como.md#API"
@@ -8963,7 +9260,7 @@
           },
           {
             "id": "CONTA_NOT_SUSPENDED",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta não está suspensa",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#API"
@@ -8971,7 +9268,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-reativar-conta.md#API"
@@ -9084,7 +9381,7 @@
           },
           {
             "id": "CONTA_NOT_SUSPENDABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta já suspensa",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#API"
@@ -9092,7 +9389,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "conta inexistente",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/operacao/gestao-contas/f-suspender-conta.md#API"
@@ -9226,7 +9523,7 @@
           },
           {
             "id": "SISTEMA_REPOSITORIES_MISSING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sem repositório de documentação",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
@@ -9234,7 +9531,7 @@
           },
           {
             "id": "GITHUB_APP_UNAVAILABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "GitHub fora do ar",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
@@ -9242,7 +9539,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-catalogo-de-features.md#API"
@@ -9376,7 +9673,7 @@
           },
           {
             "id": "SISTEMA_REPOSITORIES_MISSING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sem repositório de documentação",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
@@ -9384,7 +9681,7 @@
           },
           {
             "id": "GITHUB_APP_UNAVAILABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "GitHub fora do ar",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
@@ -9392,7 +9689,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/acervo/f-visualizar-mapa-de-features.md#API"
@@ -9519,7 +9816,7 @@
           },
           {
             "id": "FIELD_IMMUTABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador no body",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#API"
@@ -9527,7 +9824,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema de outra conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-alterar-sistema.md#API"
@@ -9641,7 +9938,7 @@
           },
           {
             "id": "SISTEMA_IDENTIFIER_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "identificador duplicado na conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-cadastrar-sistema.md#API"
@@ -9834,8 +10131,16 @@
             ]
           },
           {
-            "id": "CONEXAO_GITHUB_REPO_PERMISSION_MISSING·CONEXAO_GITHUB_INACTIVE",
-            "descricao": "recusa ou erro de negócio",
+            "id": "CONEXAO_GITHUB_REPO_PERMISSION_MISSING",
+            "descricao": "conexão ausente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
+            ]
+          },
+          {
+            "id": "CONEXAO_GITHUB_INACTIVE",
+            "descricao": "limitada",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
@@ -9843,7 +10148,7 @@
           },
           {
             "id": "RESOURCE_VERSION_CONFLICT",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "proposta desatualizada no aval",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
@@ -9851,15 +10156,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
-            ]
-          },
-          {
-            "id": "CONEXAO_GITHUB_REPO_PERMISSION_MISSING",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "entrevista incompleta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-preparar-sistema.md#API"
@@ -10183,7 +10480,7 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "confirmação não confere",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#API"
@@ -10191,7 +10488,7 @@
           },
           {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "destino fora do vínculo do autor",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/cadastro/f-transferir-sistema.md#API"
@@ -10322,11 +10619,20 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "etapa",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#API"
             ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "perfil inválidos",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-aprovadores.md#API"
+            ],
+            "oculto": true
           }
         ],
         "regras": [
@@ -10446,15 +10752,24 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "combinação",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#API"
             ]
           },
           {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "enum inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-estrategia.md#API"
@@ -10577,15 +10892,24 @@
           },
           {
             "id": "VALIDATION_ERROR",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "condicionais ausentes",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#API"
             ]
           },
           {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "URL inválida",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#API"
+            ],
+            "oculto": true
+          },
+          {
             "id": "RESOURCE_NOT_FOUND",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "sistema fora da conta",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md#API"
@@ -10701,7 +11025,7 @@
           },
           {
             "id": "REPOSITORIO_UNREACHABLE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "repositório inacessível pela App",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#API"
@@ -10709,7 +11033,7 @@
           },
           {
             "id": "REPOSITORIO_DUPLICATE",
-            "descricao": "recusa ou erro de negócio",
+            "descricao": "repetido no sistema",
             "tipo": "recusa",
             "evidencia": [
               "DOC:modules/sistemas/configuracoes/f-configurar-repositorios.md#API"

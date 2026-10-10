@@ -26,7 +26,7 @@ mapeiam-se para o modelo canônico assim:
 | `## API` (resposta 2xx, tabela de erros) e `## Colunas do resultado` | X e X MENSAGEM | RM-05 e RM-06: consulta devolve X da entidade principal; EE devolve X quando a resposta traz `data`; erros = X MENSAGEM |
 | `## Métricas de tamanho` (Papel principal ou acessório) | um processo por elementar principal; acessório = R + X dentro do processo | RM-07 (combobox, card e menu não são processos, RI-04 b) |
 | `## Eventos › Publicados` | não conta: consumidores internos (RC-04 b) | RM-08 |
-| tabela de erros da `## API`, `error_codes`, `## Regras de negócio`, `## Derivações` | decisões D1 e D2 (capítulo 12) | RM-09: D1 = desfecho principal mais um por código de erro de negócio; D2 = um por regra numerada e por derivação |
+| tabela de erros da `## API`, `error_codes`, `## Regras de negócio`, `## Derivações` | decisões D1 e D2 (capítulo 12) | RM-09: D1 = desfecho principal mais uma causa por código de erro de negócio e, sob o mesmo código, por condição enumerada na situação (marcada oculta); D2 = um por regra numerada e por derivação |
 
 A tabela é implementada por [`ferramentas/extrair_n3.py`](ferramentas/extrair_n3.py),
 um extrator determinístico (agente do tipo `ferramenta`): sem modelo de linguagem, sem
@@ -134,13 +134,17 @@ e a concordância entre extração mecânica e leitura tenderia a 1.
 
 ## 10.4a Decisões no Aval
 
-A extração mecânica também conta a segunda dimensão (capítulo 12, RM-09): D1 pelos
-códigos da tabela de erros da `## API` mais o desfecho principal, D2 pelos itens de
-`## Regras de negócio` e de `## Derivações`. No Aval 5.0.0, 77 processos têm o registro
-(os 8 processos elementares secundários não): D1 = 195 desfechos, D2 = 285 regras,
-medianas de 2 e 3 por processo, máximos de 5 e 9. Em Usuários, a extração mecânica deu
-D1 = 19 e D2 = 14 contra 21 e 14 da leitura revisada: ao contrário dos movimentos, as
-decisões já nascem em tabelas no N3 e a mecânica quase não perde nada.
+A extração mecânica também conta a segunda dimensão (capítulo 12, RM-09): D1 pela tabela
+de erros da `## API`, uma causa por código e, sob o mesmo código, uma por condição que a
+coluna de situação enumera ("usuário ou perfil fora da conta" vale duas, a segunda marcada
+como oculta), mais o desfecho principal; D2 pelos itens de `## Regras de negócio` e de
+`## Derivações`. No Aval 5.0.0, 77 processos têm o registro (os 8 processos elementares
+secundários não): D1 = 231 desfechos, dos quais 36 só a condição de disparo distingue,
+D2 = 285 regras, medianas de 3 e 3 por processo, máximos de 7 e 9. Em Usuários, a
+extração mecânica deu D1 = 24 e D2 = 14 contra 26 e 14 da leitura revisada; a diferença
+em D1 é o processo secundário de consulta do convite, que a mecânica não separa. Ao
+contrário dos movimentos, as decisões já nascem em tabelas no N3 e a mecânica quase não
+perde nada.
 
 ## 10.5 Mudança entre duas versões da documentação
 
