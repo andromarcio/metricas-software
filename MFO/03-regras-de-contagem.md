@@ -129,7 +129,8 @@ para distinguir Saída Externa de Consulta Externa.
 >
 > em que `evidência` é a porcentagem de movimentos com pelo menos uma evidência (não
 > inferidos). Mudanças usam a forma `<n> PFO de mudança (<i> incluídos, <a> alterados,
-> <e> excluídos)` seguida do mesmo rótulo. O suplemento, quando reportado, vem em linha
+> <e> excluídos)` seguida do mesmo rótulo. Estimativas usam `≈ <n> PFO (estimativa
+> <E0|E1|E2>, <mín> a <máx>)` (capítulo 11). O suplemento, quando reportado, vem em linha
 > própria: `D = <n> de <NP>`.
 
 Níveis de medição:

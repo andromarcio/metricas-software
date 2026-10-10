@@ -60,6 +60,7 @@ O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da
 | Velocidade de evolução | PFO de mudança por período | mesmo software, modelos consecutivos |
 | Aderência R × C | PFO(C) / PFO(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |
 | Cobertura de testes funcional | processos com teste automatizado / NP | nível C |
+| Erro de estimativa | (PFO estimado − PFO medido) / PFO medido | estimativa rotulada e medição do mesmo escopo (capítulo 11) |
 
 Os valores de referência (taxa de entrega, custo por PFO) devem ser calibrados pela
 própria organização, como se faz com PF e PFC. A MFO não publica valores de mercado. Os

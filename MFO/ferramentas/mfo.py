@@ -10,6 +10,8 @@ Subcomandos:
   concordancia  <a.json> <b.json> [--json]         índice de concordância entre duas medições (seção 4.4)
   impacto       <modelo.json> --dirs A B | --git REPO A B   processos afetados por um diff de código (capítulo 8)
   auditar       <modelo.json> --raiz DIR [--fonte COD]     confere se cada evidência existe no código (RD-03)
+  perfis        <modelos.json...> [-o perfis.json]         PFO típico por tipo de processo a partir de modelos medidos (RE-02)
+  estimar       <backlog.json> [--perfis P] [-o modelo]    estimativa E0/E1 a partir de um backlog (RE-01, RE-03)
 
 Sem dependências externas. Python 3.8 ou superior.
 A contagem é definida apenas para modelos válidos: 'contar', 'mudanca' e 'concordancia'
@@ -19,6 +21,7 @@ import argparse
 import difflib
 import json
 import os
+import statistics
 import subprocess
 import sys
 import unicodedata
@@ -443,6 +446,7 @@ def contar(modelo):
         "perfil": perfil, "processos": linhas,
         "producao": producao, "indicadores_producao": indicadores,
         "producao_abrange": pm.get("abrange") if isinstance(pm, dict) else None,
+        "estimativa": modelo.get("estimativa"),
     }
 
 
@@ -461,6 +465,9 @@ def rotulo(modelo, pfo, evid_pct, prefixo=None):
         escopo += f" {modelo['versao']}"
     escopo += f", {modelo['escopo']}"
     cabeca = prefixo if prefixo is not None else f"{pfo} PFO"
+    est = modelo.get("estimativa")
+    if prefixo is None and isinstance(est, dict):
+        cabeca = f"≈ {est.get('pfo_calibrado', pfo)} PFO (estimativa {est.get('nivel', '?')}, {est.get('pfo_min', '?')} a {est.get('pfo_max', '?')})"
     return (f"{cabeca} · MFO {modelo['mfo']} · nível {modelo['nivel']} · evidência {evid_pct:.0f}% · "
             f"agente: {descrever_agente(modelo['agente'])} · escopo: {escopo}")
 
@@ -522,6 +529,9 @@ def relatorio_md(rel):
     out.append(f"**Rótulo:** {rel['rotulo']}\n")
     if rel["producao"]["declarado"]:
         out.append(f"**Produção:** {linha_producao(rel['producao'])}\n")
+    if rel.get("estimativa"):
+        e = rel["estimativa"]
+        out.append(f"**Estimativa:** nível {e.get('nivel')} · {e.get('pfo_min')} a {e.get('pfo_max')} PFO · base: {e.get('base')}\n")
     out.append(f"**Propósito:** {rel['proposito']}\n")
     out.append("## Perfil funcional\n")
     out.append("| Indicador | Valor |\n|---|---|")
@@ -931,6 +941,209 @@ def impacto_md(r, titulo):
 
 
 # ---------------------------------------------------------------------------
+# estimativa (capítulo 11): perfis típicos por tipo de processo e estimativa a partir de backlog
+# ---------------------------------------------------------------------------
+
+TIPOS_PROCESSO = ("criar", "alterar", "excluir", "estado", "consultar", "relatorio", "processar", "integrar", "outro")
+VERBOS = {
+    "criar": "cadastrar criar registrar incluir convidar abrir emitir lancar solicitar importar adicionar inserir",
+    "alterar": "alterar editar atualizar configurar definir trocar redefinir transferir conceder revogar preparar conduzir ajustar",
+    "excluir": "excluir remover apagar",
+    "estado": "cancelar desativar reativar ativar aprovar reprovar homologar autorizar suspender encerrar concluir iniciar aceitar responder bloquear desbloquear",
+    "consultar": "pesquisar consultar listar buscar visualizar acompanhar exibir detalhar carregar ver",
+    "relatorio": "relatorio exportar imprimir",
+    "processar": "processar gerar executar calcular notificar enviar sincronizar materializar recuperar validar",
+    "integrar": "receber publicar consumir integrar",
+}
+INTERVALO_PADRAO = {"E0": 40, "E1": 25, "E2": 10}  # ±% quando não há perfis calibrados (RE-03)
+
+
+def tipo_processo(p):
+    """Tipo declarado em 'tipo_processo' ou inferido pelo verbo que abre o nome (RE-01)."""
+    t = p.get("tipo_processo")
+    if t in TIPOS_PROCESSO:
+        return t
+    palavras = normalizar(p.get("nome", "")).split()
+    verbo = palavras[0] if palavras else ""
+    for tipo, verbos in VERBOS.items():
+        if verbo in verbos.split():
+            return tipo
+    return "outro"
+
+
+def movimentos_tipicos(tipo, principal, extras):
+    """RE-01: movimentos do perfil típico (capítulo 2, casos frequentes) para um processo
+    com entidade principal e entidades adicionais tocadas."""
+    P = principal
+    if tipo in ("criar", "alterar", "estado", "integrar", "outro"):
+        base = [("E", P), ("R", P), ("W", P), ("X", "MENSAGEM")]
+        extra = [("R", e) for e in extras]
+    elif tipo == "excluir":
+        base = [("E", P), ("W", P), ("X", "MENSAGEM")]
+        extra = [("R", e) for e in extras]           # dependentes verificados
+    elif tipo == "consultar":
+        base = [("E", P), ("R", P), ("X", P), ("X", "MENSAGEM")]
+        extra = [m for e in extras for m in (("R", e), ("X", e))]
+    elif tipo == "relatorio":
+        base = [("E", "DISPARO"), ("R", P), ("X", P), ("X", "MENSAGEM")]
+        extra = [m for e in extras for m in (("R", e), ("X", e))]
+    else:  # processar: automação disparada por evento ou relógio
+        base = [("E", "DISPARO"), ("R", P), ("W", P)]
+        extra = [("R", e) for e in extras]
+    vistos, out = set(), []
+    for m in base + extra:
+        if m not in vistos:
+            vistos.add(m)
+            out.append(m)
+    return out
+
+
+def perfis(modelos):
+    """RE-02: PFO por tipo de processo (n, mediana, p25, p75, média) a partir de modelos medidos."""
+    por_tipo = {}
+    for nome, modelo in modelos:
+        for p in modelo["processos"]:
+            por_tipo.setdefault(tipo_processo(p), []).append(len(p["movimentos"]))
+    saida = {}
+    todos = []
+    for tipo, valores in por_tipo.items():
+        v = sorted(valores)
+        todos += v
+        q = statistics.quantiles(v, n=4) if len(v) >= 2 else [v[0], v[0], v[0]]
+        saida[tipo] = {"n": len(v), "mediana": statistics.median(v), "p25": q[0], "p75": q[2],
+                       "media": statistics.mean(v), "min": v[0], "max": v[-1]}
+    v = sorted(todos)
+    q = statistics.quantiles(v, n=4) if len(v) >= 2 else [v[0], v[0], v[0]]
+    return {"origem": [nome for nome, _ in modelos], "n_processos": len(v),
+            "geral": {"n": len(v), "mediana": statistics.median(v), "p25": q[0], "p75": q[2],
+                      "media": statistics.mean(v), "min": v[0], "max": v[-1]},
+            "perfis": dict(sorted(saida.items()))}
+
+
+def perfis_md(r):
+    out = [f"# Perfis típicos — {len(r['origem'])} modelo(s), {r['n_processos']} processos\n"]
+    out.append("| Tipo de processo | n | Mediana | P25 | P75 | Média | Mín | Máx |\n|---|---|---|---|---|---|---|---|")
+    for tipo, v in r["perfis"].items():
+        out.append(f"| {tipo} | {v['n']} | {fmt_num(v['mediana'], 1)} | {fmt_num(v['p25'], 1)} | {fmt_num(v['p75'], 1)} | {fmt_num(v['media'], 1)} | {v['min']} | {v['max']} |")
+    g = r["geral"]
+    out.append(f"| **geral** | {g['n']} | {fmt_num(g['mediana'], 1)} | {fmt_num(g['p25'], 1)} | {fmt_num(g['p75'], 1)} | {fmt_num(g['media'], 1)} | {g['min']} | {g['max']} |")
+    out.append("\nOrigem: " + ", ".join(r["origem"]) + "\n")
+    return "\n".join(out)
+
+
+def _expandir_itens(itens):
+    """Item com 'crud': true vira os quatro processos de manutenção da entidade (E0)."""
+    out = []
+    for i, item in enumerate(itens, 1):
+        if item.get("crud"):
+            ent = item.get("entidade") or (item.get("entidades") or ["Entidade"])[0]
+            base_id = item.get("id") or ent
+            for sufixo, tipo, verbo in (("C", "criar", "Cadastrar"), ("A", "alterar", "Alterar"), ("E", "excluir", "Excluir"), ("L", "consultar", "Consultar")):
+                out.append({"id": f"{base_id}-{sufixo}", "nome": f"{verbo} {ent}", "tipo": tipo,
+                            "entidades": [ent] + list(item.get("extras") or [])})
+        else:
+            item = dict(item)
+            item.setdefault("id", f"I{i:02d}")
+            out.append(item)
+    return out
+
+
+def estimar(backlog, perfis_calibrados=None):
+    """RE-01 e RE-03: modelo estimado (movimentos inferidos pelo perfil típico) a partir de um backlog."""
+    nivel = backlog.get("nivel_estimativa", "E1")
+    fonte = backlog.get("fonte") or {"id": "BKL", "tipo": "requisitos", "ref": "backlog"}
+    itens = _expandir_itens(backlog.get("itens") or [])
+    entidades, processos = {}, []
+    for item in itens:
+        ents = list(item.get("entidades") or [])
+        principal = ents[0] if ents else f"Entidade-{item['id']}"
+        extras = ents[1:]
+        p = {"id": item["id"], "nome": item.get("nome") or item["id"]}
+        tipo = item.get("tipo") if item.get("tipo") in TIPOS_PROCESSO else tipo_processo(p)
+        uf = "UF-RELOGIO" if tipo == "processar" else ("UF-SISTEMA" if tipo == "integrar" else "UF-PESSOA")
+        movs = []
+        for t, e in movimentos_tipicos(tipo, principal, extras):
+            movs.append({"tipo": t, "entidade": e, "inferido": True,
+                         "justificativa": f"perfil típico '{tipo}' ({nivel}); confirmar na extração"})
+            if e not in RESERVADAS:
+                entidades.setdefault(e, []).append(item["id"])
+        processos.append({"id": item["id"], "nome": p["nome"], "tipo_processo": tipo,
+                          "disparadores": [{"usuario": uf, "evento": item.get("evento") or f"item de backlog {item['id']}"}],
+                          "evidencia": [f"{fonte['id']}:{item.get('ref') or item['id']}"],
+                          "movimentos": movs})
+    for ent in backlog.get("entidades") or []:
+        entidades.setdefault(ent, [])
+    ufs = sorted({d["usuario"] for p in processos for d in p["disparadores"]})
+    modelo = {
+        "mfo": VERSAO_METODO,
+        "software": backlog.get("software", "software"),
+        "versao": backlog.get("versao", ""),
+        "proposito": backlog.get("proposito", "Estimar o tamanho funcional a partir do backlog"),
+        "escopo": backlog.get("escopo", f"{len(processos)} itens de backlog"),
+        "nivel": "R",
+        "agente": backlog.get("agente") or {"tipo": "ferramenta", "nome": f"mfo.py estimar {VERSAO_METODO}", "revisao_humana": False},
+        "fontes": [fonte],
+        "usuarios_funcionais": [UF_ESTIMATIVA[k] for k in ("UF-PESSOA", "UF-SISTEMA", "UF-RELOGIO") if k in ufs],
+        "entidades": [{"id": e, "inferido": True, "justificativa": "citada no backlog" if not itens_ids else f"itens {', '.join(itens_ids)}"}
+                      for e, itens_ids in sorted(entidades.items())],
+        "processos": processos,
+    }
+    # entidades não referenciadas por movimento violariam V-04: só entram as tocadas
+    tocadas = {m["entidade"] for p in processos for m in p["movimentos"]}
+    modelo["entidades"] = [e for e in modelo["entidades"] if e["id"] in tocadas]
+    pfo = sum(len(p["movimentos"]) for p in processos)
+    est = {"nivel": nivel, "pfo_modelo": pfo, "fator_calibracao": 1.0, "pfo_calibrado": pfo}
+    if perfis_calibrados:
+        tipos = [p["tipo_processo"] for p in processos]
+        pf = perfis_calibrados["perfis"]
+        g = perfis_calibrados["geral"]
+        med = sum(pf.get(t, g)["mediana"] for t in tipos)
+        lo = sum(pf.get(t, g)["p25"] for t in tipos)
+        hi = sum(pf.get(t, g)["p75"] for t in tipos)
+        est.update({"fator_calibracao": (med / pfo) if pfo else 1.0, "pfo_calibrado": round(med),
+                    "pfo_min": round(lo), "pfo_max": round(hi),
+                    "base": f"perfis de {perfis_calibrados['n_processos']} processos medidos ({', '.join(perfis_calibrados['origem'])})"})
+    else:
+        pct = INTERVALO_PADRAO.get(nivel, 25)
+        est.update({"intervalo_pct": pct, "pfo_min": round(pfo * (1 - pct / 100)), "pfo_max": round(pfo * (1 + pct / 100)),
+                    "base": "perfis padrão do capítulo 11 (sem calibração local)"})
+    modelo["estimativa"] = est
+    return modelo
+
+
+UF_ESTIMATIVA = {
+    "UF-PESSOA": {"id": "UF-PESSOA", "nome": "Usuário (pessoa)", "tipo": "pessoa"},
+    "UF-SISTEMA": {"id": "UF-SISTEMA", "nome": "Sistema externo", "tipo": "sistema"},
+    "UF-RELOGIO": {"id": "UF-RELOGIO", "nome": "Agendador ou evento", "tipo": "relogio"},
+}
+
+
+def estimativa_md(modelo, medido=None):
+    e = modelo["estimativa"]
+    out = [f"# Estimativa MFO — {modelo['software']} {modelo.get('versao', '')}".rstrip() + "\n"]
+    out.append(f"**Rótulo:** {rotulo(modelo, e['pfo_calibrado'], 0.0)}\n")
+    out.append("| Indicador | Valor |\n|---|---|")
+    out.append(f"| Nível da estimativa | {e['nivel']} |")
+    out.append(f"| Processos estimados | {len(modelo['processos'])} |")
+    out.append(f"| PFO do modelo (perfis típicos) | {e['pfo_modelo']} |")
+    if e.get("fator_calibracao", 1.0) != 1.0:
+        out.append(f"| Fator de calibração | {fmt_num(e['fator_calibracao'])} |")
+        out.append(f"| PFO calibrado | **{e['pfo_calibrado']}** |")
+    out.append(f"| Intervalo | {e['pfo_min']} a {e['pfo_max']} PFO |")
+    out.append(f"| Base | {e['base']} |")
+    if medido is not None:
+        erro = abs(e["pfo_calibrado"] - medido) / medido if medido else 0
+        out.append(f"| Medido (para conferência) | {medido} PFO · erro relativo {100 * erro:.0f}% |")
+    out.append("\n## Itens\n")
+    out.append("| ID | Processo | Tipo | Entidades | PFO |\n|---|---|---|---|---|")
+    for p in modelo["processos"]:
+        ents = sorted({m["entidade"] for m in p["movimentos"] if m["entidade"] not in RESERVADAS})
+        out.append(f"| {p['id']} | {p['nome']} | {p['tipo_processo']} | {', '.join(ents)} | {len(p['movimentos'])} |")
+    out.append("\nTodos os movimentos estão marcados como inferidos (evidência 0%); a extração substitui cada um por evidência conforme os artefatos surgem.\n")
+    return "\n".join(out)
+
+
+# ---------------------------------------------------------------------------
 # linha de comando
 # ---------------------------------------------------------------------------
 
@@ -974,6 +1187,18 @@ def main(argv=None):
     s.add_argument("modelo")
     s.add_argument("--raiz", required=True, help="diretório base dos caminhos das evidências")
     s.add_argument("--fonte", action="append", help="prefixo de fonte a verificar (repetível; padrão: COD)")
+    s.add_argument("--json", action="store_true")
+
+    s = sub.add_parser("perfis", help="PFO típico por tipo de processo a partir de modelos medidos (RE-02)")
+    s.add_argument("modelos", nargs="+")
+    s.add_argument("-o", "--saida", help="grava os perfis em JSON para uso em 'estimar --perfis'")
+    s.add_argument("--json", action="store_true")
+
+    s = sub.add_parser("estimar", help="estimativa E0/E1 a partir de um backlog (RE-01, RE-03)")
+    s.add_argument("backlog")
+    s.add_argument("--perfis", help="perfis calibrados gerados por 'perfis -o'")
+    s.add_argument("--medido", help="modelo medido do mesmo escopo, para calcular o erro da estimativa")
+    s.add_argument("-o", "--saida", help="grava o modelo estimado (MFC com movimentos inferidos)")
     s.add_argument("--json", action="store_true")
 
     args = ap.parse_args(argv)
@@ -1057,6 +1282,46 @@ def main(argv=None):
         else:
             print(auditar_md(r, f"{modelo['software']} {modelo.get('versao', '')}"))
         return 1 if r["nao_encontradas"] else 0
+
+    if args.cmd == "perfis":
+        modelos = []
+        for caminho in args.modelos:
+            m = carregar(caminho)
+            exigir_valido(m, caminho)
+            modelos.append((os.path.basename(caminho), m))
+        r = perfis(modelos)
+        if args.saida:
+            with open(args.saida, "w", encoding="utf-8") as f:
+                json.dump(r, f, ensure_ascii=False, indent=2)
+        if args.json:
+            print(json.dumps(r, ensure_ascii=False, indent=2))
+        else:
+            print(perfis_md(r))
+        return 0
+
+    if args.cmd == "estimar":
+        backlog = carregar(args.backlog)
+        pc = carregar(args.perfis) if args.perfis else None
+        modelo = estimar(backlog, pc)
+        erros, _ = validar(modelo)
+        if erros:
+            print("Backlog produziu modelo inválido:", file=sys.stderr)
+            for e in erros:
+                print(f"  - {e}", file=sys.stderr)
+            return 1
+        medido = None
+        if args.medido:
+            mm = carregar(args.medido)
+            exigir_valido(mm, args.medido)
+            medido = sum(len(p["movimentos"]) for p in mm["processos"])
+        if args.saida:
+            with open(args.saida, "w", encoding="utf-8") as f:
+                json.dump(modelo, f, ensure_ascii=False, indent=2)
+        if args.json:
+            print(json.dumps(dict(modelo["estimativa"], medido=medido), ensure_ascii=False, indent=2))
+        else:
+            print(estimativa_md(modelo, medido))
+        return 0
 
     return 2
 

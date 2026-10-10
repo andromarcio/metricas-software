@@ -1,0 +1,81 @@
+{
+  "origem": [
+    "biblioteca-v1.mfc.json",
+    "adm-usr-revisado.mfc.json"
+  ],
+  "n_processos": 16,
+  "geral": {
+    "n": 16,
+    "mediana": 6.5,
+    "p25": 4.0,
+    "p75": 8.75,
+    "media": 6.75,
+    "min": 4,
+    "max": 12
+  },
+  "perfis": {
+    "alterar": {
+      "n": 2,
+      "mediana": 6.0,
+      "p25": 3.0,
+      "p75": 9.0,
+      "media": 6,
+      "min": 4,
+      "max": 8
+    },
+    "consultar": {
+      "n": 3,
+      "mediana": 6,
+      "p25": 4.0,
+      "p75": 8.0,
+      "media": 6,
+      "min": 4,
+      "max": 8
+    },
+    "criar": {
+      "n": 5,
+      "mediana": 6,
+      "p25": 4.0,
+      "p75": 8.0,
+      "media": 6,
+      "min": 4,
+      "max": 9
+    },
+    "estado": {
+      "n": 3,
+      "mediana": 8,
+      "p25": 6.0,
+      "p75": 12.0,
+      "media": 8.666666666666666,
+      "min": 6,
+      "max": 12
+    },
+    "excluir": {
+      "n": 1,
+      "mediana": 4,
+      "p25": 4,
+      "p75": 4,
+      "media": 4,
+      "min": 4,
+      "max": 4
+    },
+    "processar": {
+      "n": 1,
+      "mediana": 9,
+      "p25": 9,
+      "p75": 9,
+      "media": 9,
+      "min": 9,
+      "max": 9
+    },
+    "relatorio": {
+      "n": 1,
+      "mediana": 9,
+      "p25": 9,
+      "p75": 9,
+      "media": 9,
+      "min": 9,
+      "max": 9
+    }
+  }
+}

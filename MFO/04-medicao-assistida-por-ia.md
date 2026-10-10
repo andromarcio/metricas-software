@@ -129,6 +129,8 @@ python3 mfo.py mudanca <antes.json> <depois.json>    # tamanho da mudança (RC-0
 python3 mfo.py concordancia <a.json> <b.json>        # índice de concordância e divergências por processo
 python3 mfo.py impacto <modelo.json> --dirs A B      # processos afetados por um diff (ou --git REPO REF_A REF_B)
 python3 mfo.py auditar <modelo.json> --raiz DIR      # confere que cada evidência de código existe (RD-03)
+python3 mfo.py perfis <modelos...> -o perfis.json    # PFO típico por tipo de processo (RE-02)
+python3 mfo.py estimar <backlog.json> [--perfis P]   # estimativa E0/E1 como modelo com movimentos inferidos (RE-01)
 ```
 
 O extrator `extrair_n3.py` (capítulo 10) produz modelos a partir da estrutura de

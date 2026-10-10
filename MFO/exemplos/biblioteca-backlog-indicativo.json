@@ -1,0 +1,13 @@
+{
+  "software": "Biblioteca",
+  "versao": "1.0 (indicativa)",
+  "proposito": "Estimativa indicativa a partir das entidades do modelo conceitual, antes de qualquer lista de funcionalidades",
+  "escopo": "3 entidades mantidas (Livro, Leitor, Emprestimo) e 2 só lidas ou geradas",
+  "nivel_estimativa": "E0",
+  "fonte": { "id": "MOD", "tipo": "requisitos", "ref": "modelo conceitual de dados, reunião de 2026-01-05" },
+  "itens": [
+    { "entidade": "Livro", "crud": true },
+    { "entidade": "Leitor", "crud": true },
+    { "entidade": "Emprestimo", "crud": true, "extras": ["Leitor", "Livro"] }
+  ]
+}

@@ -35,6 +35,7 @@ grandes de software:
 | O4 | Aplicabilidade por IA | O produto da interpretação é um modelo JSON com evidências; o número sai de uma ferramenta; a reprodutibilidade é medida por índice de concordância. |
 | O5 | Comparabilidade | Rótulo obrigatório (nível, evidência, agente, escopo) e perfil funcional (distribuição E/X/R/W, densidade) além do total. |
 | O6 | Produção com IA | O tamanho não depende de quem produziu; o modo de produção (humano a IA autônoma) e o aceite são registrados por processo com evidência, e o relatório traz PFO por modo, por hora humana e por custo (capítulo 9). |
+| O7 | Estimativa | Estimar com o mesmo modelo e a mesma unidade: movimentos inferidos por perfis típicos calibráveis, níveis E0 a E2, intervalo obrigatório e convergência para a medição (capítulo 11). |
 
 ## 1.3 Princípios de projeto
 
@@ -90,6 +91,7 @@ medido à parte, é esforço, custo, modo de produção e qualidade.
 | Verificação automática | Não prevista | Não prevista | Validações V-01 a V-10, auditoria de evidências e índice de concordância |
 | Medição a partir do código | Não prevista; exige requisitos | Admite derivar RFU do software instalado | Nível C com evidência `arquivo#trecho` verificável por máquina; diff delimita e prova a mudança (capítulo 8) |
 | Produtor do software | Não distingue | Não distingue | Neutro no tamanho; modo de produção e aceite por processo (capítulo 9) |
+| Estimativa antecipada | Contagem estimativa e indicativa (NESMA), exige funções já classificadas | Dimensionamento aproximado por tamanhos médios | Mesmo modelo com movimentos inferidos; níveis E0 a E2 com intervalo; calibração por modelos medidos (capítulo 11) |
 
 ## 1.5 O que a MFO não mede
 

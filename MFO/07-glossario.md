@@ -18,6 +18,7 @@
 | **Entidade** | Grupo nomeado de atributos que descreve uma única coisa de interesse, persistida ou trocada como unidade (RI-03). |
 | **Entrada (E)** | Movimento de uma entidade de um usuário funcional para o processo (RI-05). |
 | **Escopo** | Conjunto de funcionalidades incluídas na medição (RI-01). |
+| **Estimativa (E0, E1, E2)** | Modelo canônico com movimentos inferidos por perfis típicos, rotulado por nível e com intervalo (capítulo 11): E0 a partir de entidades, E1 a partir de processos nomeados, E2 a partir de modelo parcial. |
 | **Evidência** | Referência `FONTE:localizador` que permite confirmar um elemento do modelo no artefato (RI-11). Em código, `FONTE:caminho#trecho`, verificável por máquina (RD-03). |
 | **Excedente** | PFO presentes no modelo de código sem correspondente no modelo de requisitos: produção não solicitada (RP-03). |
 | **Fonte** | Artefato declarado no modelo, com identificador e versão, de onde vêm as evidências. |
@@ -34,10 +35,11 @@
 | **Nível de medição** | Origem do modelo: R (requisitos), C (código ou sistema) ou RC (conciliado). |
 | **NP, NE** | Número de processos e número de entidades declaradas. |
 | **Perfil funcional** | Conjunto de indicadores derivados do modelo (seção 5.2). |
+| **Perfil típico** | Movimentos esperados de um processo pelo seu tipo (criar, alterar, excluir, estado, consultar, relatório, processar, integrar), usados na estimativa e calibrados por modelos medidos (RE-01, RE-02). |
 | **PFO — Ponto de Função Objetivo** | Unidade de tamanho da MFO. Um PFO por chave de movimento. |
 | **Processo** | Menor unidade de funcionalidade com disparador, efeito e autonomia (RI-04). |
 | **Rótulo** | Identificação obrigatória de um resultado (RC-06). |
 | **Saída (X)** | Movimento de uma entidade do processo para um usuário funcional (RI-06). |
 | **Usuário funcional (UF)** | Origem ou destino de dados através da fronteira: pessoa, sistema, dispositivo ou relógio (RI-02). |
 | **Validação (V-xx)** | Verificação que o modelo deve satisfazer para ser contado (seção 3.2). |
-| **Regras RD, RP e RM** | Regras do diff e do código (capítulo 8), da produção com IA (capítulo 9) e de mapeamento da estrutura N3 do siesa-engine (capítulo 10). |
+| **Regras RD, RP, RM e RE** | Regras do diff e do código (capítulo 8), da produção com IA (capítulo 9), de mapeamento da estrutura N3 do siesa-engine (capítulo 10) e de estimativa (capítulo 11). |

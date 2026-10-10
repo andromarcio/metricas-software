@@ -1,0 +1,485 @@
+{
+  "mfo": "1.0",
+  "software": "Biblioteca",
+  "versao": "1.0 (estimativa)",
+  "proposito": "Estimar o tamanho antes da especificação detalhada, a partir da lista de funcionalidades da proposta",
+  "escopo": "9 itens da proposta comercial, equivalentes a RF-01 a RF-09",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ferramenta",
+    "nome": "mfo.py estimar 1.0",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "PROP",
+      "tipo": "requisitos",
+      "ref": "proposta comercial v0.3, seção 2 (lista de funcionalidades)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-PESSOA",
+      "nome": "Usuário (pessoa)",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF-RELOGIO",
+      "nome": "Agendador ou evento",
+      "tipo": "relogio"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Emprestimo",
+      "inferido": true,
+      "justificativa": "itens P03, P06, P06, P06, P07, P07, P07, P08, P08, P09"
+    },
+    {
+      "id": "Leitor",
+      "inferido": true,
+      "justificativa": "itens P05, P05, P05, P06, P08, P08, P09"
+    },
+    {
+      "id": "Livro",
+      "inferido": true,
+      "justificativa": "itens P01, P01, P01, P02, P02, P02, P03, P03, P04, P04, P04, P06, P08, P08, P09"
+    },
+    {
+      "id": "Notificacao",
+      "inferido": true,
+      "justificativa": "itens P09, P09"
+    },
+    {
+      "id": "ParametroMulta",
+      "inferido": true,
+      "justificativa": "itens P07"
+    }
+  ],
+  "processos": [
+    {
+      "id": "P01",
+      "nome": "Cadastrar livro",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P01"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.1"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "nome": "Alterar livro",
+      "tipo_processo": "alterar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P02"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.1"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P03",
+      "nome": "Excluir livro",
+      "tipo_processo": "excluir",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P03"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.1 (bloqueado se houver empréstimo)"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "nome": "Consultar livros",
+      "tipo_processo": "consultar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P04"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.2"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P05",
+      "nome": "Cadastrar leitor",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P05"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.3"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P06",
+      "nome": "Registrar empréstimo",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P06"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.4"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P07",
+      "nome": "Registrar devolução",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P07"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.5 (multa por atraso)"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroMulta",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P08",
+      "nome": "Relatório de atrasos",
+      "tipo_processo": "relatorio",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog P08"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.6"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "P09",
+      "nome": "Notificar atrasos por e-mail",
+      "tipo_processo": "processar",
+      "disparadores": [
+        {
+          "usuario": "UF-RELOGIO",
+          "evento": "item de backlog P09"
+        }
+      ],
+      "evidencia": [
+        "PROP:item 2.7 (diário)"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Notificacao",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Notificacao",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'processar' (E1); confirmar na extração"
+        }
+      ]
+    }
+  ],
+  "estimativa": {
+    "nivel": "E1",
+    "pfo_modelo": 45,
+    "fator_calibracao": 1.0,
+    "pfo_calibrado": 45,
+    "intervalo_pct": 25,
+    "pfo_min": 34,
+    "pfo_max": 56,
+    "base": "perfis padrão do capítulo 11 (sem calibração local)"
+  }
+}

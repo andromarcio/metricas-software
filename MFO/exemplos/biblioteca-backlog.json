@@ -1,0 +1,19 @@
+{
+  "software": "Biblioteca",
+  "versao": "1.0 (estimativa)",
+  "proposito": "Estimar o tamanho antes da especificação detalhada, a partir da lista de funcionalidades da proposta",
+  "escopo": "9 itens da proposta comercial, equivalentes a RF-01 a RF-09",
+  "nivel_estimativa": "E1",
+  "fonte": { "id": "PROP", "tipo": "requisitos", "ref": "proposta comercial v0.3, seção 2 (lista de funcionalidades)" },
+  "itens": [
+    { "id": "P01", "nome": "Cadastrar livro", "entidades": ["Livro"], "ref": "item 2.1" },
+    { "id": "P02", "nome": "Alterar livro", "entidades": ["Livro"], "ref": "item 2.1" },
+    { "id": "P03", "nome": "Excluir livro", "entidades": ["Livro", "Emprestimo"], "ref": "item 2.1 (bloqueado se houver empréstimo)" },
+    { "id": "P04", "nome": "Consultar livros", "entidades": ["Livro"], "ref": "item 2.2" },
+    { "id": "P05", "nome": "Cadastrar leitor", "entidades": ["Leitor"], "ref": "item 2.3" },
+    { "id": "P06", "nome": "Registrar empréstimo", "entidades": ["Emprestimo", "Leitor", "Livro"], "ref": "item 2.4" },
+    { "id": "P07", "nome": "Registrar devolução", "entidades": ["Emprestimo", "ParametroMulta"], "ref": "item 2.5 (multa por atraso)" },
+    { "id": "P08", "nome": "Relatório de atrasos", "tipo": "relatorio", "entidades": ["Emprestimo", "Leitor", "Livro"], "ref": "item 2.6" },
+    { "id": "P09", "nome": "Notificar atrasos por e-mail", "tipo": "processar", "entidades": ["Notificacao", "Emprestimo", "Leitor", "Livro"], "ref": "item 2.7 (diário)" }
+  ]
+}

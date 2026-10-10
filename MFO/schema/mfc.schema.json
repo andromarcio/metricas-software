@@ -391,6 +391,20 @@
                 "type": "string"
               }
             }
+          },
+          "tipo_processo": {
+            "enum": [
+              "criar",
+              "alterar",
+              "excluir",
+              "estado",
+              "consultar",
+              "relatorio",
+              "processar",
+              "integrar",
+              "outro"
+            ],
+            "description": "Tipo do processo para perfis e estimativa (RE-01); quando ausente, inferido pelo verbo do nome."
           }
         }
       }
@@ -432,6 +446,50 @@
           "$ref": "#/$defs/evidencia"
         },
         "nota": {
+          "type": "string"
+        }
+      }
+    },
+    "estimativa": {
+      "type": "object",
+      "description": "Presente quando o modelo é uma estimativa (capítulo 11): os movimentos são inferidos por perfil típico e o rótulo passa a dizer '≈'.",
+      "required": [
+        "nivel"
+      ],
+      "properties": {
+        "nivel": {
+          "enum": [
+            "E0",
+            "E1",
+            "E2"
+          ],
+          "description": "E0 indicativo (entidades), E1 estimado (processos nomeados e tipados), E2 detalhado (modelo parcial com inferidos)."
+        },
+        "pfo_modelo": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fator_calibracao": {
+          "type": "number",
+          "minimum": 0
+        },
+        "pfo_calibrado": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pfo_min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pfo_max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intervalo_pct": {
+          "type": "number",
+          "minimum": 0
+        },
+        "base": {
           "type": "string"
         }
       }

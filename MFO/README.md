@@ -44,6 +44,10 @@ anterior e o posterior, calculado por diferença de chaves. Em código, o diff e
 versões delimita o que reextrair e prova o que mudou; cada movimento cita arquivo e
 trecho verificáveis por máquina.
 
+**Estimativa:** uma estimativa é o mesmo modelo com movimentos inferidos por perfis típicos,
+rotulada por nível (E0 indicativo, E1 estimado, E2 detalhado) e sempre com intervalo; o
+grau de evidência diz quanto ainda é estimativa e o número converge para a medição.
+
 **Produção com IA:** o tamanho não depende de quem produziu (princípio P8). O modelo
 registra, por processo, o modo de produção (M0 humano, M1 IA assistida, M2 IA dirigida,
 M3 IA autônoma) com evidência, e o aceite; o relatório traz PFO por modo, PFO aceitos,
@@ -67,20 +71,22 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 - [8. Medição a partir do código e do diff (RD-01 a RD-04)](08-medicao-a-partir-do-codigo-e-do-diff.md)
 - [9. Medindo a produção com IA (RP-01 a RP-04)](09-producao-com-ia.md)
 - [10. Exemplo real: a documentação do Aval (siesa-doc) e a estrutura do siesa-engine (RM-01 a RM-08)](10-exemplo-real-aval.md)
+- [11. Estimativa (RE-01 a RE-04)](11-estimativa.md)
 
 ### Artefatos de apoio
 
 | Artefato | Caminho | Uso |
 |---|---|---|
 | Esquema JSON do Modelo Funcional Canônico | [`schema/mfc.schema.json`](schema/mfc.schema.json) | Validação estrutural por ferramentas e por IAs |
-| Ferramenta de referência | [`ferramentas/mfo.py`](ferramentas/mfo.py) | `validar`, `contar`, `mudanca`, `concordancia`, `impacto`, `auditar` (Python 3.8+, sem dependências) |
+| Ferramenta de referência | [`ferramentas/mfo.py`](ferramentas/mfo.py) | `validar`, `contar`, `mudanca`, `concordancia`, `impacto`, `auditar`, `perfis`, `estimar` (Python 3.8+, sem dependências) |
 | Extrator para a estrutura N3 do siesa-engine | [`ferramentas/extrair_n3.py`](ferramentas/extrair_n3.py) | Modelo mecânico a partir de `modules/**/f-*.md`, com produção pelo git e marcação de alterados |
 | Prompt de extração para IA | [`prompts/extracao-mfc.md`](prompts/extracao-mfc.md) | Produzir o modelo a partir de requisitos ou código |
 | Exemplo: biblioteca v1 | [`exemplos/biblioteca-v1.mfc.json`](exemplos/biblioteca-v1.mfc.json) | Modelo completo (51 PFO) |
 | Exemplo: biblioteca v2 | [`exemplos/biblioteca-v2.mfc.json`](exemplos/biblioteca-v2.mfc.json) | Medição de mudança (8 PFO de mudança) |
 | Exemplo: segunda medição da v1 | [`exemplos/biblioteca-v1-medicao-B.mfc.json`](exemplos/biblioteca-v1-medicao-B.mfc.json) | Índice de concordância entre medições |
 | Exemplo: código da biblioteca, v1 e v2 | [`exemplos/codigo-biblioteca/`](exemplos/codigo-biblioteca/README.md) | Medição por diff, auditoria de evidências e testes de aceitação por processo |
-| Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 492 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado |
+| Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 492 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado, perfis calibrados e estimativa E1 |
+| Exemplo: estimativas da biblioteca | [`exemplos/biblioteca-backlog.json`](exemplos/biblioteca-backlog.json), [`exemplos/biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json) | E1 por backlog e E0 por entidades, comparadas aos 51 PFO medidos |
 
 ### Uso rápido
 
@@ -91,6 +97,8 @@ python3 MFO/ferramentas/mfo.py mudanca  MFO/exemplos/biblioteca-v1.mfc.json MFO/
 python3 MFO/ferramentas/mfo.py concordancia MFO/exemplos/biblioteca-v1.mfc.json MFO/exemplos/biblioteca-v1-medicao-B.mfc.json
 python3 MFO/ferramentas/mfo.py impacto  MFO/exemplos/biblioteca-v1.mfc.json --dirs MFO/exemplos/codigo-biblioteca/v1 MFO/exemplos/codigo-biblioteca/v2
 python3 MFO/ferramentas/mfo.py auditar  MFO/exemplos/biblioteca-v2.mfc.json --raiz MFO/exemplos/codigo-biblioteca --fonte COD --fonte TST
+python3 MFO/ferramentas/mfo.py perfis   MFO/exemplos/biblioteca-v1.mfc.json MFO/exemplos/aval/adm-usr-revisado.mfc.json -o /tmp/perfis.json
+python3 MFO/ferramentas/mfo.py estimar  MFO/exemplos/biblioteca-backlog.json --perfis /tmp/perfis.json --medido MFO/exemplos/biblioteca-v1.mfc.json
 ```
 
 ### Como citar um resultado
@@ -108,5 +116,5 @@ Tamanhos sem rótulo, ou com níveis de medição diferentes, não devem ser com
 Versão 1.0, proposta inicial. As regras foram escritas para serem testadas em campo:
 cada regra de identificação tem forma de teste de decisão, e a seção 5.5 lista o que a
 métrica deliberadamente não mede. O capítulo 10 aplica o método a um sistema real.
-Sugestões de mudança devem apontar a regra afetada (RI, RC, RD, RP, RM ou V) e um caso
-concreto em que ela produza resultado ambíguo.
+Sugestões de mudança devem apontar a regra afetada (RI, RC, RD, RP, RM, RE ou V) e um
+caso concreto em que ela produza resultado ambíguo.
