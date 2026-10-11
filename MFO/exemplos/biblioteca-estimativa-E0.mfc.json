@@ -1,0 +1,578 @@
+{
+  "mfo": "1.0",
+  "software": "Biblioteca",
+  "versao": "1.0 (indicativa)",
+  "proposito": "Estimativa indicativa a partir das entidades do modelo conceitual, antes de qualquer lista de funcionalidades",
+  "escopo": "3 entidades mantidas (Livro, Leitor, Emprestimo) e 2 só lidas ou geradas",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ferramenta",
+    "nome": "mfo.py estimar 1.0",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "MOD",
+      "tipo": "requisitos",
+      "ref": "modelo conceitual de dados, reunião de 2026-01-05"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-PESSOA",
+      "nome": "Usuário (pessoa)",
+      "tipo": "pessoa"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Emprestimo",
+      "inferido": true,
+      "justificativa": "itens Emprestimo-C, Emprestimo-C, Emprestimo-C, Emprestimo-A, Emprestimo-A, Emprestimo-A, Emprestimo-E, Emprestimo-E, Emprestimo-L, Emprestimo-L, Emprestimo-L"
+    },
+    {
+      "id": "Leitor",
+      "inferido": true,
+      "justificativa": "itens Leitor-C, Leitor-C, Leitor-C, Leitor-A, Leitor-A, Leitor-A, Leitor-E, Leitor-E, Leitor-L, Leitor-L, Leitor-L, Emprestimo-C, Emprestimo-A, Emprestimo-E, Emprestimo-L, Emprestimo-L"
+    },
+    {
+      "id": "Livro",
+      "inferido": true,
+      "justificativa": "itens Livro-C, Livro-C, Livro-C, Livro-A, Livro-A, Livro-A, Livro-E, Livro-E, Livro-L, Livro-L, Livro-L, Emprestimo-C, Emprestimo-A, Emprestimo-E, Emprestimo-L, Emprestimo-L"
+    }
+  ],
+  "processos": [
+    {
+      "id": "Livro-C",
+      "nome": "Cadastrar Livro",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Livro-C"
+        }
+      ],
+      "evidencia": [
+        "MOD:Livro-C"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Livro-A",
+      "nome": "Alterar Livro",
+      "tipo_processo": "alterar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Livro-A"
+        }
+      ],
+      "evidencia": [
+        "MOD:Livro-A"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Livro-E",
+      "nome": "Excluir Livro",
+      "tipo_processo": "excluir",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Livro-E"
+        }
+      ],
+      "evidencia": [
+        "MOD:Livro-E"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Livro-L",
+      "nome": "Consultar Livro",
+      "tipo_processo": "consultar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Livro-L"
+        }
+      ],
+      "evidencia": [
+        "MOD:Livro-L"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Leitor-C",
+      "nome": "Cadastrar Leitor",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Leitor-C"
+        }
+      ],
+      "evidencia": [
+        "MOD:Leitor-C"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Leitor-A",
+      "nome": "Alterar Leitor",
+      "tipo_processo": "alterar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Leitor-A"
+        }
+      ],
+      "evidencia": [
+        "MOD:Leitor-A"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Leitor-E",
+      "nome": "Excluir Leitor",
+      "tipo_processo": "excluir",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Leitor-E"
+        }
+      ],
+      "evidencia": [
+        "MOD:Leitor-E"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Leitor-L",
+      "nome": "Consultar Leitor",
+      "tipo_processo": "consultar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Leitor-L"
+        }
+      ],
+      "evidencia": [
+        "MOD:Leitor-L"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Emprestimo-C",
+      "nome": "Cadastrar Emprestimo",
+      "tipo_processo": "criar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Emprestimo-C"
+        }
+      ],
+      "evidencia": [
+        "MOD:Emprestimo-C"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Emprestimo-A",
+      "nome": "Alterar Emprestimo",
+      "tipo_processo": "alterar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Emprestimo-A"
+        }
+      ],
+      "evidencia": [
+        "MOD:Emprestimo-A"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'alterar' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Emprestimo-E",
+      "nome": "Excluir Emprestimo",
+      "tipo_processo": "excluir",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Emprestimo-E"
+        }
+      ],
+      "evidencia": [
+        "MOD:Emprestimo-E"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E0); confirmar na extração"
+        }
+      ]
+    },
+    {
+      "id": "Emprestimo-L",
+      "nome": "Consultar Emprestimo",
+      "tipo_processo": "consultar",
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "item de backlog Emprestimo-L"
+        }
+      ],
+      "evidencia": [
+        "MOD:Emprestimo-L"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'consultar' (E0); confirmar na extração"
+        }
+      ]
+    }
+  ],
+  "estimativa": {
+    "nivel": "E0",
+    "pfo_modelo": 55,
+    "fator_calibracao": 1.0,
+    "pfo_calibrado": 55,
+    "intervalo_pct": 40,
+    "pfo_min": 33,
+    "pfo_max": 77,
+    "base": "perfis padrão do capítulo 11 (sem calibração local)"
+  }
+}

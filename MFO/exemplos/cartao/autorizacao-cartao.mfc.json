@@ -1,0 +1,615 @@
+{
+  "mfo": "1.0",
+  "software": "Autorizador de cartão (exemplo hipotético)",
+  "versao": "ilustrativo",
+  "proposito": "Comparar as duas dimensões da MFO, movimentos e decisões, num processo de alta complexidade de regras",
+  "escopo": "Um único processo: RF-01 Autorizar compra (doméstica e internacional, sem token), com bloco de prevenção à fraude sob código único",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ia",
+    "nome": "assistente de medição (exemplo hipotético)",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "REQ",
+      "tipo": "requisitos",
+      "ref": "MFO/exemplos/cartao/autorizacao-requisitos.md (raiz das evidências: MFO/exemplos/cartao)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-REDE",
+      "nome": "Rede ou adquirente (mensagem de autorização)",
+      "tipo": "sistema"
+    },
+    {
+      "id": "UF-FRAUDE",
+      "nome": "Motor antifraude",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Transacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Cartao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Portador",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Conta",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Estabelecimento",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ParametroAutorizacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ListaBloqueio",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Cotacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ScoreFraude",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "AUT-01",
+      "nome": "Autorizar compra",
+      "tipo_processo": "integrar",
+      "disparadores": [
+        {
+          "usuario": "UF-REDE",
+          "evento": "mensagem de autorização recebida da rede"
+        }
+      ],
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+          ],
+          "nota": "mensagem de autorização",
+          "usuario": "UF-REDE"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Cartao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Portador",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Conta",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Estabelecimento",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroAutorizacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ListaBloqueio",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Cotacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+          ],
+          "nota": "envio ao antifraude e resposta à rede: uma chave só (RI-09)",
+          "usuario": "UF-REDE"
+        },
+        {
+          "tipo": "E",
+          "entidade": "ScoreFraude",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ],
+          "nota": "resposta do motor antifraude usada na decisão (RI-05 c)",
+          "usuario": "UF-FRAUDE"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Conta",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ],
+          "nota": "reserva de limite"
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ],
+          "nota": "códigos de recusa e erro"
+        }
+      ],
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "00",
+            "descricao": "aprovada",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "10",
+            "descricao": "aprovada parcialmente",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "14",
+            "descricao": "cartão inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "54",
+            "descricao": "cartão vencido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "62",
+            "descricao": "cartão bloqueado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "41",
+            "descricao": "portador bloqueado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "03",
+            "descricao": "estabelecimento inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "57",
+            "descricao": "categoria não permitida",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "51",
+            "descricao": "saldo ou limite insuficiente",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "61",
+            "descricao": "excede limite por transação",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "65",
+            "descricao": "excede frequência de transações",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "88",
+            "descricao": "criptograma inválido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "55",
+            "descricao": "senha inválida",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "75",
+            "descricao": "tentativas de senha excedidas",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "59",
+            "descricao": "suspeita de fraude",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "94",
+            "descricao": "transação duplicada",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "58",
+            "descricao": "canal não permitido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "30",
+            "descricao": "erro de formato",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+            ]
+          },
+          {
+            "id": "59/R20",
+            "descricao": "suspeita de fraude por mais de cinco compras em dez minutos",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R21",
+            "descricao": "suspeita de fraude por países diferentes em intervalo incompatível",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R22",
+            "descricao": "suspeita de fraude por primeiro uso em categoria de alto risco acima do limiar",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R23",
+            "descricao": "suspeita de fraude por sequência de valores crescentes no mesmo estabelecimento",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R24",
+            "descricao": "suspeita de fraude por estabelecimento e dispositivo associados a fraude",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          },
+          {
+            "id": "59/R25",
+            "descricao": "suspeita de fraude por valor igual ao limite após três recusas",
+            "tipo": "recusa",
+            "oculto": true,
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ],
+            "nota": "mesmo código 59; distinguível só pelo teste de aceite que dispara a regra"
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "cartão existente e ativo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "cartão não vencido",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "cartão fora da lista de bloqueio",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "portador ativo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R5",
+            "descricao": "estabelecimento não bloqueado",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R6",
+            "descricao": "MCC permitida para o produto",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R7",
+            "descricao": "limite disponível cobre o valor",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R8",
+            "descricao": "saldo cobre o valor no débito",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R9",
+            "descricao": "valor dentro do limite por transação",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R10",
+            "descricao": "quantidade de transações no período dentro do parâmetro",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R11",
+            "descricao": "criptograma válido",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R12",
+            "descricao": "senha válida com até três tentativas",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R13",
+            "descricao": "score de fraude abaixo do limiar",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R14",
+            "descricao": "conversão pela cotação do dia",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R15",
+            "descricao": "autorização parcial pelo saldo disponível",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R16",
+            "descricao": "reserva de limite igual ao valor autorizado",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R17",
+            "descricao": "transação duplicada recusada",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R18",
+            "descricao": "canal habilitado para o cartão",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R19",
+            "descricao": "toda negativa incrementa o contador de negativas do dia, sem resposta própria",
+            "tipo": "estado",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R20",
+            "descricao": "mais de cinco compras em dez minutos",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R21",
+            "descricao": "países diferentes em intervalo incompatível",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R22",
+            "descricao": "primeiro uso em categoria de alto risco acima do limiar",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R23",
+            "descricao": "sequência de valores crescentes no mesmo estabelecimento",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R24",
+            "descricao": "estabelecimento e dispositivo associados a fraude",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          },
+          {
+            "id": "R25",
+            "descricao": "valor igual ao limite após três recusas",
+            "tipo": "fraude",
+            "evidencia": [
+              "REQ:autorizacao-requisitos.md#Regras de prevenção à fraude"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "origem": [
+    "aval-5.0.0-auto.mfc.json",
+    "biblioteca-v1.mfc.json",
+    "adm-usr-revisado.mfc.json"
+  ],
+  "n_processos": 101,
+  "geral": {
+    "n": 101,
+    "mediana": 6,
+    "p25": 5.0,
+    "p75": 7.0,
+    "media": 5.9405940594059405,
+    "min": 2,
+    "max": 12
+  },
+  "perfis": {
+    "alterar": {
+      "n": 21,
+      "mediana": 6,
+      "p25": 4.5,
+      "p75": 7.5,
+      "media": 5.904761904761905,
+      "min": 3,
+      "max": 9
+    },
+    "consultar": {
+      "n": 27,
+      "mediana": 6,
+      "p25": 5.0,
+      "p75": 6.0,
+      "media": 5.62962962962963,
+      "min": 3,
+      "max": 8
+    },
+    "criar": {
+      "n": 14,
+      "mediana": 6.0,
+      "p25": 4.75,
+      "p75": 7.0,
+      "media": 6.142857142857143,
+      "min": 3,
+      "max": 9
+    },
+    "estado": {
+      "n": 22,
+      "mediana": 6.0,
+      "p25": 5.0,
+      "p75": 7.0,
+      "media": 6.409090909090909,
+      "min": 3,
+      "max": 12
+    },
+    "excluir": {
+      "n": 1,
+      "mediana": 4,
+      "p25": 4,
+      "p75": 4,
+      "media": 4,
+      "min": 4,
+      "max": 4
+    },
+    "outro": {
+      "n": 2,
+      "mediana": 7.5,
+      "p25": 3.75,
+      "p75": 11.25,
+      "media": 7.5,
+      "min": 5,
+      "max": 10
+    },
+    "processar": {
+      "n": 13,
+      "mediana": 5,
+      "p25": 5.0,
+      "p75": 6.0,
+      "media": 5.3076923076923075,
+      "min": 2,
+      "max": 9
+    },
+    "relatorio": {
+      "n": 1,
+      "mediana": 9,
+      "p25": 9,
+      "p75": 9,
+      "media": 9,
+      "min": 9,
+      "max": 9
+    }
+  }
+}

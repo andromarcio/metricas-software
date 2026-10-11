@@ -1,0 +1,586 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andromarcio/metricas-software/blob/main/MFO/schema/mfc.schema.json",
+  "title": "Modelo Funcional Canônico (MFC) — MFO 1.0",
+  "description": "Estrutura do modelo que a MFO (Medição Funcional Objetiva) conta. Este esquema cobre a parte estrutural das validações V-01, V-04, V-05, V-10 e V-11; as validações semânticas (V-02, V-03, V-06 a V-09 e o restante de V-10) são feitas por ferramentas/mfo.py.",
+  "type": "object",
+  "required": [
+    "mfo",
+    "software",
+    "proposito",
+    "escopo",
+    "nivel",
+    "agente",
+    "fontes",
+    "usuarios_funcionais",
+    "entidades",
+    "processos"
+  ],
+  "properties": {
+    "mfo": {
+      "const": "1.0",
+      "description": "Versão do método."
+    },
+    "software": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nome do software ou do escopo medido."
+    },
+    "versao": {
+      "type": "string",
+      "description": "Versão do software a que o modelo se refere."
+    },
+    "proposito": {
+      "type": "string",
+      "minLength": 1,
+      "description": "RI-01 a: por que se mede."
+    },
+    "escopo": {
+      "type": "string",
+      "minLength": 1,
+      "description": "RI-01 b: o que está incluído."
+    },
+    "nivel": {
+      "enum": [
+        "R",
+        "C",
+        "RC"
+      ],
+      "description": "R = requisitos; C = código ou sistema; RC = conciliado."
+    },
+    "agente": {
+      "type": "object",
+      "required": [
+        "tipo"
+      ],
+      "properties": {
+        "tipo": {
+          "enum": [
+            "humano",
+            "ia",
+            "ferramenta"
+          ],
+          "description": "humano, ia (modelo de linguagem) ou ferramenta (extrator determinístico, como extrair_n3.py)."
+        },
+        "nome": {
+          "type": "string",
+          "description": "Pessoa, ou modelo de IA com versão."
+        },
+        "revisao_humana": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Identificação/versão do prompt usado, quando IA."
+        }
+      }
+    },
+    "fontes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "tipo",
+          "ref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "description": "Prefixo usado nas evidências (FONTE:localizador)."
+          },
+          "tipo": {
+            "enum": [
+              "requisitos",
+              "prototipo",
+              "api",
+              "codigo",
+              "banco",
+              "sistema",
+              "testes",
+              "processo",
+              "outro"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Localização e versão do artefato (caminho@versão, commit, URL)."
+          }
+        }
+      }
+    },
+    "usuarios_funcionais": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "nome",
+          "tipo"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tipo": {
+            "enum": [
+              "pessoa",
+              "sistema",
+              "dispositivo",
+              "relogio"
+            ]
+          },
+          "descricao": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "entidades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "enum": [
+                "MENSAGEM",
+                "DISPARO"
+              ]
+            },
+            "description": "Nome estável da entidade; reservadas não são declaradas."
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "atributos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidencia": {
+            "$ref": "#/$defs/evidencia"
+          },
+          "inferido": {
+            "type": "boolean"
+          },
+          "justificativa": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "processos": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "nome",
+          "disparadores",
+          "movimentos"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Estável entre versões do mesmo software (RC-03)."
+          },
+          "nome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "disparadores": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "usuario",
+                "evento"
+              ],
+              "properties": {
+                "usuario": {
+                  "type": "string",
+                  "description": "id de um usuário funcional declarado."
+                },
+                "evento": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "evidencia": {
+            "$ref": "#/$defs/evidencia"
+          },
+          "inferido": {
+            "type": "boolean"
+          },
+          "justificativa": {
+            "type": "string"
+          },
+          "movimentos": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "tipo",
+                "entidade"
+              ],
+              "properties": {
+                "tipo": {
+                  "enum": [
+                    "E",
+                    "X",
+                    "R",
+                    "W"
+                  ]
+                },
+                "entidade": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "id de entidade declarada, ou MENSAGEM (só X) ou DISPARO (só E)."
+                },
+                "usuario": {
+                  "type": "string",
+                  "description": "Opcional em E/X: id do usuário funcional de origem ou destino."
+                },
+                "atributos": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Opcional; habilita o suplemento D (RC-05)."
+                },
+                "evidencia": {
+                  "$ref": "#/$defs/evidencia"
+                },
+                "inferido": {
+                  "type": "boolean"
+                },
+                "justificativa": {
+                  "type": "string"
+                },
+                "alterado": {
+                  "type": "boolean",
+                  "description": "RC-03: movimento alterado em relação ao modelo anterior."
+                },
+                "nota": {
+                  "type": "string"
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "entidade": {
+                        "const": "MENSAGEM"
+                      }
+                    },
+                    "required": [
+                      "entidade"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "tipo": {
+                        "const": "X"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "entidade": {
+                        "const": "DISPARO"
+                      }
+                    },
+                    "required": [
+                      "entidade"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "tipo": {
+                        "const": "E"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "producao": {
+            "type": "object",
+            "description": "Modo de produção do processo nesta versão (RP-01): M0 humano, M1 IA assistida, M2 IA dirigida, M3 IA autônoma.",
+            "required": [
+              "modo"
+            ],
+            "properties": {
+              "modo": {
+                "enum": [
+                  "M0",
+                  "M1",
+                  "M2",
+                  "M3"
+                ]
+              },
+              "evidencia": {
+                "$ref": "#/$defs/evidencia"
+              },
+              "inferido": {
+                "type": "boolean"
+              },
+              "justificativa": {
+                "type": "string"
+              },
+              "nota": {
+                "type": "string"
+              }
+            }
+          },
+          "aceite": {
+            "type": "object",
+            "description": "Aceite do processo pelo contratante (RP-03).",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "aceito",
+                  "pendente",
+                  "rejeitado"
+                ]
+              },
+              "data": {
+                "type": "string"
+              },
+              "evidencia": {
+                "$ref": "#/$defs/evidencia"
+              },
+              "inferido": {
+                "type": "boolean"
+              },
+              "justificativa": {
+                "type": "string"
+              },
+              "nota": {
+                "type": "string"
+              }
+            }
+          },
+          "tipo_processo": {
+            "enum": [
+              "criar",
+              "alterar",
+              "excluir",
+              "estado",
+              "consultar",
+              "relatorio",
+              "processar",
+              "integrar",
+              "outro"
+            ],
+            "description": "Tipo do processo para perfis e estimativa (RE-01); quando ausente, inferido pelo verbo do nome."
+          },
+          "decisoes": {
+            "type": "object",
+            "description": "Suplemento D (RC-05, capítulo 12): D1 = desfechos distinguíveis na fronteira por um teste de aceite (código, mensagem ou condição de disparo); D2 = regras declaradas. Contados à parte, nunca somados ao PFO.",
+            "required": [
+              "desfechos",
+              "regras"
+            ],
+            "properties": {
+              "desfechos": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
+                    },
+                    "evidencia": {
+                      "$ref": "#/$defs/evidencia"
+                    },
+                    "inferido": {
+                      "type": "boolean"
+                    },
+                    "justificativa": {
+                      "type": "string"
+                    },
+                    "oculto": {
+                      "type": "boolean",
+                      "description": "Desfecho distinguível na fronteira apenas pela condição de entrada declarada na fonte (mesmo código ou mensagem de outro desfecho); conta em D1 e o relatório o informa à parte (RC-05 a)."
+                    }
+                  }
+                }
+              },
+              "regras": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
+                    },
+                    "evidencia": {
+                      "$ref": "#/$defs/evidencia"
+                    },
+                    "inferido": {
+                      "type": "boolean"
+                    },
+                    "justificativa": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "producao": {
+      "type": "object",
+      "description": "Dados do trabalho que produziu este software (abrange 'software') ou a mudança em relação à versão anterior (abrange 'mudanca'). Capítulo 8, RP-02.",
+      "required": [
+        "abrange"
+      ],
+      "properties": {
+        "abrange": {
+          "enum": [
+            "software",
+            "mudanca"
+          ]
+        },
+        "periodo": {
+          "type": "string"
+        },
+        "horas_humanas": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Horas humanas de todo o ciclo: especificar, dirigir a IA, revisar, testar, aceitar."
+        },
+        "custo_humano": {
+          "type": "number",
+          "minimum": 0
+        },
+        "custo_ia": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Custo de ferramentas e consumo de IA (tokens, licenças) no período."
+        },
+        "moeda": {
+          "type": "string"
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "nota": {
+          "type": "string"
+        }
+      }
+    },
+    "estimativa": {
+      "type": "object",
+      "description": "Presente quando o modelo é uma estimativa (capítulo 11): os movimentos são inferidos por perfil típico e o rótulo passa a dizer '≈'.",
+      "required": [
+        "nivel"
+      ],
+      "properties": {
+        "nivel": {
+          "enum": [
+            "E0",
+            "E1",
+            "E2"
+          ],
+          "description": "E0 indicativo (entidades), E1 estimado (processos nomeados e tipados), E2 detalhado (modelo parcial com inferidos)."
+        },
+        "pfo_modelo": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fator_calibracao": {
+          "type": "number",
+          "minimum": 0
+        },
+        "pfo_calibrado": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pfo_min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pfo_max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intervalo_pct": {
+          "type": "number",
+          "minimum": 0
+        },
+        "base": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidencia": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]+:.+"
+      },
+      "description": "Referências FONTE:localizador (RI-11)."
+    }
+  }
+}

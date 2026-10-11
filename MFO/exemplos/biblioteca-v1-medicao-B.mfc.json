@@ -1,0 +1,784 @@
+{
+  "mfo": "1.0",
+  "software": "Biblioteca",
+  "versao": "1.0",
+  "proposito": "Dimensionar o sistema para contratação e servir de exemplo de referência da MFO",
+  "escopo": "Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos)",
+  "nivel": "R",
+  "agente": {
+    "tipo": "humano",
+    "nome": "medidor B (exemplo de segunda medição)",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "REQ",
+      "tipo": "requisitos",
+      "ref": "MFO/06-exemplo-completo.md, seção 6.1 (RF-01 a RF-09)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF1",
+      "nome": "Bibliotecário",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF2",
+      "nome": "Relógio (agendador diário)",
+      "tipo": "relogio"
+    },
+    {
+      "id": "UF3",
+      "nome": "Serviço de e-mail",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Livro",
+      "descricao": "Título do acervo",
+      "atributos": [
+        "isbn",
+        "titulo",
+        "autor",
+        "ano",
+        "quantidade"
+      ],
+      "evidencia": [
+        "REQ:RF-01"
+      ]
+    },
+    {
+      "id": "Leitor",
+      "descricao": "Pessoa que toma livros emprestados",
+      "atributos": [
+        "cpf",
+        "nome",
+        "email",
+        "telefone",
+        "situacao"
+      ],
+      "evidencia": [
+        "REQ:RF-05"
+      ]
+    },
+    {
+      "id": "Emprestimo",
+      "descricao": "Empréstimo de um exemplar a um leitor",
+      "atributos": [
+        "id",
+        "leitor",
+        "livro",
+        "data_emprestimo",
+        "data_prevista",
+        "data_devolucao",
+        "multa",
+        "status"
+      ],
+      "evidencia": [
+        "REQ:RF-06",
+        "REQ:RF-07"
+      ]
+    },
+    {
+      "id": "ParametroMulta",
+      "descricao": "Parâmetro de negócio: valor da multa por dia de atraso",
+      "atributos": [
+        "valor_dia"
+      ],
+      "evidencia": [
+        "REQ:RF-07"
+      ]
+    },
+    {
+      "id": "Notificacao",
+      "descricao": "Registro de notificação de atraso enviada",
+      "atributos": [
+        "id",
+        "emprestimo",
+        "data_envio",
+        "status_envio"
+      ],
+      "evidencia": [
+        "REQ:RF-09"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "P01",
+      "nome": "Cadastrar livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete os dados de um novo livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-01"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-01"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-01"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-01 (confirmação e erros de validação)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "nome": "Alterar livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete alterações de um livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-02"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02 (ISBN continua único)"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P03",
+      "nome": "Excluir livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita a exclusão de um livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-03"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-03"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-03"
+          ],
+          "nota": "verifica se o livro existe"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "livro",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-03 (recusa se houver empréstimo ativo)"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-03"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "nome": "Consultar livros",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita a lista de livros, com filtros opcionais"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-04"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "titulo",
+            "autor"
+          ],
+          "evidencia": [
+            "REQ:RF-04 (filtros)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-04"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-04"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-04 (nenhum livro encontrado)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P05",
+      "nome": "Cadastrar leitor",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete os dados de um novo leitor"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-05"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email",
+            "telefone",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-05"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf"
+          ],
+          "evidencia": [
+            "REQ:RF-05 (CPF único)"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email",
+            "telefone",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-05"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P06",
+      "nome": "Registrar empréstimo",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário registra a retirada de um livro por um leitor"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-06"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "data_emprestimo"
+          ],
+          "evidencia": [
+            "REQ:RF-06"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (leitor ativo)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (exemplar disponível)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (empréstimos ativos do leitor e do livro)"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "data_emprestimo",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-06"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "data_prevista"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (apresenta a data prevista)"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-06 (recusas e confirmação)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P07",
+      "nome": "Registrar devolução",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário registra a devolução de um empréstimo"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-07"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_devolucao"
+          ],
+          "evidencia": [
+            "REQ:RF-07"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-07"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroMulta",
+          "atributos": [
+            "valor_dia"
+          ],
+          "evidencia": [
+            "REQ:RF-07 (valor diário da multa)"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_devolucao",
+            "multa",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-07"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "multa"
+          ],
+          "evidencia": [
+            "REQ:RF-07 (apresenta o valor da multa)"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P08",
+      "nome": "Relatório de atrasos",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita o relatório de empréstimos em atraso"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-08"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "evidencia": [
+            "REQ:RF-08 (sem parâmetros)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "leitor",
+            "livro",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-08"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (nome do leitor)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (título do livro)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroMulta",
+          "atributos": [
+            "valor_dia"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (multa estimada)"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "data_prevista",
+            "dias_atraso",
+            "multa_estimada"
+          ],
+          "evidencia": [
+            "REQ:RF-08"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "atributos": [
+            "nome"
+          ],
+          "evidencia": [
+            "REQ:RF-08"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "atributos": [
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-08"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-08 (não há atrasos)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P09",
+      "nome": "Notificar atrasos",
+      "disparadores": [
+        {
+          "usuario": "UF2",
+          "evento": "tique diário do agendador"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-09"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "usuario": "UF2",
+          "evidencia": [
+            "REQ:RF-09 (diariamente)"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "leitor",
+            "livro",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-09"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email"
+          ],
+          "evidencia": [
+            "REQ:RF-09"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-09"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Notificacao",
+          "usuario": "UF3",
+          "atributos": [
+            "email",
+            "nome",
+            "titulo",
+            "dias_atraso"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (e-mail enviado)"
+          ]
+        },
+        {
+          "tipo": "E",
+          "entidade": "Notificacao",
+          "usuario": "UF3",
+          "atributos": [
+            "status_envio"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (status devolvido pelo serviço)"
+          ],
+          "nota": "RI-05 c: a resposta do serviço é usada (gravada)"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Notificacao",
+          "atributos": [
+            "emprestimo",
+            "data_envio",
+            "status_envio"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (registra a notificação)"
+          ]
+        }
+      ]
+    }
+  ]
+}

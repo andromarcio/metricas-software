@@ -1,0 +1,1420 @@
+{
+  "mfo": "1.0",
+  "software": "Biblioteca",
+  "versao": "1.0",
+  "proposito": "Dimensionar o sistema para contratação e servir de exemplo de referência da MFO",
+  "escopo": "Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue",
+  "nivel": "RC",
+  "agente": {
+    "tipo": "ia",
+    "nome": "assistente de medição (exemplo)",
+    "revisao_humana": true,
+    "prompt": "prompts/extracao-mfc.md@1.0"
+  },
+  "fontes": [
+    {
+      "id": "REQ",
+      "tipo": "requisitos",
+      "ref": "MFO/06-exemplo-completo.md, seção 6.1 (RF-01 a RF-09)"
+    },
+    {
+      "id": "COD",
+      "tipo": "codigo",
+      "ref": "MFO/exemplos/codigo-biblioteca/v1 (raiz das evidências: MFO/exemplos/codigo-biblioteca)"
+    },
+    {
+      "id": "TST",
+      "tipo": "testes",
+      "ref": "MFO/exemplos/codigo-biblioteca/testes/teste_aceitacao.py"
+    },
+    {
+      "id": "PROC",
+      "tipo": "processo",
+      "ref": "histórico de commits, PRs e sessões de IA do repositório (ilustrativo)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF1",
+      "nome": "Bibliotecário",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF2",
+      "nome": "Relógio (agendador diário)",
+      "tipo": "relogio"
+    },
+    {
+      "id": "UF3",
+      "nome": "Serviço de e-mail",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Livro",
+      "descricao": "Título do acervo",
+      "atributos": [
+        "isbn",
+        "titulo",
+        "autor",
+        "ano",
+        "quantidade"
+      ],
+      "evidencia": [
+        "REQ:RF-01",
+        "COD:v1/biblioteca/modelos.py#class Livro"
+      ]
+    },
+    {
+      "id": "Leitor",
+      "descricao": "Pessoa que toma livros emprestados",
+      "atributos": [
+        "cpf",
+        "nome",
+        "email",
+        "telefone",
+        "situacao"
+      ],
+      "evidencia": [
+        "REQ:RF-05",
+        "COD:v1/biblioteca/modelos.py#class Leitor"
+      ]
+    },
+    {
+      "id": "Emprestimo",
+      "descricao": "Empréstimo de um exemplar a um leitor",
+      "atributos": [
+        "id",
+        "leitor",
+        "livro",
+        "data_emprestimo",
+        "data_prevista",
+        "data_devolucao",
+        "multa",
+        "status"
+      ],
+      "evidencia": [
+        "REQ:RF-06",
+        "REQ:RF-07",
+        "COD:v1/biblioteca/modelos.py#class Emprestimo"
+      ]
+    },
+    {
+      "id": "ParametroMulta",
+      "descricao": "Parâmetro de negócio: valor da multa por dia de atraso",
+      "atributos": [
+        "valor_dia"
+      ],
+      "evidencia": [
+        "REQ:RF-07",
+        "COD:v1/biblioteca/modelos.py#class ParametroMulta"
+      ]
+    },
+    {
+      "id": "Notificacao",
+      "descricao": "Registro de notificação de atraso enviada",
+      "atributos": [
+        "id",
+        "emprestimo",
+        "data_envio",
+        "status_envio"
+      ],
+      "evidencia": [
+        "REQ:RF-09",
+        "COD:v1/biblioteca/modelos.py#class Notificacao"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "P01",
+      "nome": "Cadastrar livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete os dados de um novo livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-01",
+        "COD:v1/biblioteca/api.py#POST /livros",
+        "COD:v1/biblioteca/servicos.py#cadastrar_livro"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-01",
+            "COD:v1/biblioteca/servicos.py#cadastrar_livro"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-01 (ISBN único)",
+            "COD:v1/biblioteca/repositorio.py#buscar_livro_por_isbn"
+          ],
+          "nota": "RI-07 a: lê Livro para decidir a unicidade do ISBN"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-01",
+            "COD:v1/biblioteca/repositorio.py#salvar_livro"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-01 (confirmação e erros de validação)",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P01"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro cadastrado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-01",
+              "COD:v1/biblioteca/servicos.py#Livro cadastrado"
+            ]
+          },
+          {
+            "id": "ISBN_DUPLICADO",
+            "descricao": "ISBN já cadastrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-01 (ISBN único)",
+              "COD:v1/biblioteca/servicos.py#ISBN já cadastrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "o ISBN deve ser único no acervo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-01",
+              "COD:v1/biblioteca/servicos.py#buscar_livro_por_isbn"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "nome": "Alterar livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete alterações de um livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-02",
+        "COD:v1/biblioteca/api.py#PUT /livros/{isbn}",
+        "COD:v1/biblioteca/servicos.py#alterar_livro"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02",
+            "COD:v1/biblioteca/servicos.py#alterar_livro"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02 (ISBN continua único)",
+            "COD:v1/biblioteca/repositorio.py#buscar_livro_por_isbn"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-02",
+            "COD:v1/biblioteca/repositorio.py#salvar_livro"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-02",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P02"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro alterado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-02",
+              "COD:v1/biblioteca/servicos.py#Livro alterado"
+            ]
+          },
+          {
+            "id": "NAO_ENCONTRADO",
+            "descricao": "livro não encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-02",
+              "COD:v1/biblioteca/servicos.py#Livro não encontrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "a unicidade do ISBN continua valendo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-02"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P03",
+      "nome": "Excluir livro",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita a exclusão de um livro"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-03",
+        "COD:v1/biblioteca/api.py#DELETE /livros/{isbn}",
+        "COD:v1/biblioteca/servicos.py#excluir_livro"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-03",
+            "COD:v1/biblioteca/servicos.py#excluir_livro"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "livro",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-03 (recusa se houver empréstimo ativo)",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_ativos"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn"
+          ],
+          "evidencia": [
+            "REQ:RF-03",
+            "COD:v1/biblioteca/repositorio.py#excluir_livro"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-03",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P03"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "livro excluído",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#Livro excluído"
+            ]
+          },
+          {
+            "id": "EMPRESTIMO_ATIVO",
+            "descricao": "recusa se houver empréstimo ativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#empréstimo ativo"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "livro com empréstimo ativo não pode ser excluído",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-03",
+              "COD:v1/biblioteca/servicos.py#emprestimos_ativos"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P04",
+      "nome": "Consultar livros",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita a lista de livros, com filtros opcionais"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-04",
+        "COD:v1/biblioteca/api.py#GET /livros",
+        "COD:v1/biblioteca/servicos.py#consultar_livros"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Livro",
+          "atributos": [
+            "titulo",
+            "autor"
+          ],
+          "evidencia": [
+            "REQ:RF-04 (filtros)",
+            "COD:v1/biblioteca/servicos.py#consultar_livros"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-04",
+            "COD:v1/biblioteca/repositorio.py#listar_livros"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo",
+            "autor",
+            "ano",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-04",
+            "COD:v1/biblioteca/servicos.py#consultar_livros"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-04 (nenhum livro encontrado)",
+            "COD:v1/biblioteca/servicos.py#Nenhum livro encontrado"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P04"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "lista de livros",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-04",
+              "COD:v1/biblioteca/servicos.py#consultar_livros"
+            ]
+          },
+          {
+            "id": "VAZIO",
+            "descricao": "nenhum livro encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-04",
+              "COD:v1/biblioteca/servicos.py#Nenhum livro encontrado"
+            ]
+          }
+        ],
+        "regras": []
+      }
+    },
+    {
+      "id": "P05",
+      "nome": "Cadastrar leitor",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário submete os dados de um novo leitor"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-05",
+        "COD:v1/biblioteca/api.py#POST /leitores",
+        "COD:v1/biblioteca/servicos.py#cadastrar_leitor"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email",
+            "telefone",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-05",
+            "COD:v1/biblioteca/servicos.py#cadastrar_leitor"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf"
+          ],
+          "evidencia": [
+            "REQ:RF-05 (CPF único)",
+            "COD:v1/biblioteca/repositorio.py#buscar_leitor_por_cpf"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email",
+            "telefone",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-05",
+            "COD:v1/biblioteca/repositorio.py#salvar_leitor"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-05",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P05"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "leitor cadastrado",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#Leitor cadastrado"
+            ]
+          },
+          {
+            "id": "CPF_DUPLICADO",
+            "descricao": "CPF já cadastrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#CPF já cadastrado"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "o CPF deve ser único",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-05",
+              "COD:v1/biblioteca/servicos.py#buscar_leitor_por_cpf"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P06",
+      "nome": "Registrar empréstimo",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário registra a retirada de um livro por um leitor"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-06",
+        "COD:v1/biblioteca/api.py#POST /emprestimos",
+        "COD:v1/biblioteca/servicos.py#registrar_emprestimo"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "data_emprestimo"
+          ],
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v1/biblioteca/servicos.py#registrar_emprestimo"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "situacao"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (leitor ativo)",
+            "COD:v1/biblioteca/repositorio.py#buscar_leitor_por_cpf"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "quantidade"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (exemplar disponível)",
+            "COD:v1/biblioteca/repositorio.py#buscar_livro_por_isbn"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (empréstimos ativos do leitor e do livro)",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_ativos"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "leitor",
+            "livro",
+            "data_emprestimo",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v1/biblioteca/repositorio.py#salvar_emprestimo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "data_prevista"
+          ],
+          "evidencia": [
+            "REQ:RF-06 (apresenta a data prevista)",
+            "COD:v1/biblioteca/servicos.py#data_prevista"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-06 (recusas e confirmação)",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P06"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "empréstimo registrado com data prevista",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Empréstimo registrado"
+            ]
+          },
+          {
+            "id": "LEITOR_INATIVO",
+            "descricao": "leitor inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Leitor inexistente ou inativo"
+            ]
+          },
+          {
+            "id": "LEITOR_INATIVO/2",
+            "descricao": "leitor inativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Leitor inexistente ou inativo"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "LIVRO_INEXISTENTE",
+            "descricao": "livro não encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Livro não encontrado"
+            ]
+          },
+          {
+            "id": "SEM_EXEMPLAR",
+            "descricao": "nenhum exemplar disponível",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#Nenhum exemplar disponível"
+            ]
+          },
+          {
+            "id": "LIMITE",
+            "descricao": "leitor atingiu o limite de empréstimos",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#limite de empréstimos"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "leitor deve estar ativo",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#situacao != \"ativo\""
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "exemplar disponível: quantidade maior que empréstimos ativos do livro",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#livro.quantidade"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "leitor com menos de três empréstimos ativos",
+            "tipo": "limite",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#LIMITE_EMPRESTIMOS"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "data prevista = data do empréstimo + 14 dias",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-06",
+              "COD:v1/biblioteca/servicos.py#PRAZO_DIAS"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P07",
+      "nome": "Registrar devolução",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário registra a devolução de um empréstimo"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-07",
+        "COD:v1/biblioteca/api.py#POST /emprestimos/{id}/devolucao",
+        "COD:v1/biblioteca/servicos.py#registrar_devolucao"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_devolucao"
+          ],
+          "evidencia": [
+            "REQ:RF-07",
+            "COD:v1/biblioteca/servicos.py#registrar_devolucao"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-07",
+            "COD:v1/biblioteca/repositorio.py#buscar_emprestimo"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroMulta",
+          "atributos": [
+            "valor_dia"
+          ],
+          "evidencia": [
+            "REQ:RF-07 (valor diário da multa)",
+            "COD:v1/biblioteca/repositorio.py#parametro_multa"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "data_devolucao",
+            "multa",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-07",
+            "COD:v1/biblioteca/repositorio.py#salvar_emprestimo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "multa"
+          ],
+          "evidencia": [
+            "REQ:RF-07 (apresenta o valor da multa)",
+            "COD:v1/biblioteca/servicos.py#\"multa\""
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-07",
+            "COD:v1/biblioteca/servicos.py#ErroDeNegocio"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P07"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "devolução registrada com a multa",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#Devolução registrada"
+            ]
+          },
+          {
+            "id": "NAO_ATIVO",
+            "descricao": "empréstimo não encontrado",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ]
+          },
+          {
+            "id": "NAO_ATIVO/2",
+            "descricao": "empréstimo já devolvido",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ],
+            "oculto": true
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "só empréstimo ativo pode ser devolvido",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#já devolvido"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "multa = dias de atraso × valor diário",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-07",
+              "COD:v1/biblioteca/servicos.py#dias_atraso * repositorio.parametro_multa"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P08",
+      "nome": "Relatório de atrasos",
+      "disparadores": [
+        {
+          "usuario": "UF1",
+          "evento": "bibliotecário solicita o relatório de empréstimos em atraso"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-08",
+        "COD:v1/biblioteca/api.py#GET /relatorios/atrasos",
+        "COD:v1/biblioteca/servicos.py#relatorio_atrasos"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "evidencia": [
+            "REQ:RF-08 (sem parâmetros)",
+            "COD:v1/biblioteca/api.py#GET /relatorios/atrasos"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "leitor",
+            "livro",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-08",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (nome do leitor)",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (título do livro)",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroMulta",
+          "atributos": [
+            "valor_dia"
+          ],
+          "evidencia": [
+            "REQ:RF-08 (multa estimada)",
+            "COD:v1/biblioteca/repositorio.py#parametro_multa"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "data_prevista",
+            "dias_atraso",
+            "multa_estimada"
+          ],
+          "evidencia": [
+            "REQ:RF-08",
+            "COD:v1/biblioteca/servicos.py#dias_atraso"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "atributos": [
+            "nome"
+          ],
+          "evidencia": [
+            "REQ:RF-08",
+            "COD:v1/biblioteca/servicos.py#nome_leitor"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "atributos": [
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-08",
+            "COD:v1/biblioteca/servicos.py#titulo_livro"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "REQ:RF-08 (não há atrasos)",
+            "COD:v1/biblioteca/servicos.py#Não há empréstimos em atraso"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P08"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "relatório de atrasos",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#relatorio_atrasos"
+            ]
+          },
+          {
+            "id": "VAZIO",
+            "descricao": "não há empréstimos em atraso",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#Não há empréstimos em atraso"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "em atraso = ativo com data prevista anterior à data atual",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/repositorio.py#data_prevista < ?"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "dias de atraso = hoje − data prevista",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#dias_atraso"
+            ]
+          },
+          {
+            "id": "C2",
+            "descricao": "multa estimada = dias × valor diário",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-08",
+              "COD:v1/biblioteca/servicos.py#multa_estimada"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P09",
+      "nome": "Notificar atrasos",
+      "disparadores": [
+        {
+          "usuario": "UF2",
+          "evento": "tique diário do agendador"
+        }
+      ],
+      "evidencia": [
+        "REQ:RF-09",
+        "COD:v1/biblioteca/jobs.py#job_diario",
+        "COD:v1/biblioteca/servicos.py#notificar_atrasos"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "DISPARO",
+          "usuario": "UF2",
+          "evidencia": [
+            "REQ:RF-09 (diariamente)",
+            "COD:v1/biblioteca/jobs.py#job_diario"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Emprestimo",
+          "atributos": [
+            "id",
+            "leitor",
+            "livro",
+            "data_prevista",
+            "status"
+          ],
+          "evidencia": [
+            "REQ:RF-09",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Leitor",
+          "atributos": [
+            "cpf",
+            "nome",
+            "email"
+          ],
+          "evidencia": [
+            "REQ:RF-09",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Livro",
+          "atributos": [
+            "isbn",
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-09",
+            "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Emprestimo",
+          "usuario": "UF3",
+          "atributos": [
+            "data_prevista",
+            "dias_atraso"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (conteúdo do e-mail)",
+            "COD:v1/biblioteca/email_cliente.py#enviar"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Leitor",
+          "usuario": "UF3",
+          "atributos": [
+            "nome",
+            "email"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (destinatário e saudação)",
+            "COD:v1/biblioteca/email_cliente.py#enviar"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Livro",
+          "usuario": "UF3",
+          "atributos": [
+            "titulo"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (conteúdo do e-mail)",
+            "COD:v1/biblioteca/email_cliente.py#enviar"
+          ]
+        },
+        {
+          "tipo": "E",
+          "entidade": "Notificacao",
+          "usuario": "UF3",
+          "atributos": [
+            "status_envio"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (status devolvido pelo serviço)",
+            "COD:v1/biblioteca/email_cliente.py#status informado"
+          ],
+          "nota": "RI-05 c: a resposta do serviço é usada (gravada)"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Notificacao",
+          "atributos": [
+            "emprestimo",
+            "data_envio",
+            "status_envio"
+          ],
+          "evidencia": [
+            "REQ:RF-09 (registra a notificação)",
+            "COD:v1/biblioteca/repositorio.py#salvar_notificacao"
+          ]
+        }
+      ],
+      "aceite": {
+        "status": "aceito",
+        "data": "2026-02-27",
+        "evidencia": [
+          "TST:testes/teste_aceitacao.py#teste_P09"
+        ]
+      },
+      "producao": {
+        "modo": "M0",
+        "evidencia": [
+          "PROC:commits da v1.0 (jan–fev/2026) com autores humanos e sem coautoria de IA"
+        ]
+      },
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "ENVIADO",
+            "descricao": "notificação enviada",
+            "tipo": "sucesso",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/email_cliente.py#enviado"
+            ]
+          },
+          {
+            "id": "FALHA",
+            "descricao": "falha de envio registrada",
+            "tipo": "recusa",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/email_cliente.py#falha"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "notifica apenas empréstimos ativos em atraso",
+            "tipo": "validacao",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/repositorio.py#emprestimos_em_atraso"
+            ]
+          },
+          {
+            "id": "C1",
+            "descricao": "dias de atraso = hoje − data prevista",
+            "tipo": "calculo",
+            "evidencia": [
+              "REQ:RF-09",
+              "COD:v1/biblioteca/servicos.py#notificar_atrasos"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "producao": {
+    "abrange": "software",
+    "periodo": "2026-01 a 2026-02",
+    "horas_humanas": 160,
+    "custo_humano": 24000,
+    "custo_ia": 0,
+    "moeda": "BRL",
+    "evidencia": [
+      "PROC:apontamento de horas da equipe, jan–fev/2026 (ilustrativo)"
+    ],
+    "nota": "Valores ilustrativos: 160 h de refino, implementação, teste e aceite, sem uso de IA generativa."
+  }
+}

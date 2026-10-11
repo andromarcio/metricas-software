@@ -1,0 +1,885 @@
+{
+  "mfo": "1.0",
+  "software": "siesa-doc",
+  "versao": "5.0.0",
+  "proposito": "Medir o tamanho funcional especificado na documentação N3 (extração mecânica)",
+  "escopo": "features ADM-USR",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ferramenta",
+    "nome": "extrair_n3.py 1.0",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "DOC",
+      "tipo": "requisitos",
+      "ref": "/home/user/siesa-doc@49265a9"
+    },
+    {
+      "id": "PROC",
+      "tipo": "processo",
+      "ref": "histórico git da instância"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-PESSOA",
+      "nome": "Usuário da conta (tela)",
+      "tipo": "pessoa"
+    },
+    {
+      "id": "UF-SISTEMA",
+      "nome": "Sistema externo, webhook ou orquestrador de etapas",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Conta",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Conta"
+      ]
+    },
+    {
+      "id": "Convite",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Convite"
+      ]
+    },
+    {
+      "id": "Perfil",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Perfil"
+      ]
+    },
+    {
+      "id": "Pessoa",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Pessoa"
+      ]
+    },
+    {
+      "id": "Usuario",
+      "evidencia": [
+        "DOC:global/data-models/administracao.md#Usuario"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "ADM-USR-06",
+      "nome": "Aceitar convite",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_INVALID",
+            "descricao": "convite fora de PENDENTE",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "CONVITE_INVALID/2",
+            "descricao": "e-mail divergente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "código inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "senha",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR/2",
+            "descricao": "nome fora do padrão",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+            ],
+            "oculto": true
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Só um convite pendente pode ser aceito — cancelado ou expirado não ativa acesso (→ ver Convite no DATA-MODEL.md).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O aceite ativa o usuário na organização já com o perfil definido no convite (→ ver ADM-USR-02: regra 1).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Se o e-mail já pertence a uma pessoa do Aval, o aceite exige a prova da identidade dela (senha atual ou Google do mesmo ",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R4",
+            "descricao": "O aceite conclui o convite e é registrado na trilha de auditoria.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-SISTEMA",
+          "evento": "evento consumido: `convite.criado`"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+      ],
+      "apf": {
+        "pf": 10,
+        "tipo": "EE",
+        "pes": [
+          "Aceitar convite",
+          "Consultar convite pelo código"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-aceitar-convite.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Pessoa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Campos"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Conta",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Métricas de tamanho"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Métricas de tamanho"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Conta",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Métricas de tamanho"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API",
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Métricas de tamanho"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-aceitar-convite.md (21 commits, 20 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    },
+    {
+      "id": "ADM-USR-03",
+      "nome": "Alterar perfil do usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "último Administrador ativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "usuário",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "perfil fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+            ],
+            "oculto": true
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "Cada usuário tem exatamente um perfil; a troca substitui o anterior (→ ver N1 Administração: Regras transversais de negó",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "Ação em tela** — origem: Administração · Usuários, ação \"Alterar perfil\" na linha"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 4,
+        "tipo": "EE",
+        "pes": [
+          "Alterar perfil do usuário"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-alterar-perfil-do-usuario.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Campos"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Campos",
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Campos"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-alterar-perfil-do-usuario.md (13 commits, 13 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    },
+    {
+      "id": "ADM-USR-02",
+      "nome": "Convidar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE",
+            "descricao": "e-mail já ativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "CONVITE_EMAIL_ACTIVE/2",
+            "descricao": "convite pendente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "perfil de outra conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND/2",
+            "descricao": "inexistente",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ],
+            "oculto": true
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "e-mail fora do formato",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "O convite define o perfil único que a pessoa terá ao ingressar.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "O e-mail convidado não pode pertencer a outro usuário ativo da organização.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R3",
+            "descricao": "Convite expira sem uso em 24 horas após o envio (decisão do PO de 2026-07-18).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-SISTEMA",
+          "evento": "evento consumido: `convite.aceito`"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 9,
+        "tipo": "EE",
+        "pes": [
+          "Convidar usuário",
+          "Perfis para o convite (combobox)"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-convidar-usuario.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Campos"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Campos",
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Memória de cálculo",
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Métricas de tamanho"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Convite",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Campos",
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Métricas de tamanho"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-convidar-usuario.md (18 commits, 17 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    },
+    {
+      "id": "ADM-USR-04",
+      "nome": "Desativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_LAST_ADMIN",
+            "descricao": "último Administrador ativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "usuário fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A desativação revoga o acesso imediatamente e não remove registros (desativação sem remoção).",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "A organização precisa manter ao menos um usuário ativo com o perfil Administrador. ⚠️ confirmar",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "Ação em tela** — origem: Administração · Usuários, ação \"Desativar\" na linha"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 3,
+        "tipo": "EE",
+        "pes": [
+          "Desativar usuário"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-desativar-usuario.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Superfície"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-desativar-usuario.md (12 commits, 12 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    },
+    {
+      "id": "ADM-USR-01",
+      "nome": "Pesquisar usuários",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Cenários"
+            ]
+          },
+          {
+            "id": "VALIDATION_ERROR",
+            "descricao": "parâmetros fora do domínio",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A pesquisa abrange apenas usuários da organização da sessão.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "Tela própria** — rota `/administracao/usuarios`"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+      ],
+      "apf": {
+        "pf": 5,
+        "tipo": "SE",
+        "pes": [
+          "Pesquisar usuários"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-pesquisar-usuarios.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Campos"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Dados lidos e gravados",
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Perfil",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Colunas do resultado"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-pesquisar-usuarios.md (12 commits, 12 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    },
+    {
+      "id": "ADM-USR-05",
+      "nome": "Reativar usuário",
+      "decisoes": {
+        "desfechos": [
+          {
+            "id": "OK",
+            "descricao": "desfecho principal",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Cenários"
+            ]
+          },
+          {
+            "id": "USUARIO_NOT_INACTIVE",
+            "descricao": "situação diferente de Inativo",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          },
+          {
+            "id": "RESOURCE_NOT_FOUND",
+            "descricao": "usuário fora da conta",
+            "tipo": "recusa",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+            ]
+          }
+        ],
+        "regras": [
+          {
+            "id": "R1",
+            "descricao": "A reativação restaura o perfil anterior do usuário.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          },
+          {
+            "id": "R2",
+            "descricao": "Somente usuários com situação \"Inativo\" podem ser reativados.",
+            "evidencia": [
+              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
+            ]
+          }
+        ]
+      },
+      "disparadores": [
+        {
+          "usuario": "UF-PESSOA",
+          "evento": "Ação em tela** — origem: Administração · Usuários, ação \"Reativar\" na linha de usuário inativo"
+        }
+      ],
+      "evidencia": [
+        "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Métricas de tamanho",
+        "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+      ],
+      "apf": {
+        "pf": 3,
+        "tipo": "EE",
+        "pes": [
+          "Reativar usuário"
+        ]
+      },
+      "n3": {
+        "arquivo": "modules/administracao/usuarios/f-reativar-usuario.md",
+        "estado": "implementado",
+        "dominio": "ADM",
+        "feature_set": "ADM-USR"
+      },
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Superfície"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Memória de cálculo"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "MENSAGEM",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Usuario",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ]
+        }
+      ],
+      "producao": {
+        "modo": "M2",
+        "evidencia": [
+          "PROC:git log -- modules/administracao/usuarios/f-reativar-usuario.md (12 commits, 12 com coautoria de IA)"
+        ],
+        "nota": "Heurística: M2 quando a maioria dos commits do arquivo tem coautoria de IA; revisão humana presumida pelos gates do N3."
+      }
+    }
+  ]
+}

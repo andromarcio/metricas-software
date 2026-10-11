@@ -1,0 +1,694 @@
+{
+  "software": "Aval (siesa-doc)",
+  "versao": "5.0.0 (estimativa E1)",
+  "proposito": "Estimar o Aval só pela lista de features (nome e entidade principal), para medir o erro da estimativa contra a extração",
+  "escopo": "85 features N3 como itens de backlog, sem ler o conteúdo dos N3",
+  "nivel_estimativa": "E1",
+  "fonte": {
+    "id": "IDX",
+    "tipo": "requisitos",
+    "ref": "modules/INDEX.md e nomes dos N3 (siesa-doc@49265a9)"
+  },
+  "itens": [
+    {
+      "id": "ADM-AUD-01",
+      "nome": "Pesquisar auditoria",
+      "entidades": [
+        "EventoAuditoria"
+      ],
+      "ref": "modules/administracao/auditoria/f-pesquisar-auditoria.md"
+    },
+    {
+      "id": "ADM-CTA-02",
+      "nome": "Autenticar usuário",
+      "entidades": [
+        "Identidade Google"
+      ],
+      "ref": "modules/administracao/conta/f-autenticar-usuario.md"
+    },
+    {
+      "id": "ADM-CTA-01",
+      "nome": "Criar conta",
+      "entidades": [
+        "Identidade Google"
+      ],
+      "ref": "modules/administracao/conta/f-criar-conta.md"
+    },
+    {
+      "id": "ADM-CTA-03",
+      "nome": "Recuperar senha",
+      "entidades": [
+        "Pessoa"
+      ],
+      "ref": "modules/administracao/conta/f-recuperar-senha.md"
+    },
+    {
+      "id": "ADM-CTA-03.2",
+      "nome": "Redefinir a senha",
+      "entidades": [
+        "Usuario"
+      ],
+      "ref": "modules/administracao/conta/f-recuperar-senha.md"
+    },
+    {
+      "id": "ADM-CTA-04",
+      "nome": "Trocar de conta",
+      "entidades": [
+        "Pessoa"
+      ],
+      "ref": "modules/administracao/conta/f-trocar-conta.md"
+    },
+    {
+      "id": "ADM-INT-01",
+      "nome": "Configurar conexão GitHub",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/administracao/integracoes/f-configurar-conexao-github.md"
+    },
+    {
+      "id": "ADM-INT-01.2",
+      "nome": "Processar revogação (webhook do GitHub)",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/administracao/integracoes/f-configurar-conexao-github.md"
+    },
+    {
+      "id": "ADM-MOD-01",
+      "nome": "Configurar modelo por etapa",
+      "entidades": [
+        "ModeloEtapa"
+      ],
+      "ref": "modules/administracao/modelos-ia/f-configurar-modelo-por-etapa.md"
+    },
+    {
+      "id": "ADM-ORG-03",
+      "nome": "Alterar organização",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/administracao/organizacao/f-alterar-organizacao.md"
+    },
+    {
+      "id": "ADM-ORG-01",
+      "nome": "Criar organização",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/administracao/organizacao/f-criar-organizacao.md"
+    },
+    {
+      "id": "ADM-ORG-02",
+      "nome": "Visualizar organização",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/administracao/organizacao/f-visualizar-organizacao.md"
+    },
+    {
+      "id": "ADM-PER-05",
+      "nome": "Ativar funcionalidade",
+      "entidades": [
+        "Funcionalidade"
+      ],
+      "ref": "modules/administracao/perfis/f-ativar-funcionalidade.md"
+    },
+    {
+      "id": "ADM-PER-02",
+      "nome": "Conceder funcionalidade",
+      "entidades": [
+        "PerfilFuncionalidade"
+      ],
+      "ref": "modules/administracao/perfis/f-conceder-funcionalidade.md"
+    },
+    {
+      "id": "ADM-PER-01",
+      "nome": "Criar perfil",
+      "entidades": [
+        "Perfil"
+      ],
+      "ref": "modules/administracao/perfis/f-criar-perfil.md"
+    },
+    {
+      "id": "ADM-PER-04",
+      "nome": "Desativar funcionalidade",
+      "entidades": [
+        "Funcionalidade"
+      ],
+      "ref": "modules/administracao/perfis/f-desativar-funcionalidade.md"
+    },
+    {
+      "id": "ADM-PER-03",
+      "nome": "Revogar funcionalidade",
+      "entidades": [
+        "PerfilFuncionalidade"
+      ],
+      "ref": "modules/administracao/perfis/f-revogar-funcionalidade.md"
+    },
+    {
+      "id": "ADM-PER-06",
+      "nome": "Visualizar matriz de perfis e funcionalidades",
+      "entidades": [
+        "Funcionalidade"
+      ],
+      "ref": "modules/administracao/perfis/f-visualizar-matriz-de-perfis.md"
+    },
+    {
+      "id": "ADM-USR-06",
+      "nome": "Aceitar convite",
+      "entidades": [
+        "Pessoa"
+      ],
+      "ref": "modules/administracao/usuarios/f-aceitar-convite.md"
+    },
+    {
+      "id": "ADM-USR-03",
+      "nome": "Alterar perfil do usuário",
+      "entidades": [
+        "Usuario"
+      ],
+      "ref": "modules/administracao/usuarios/f-alterar-perfil-do-usuario.md"
+    },
+    {
+      "id": "ADM-USR-02",
+      "nome": "Convidar usuário",
+      "entidades": [
+        "Convite"
+      ],
+      "ref": "modules/administracao/usuarios/f-convidar-usuario.md"
+    },
+    {
+      "id": "ADM-USR-04",
+      "nome": "Desativar usuário",
+      "entidades": [
+        "Usuario"
+      ],
+      "ref": "modules/administracao/usuarios/f-desativar-usuario.md"
+    },
+    {
+      "id": "ADM-USR-01",
+      "nome": "Pesquisar usuários",
+      "entidades": [
+        "Usuario"
+      ],
+      "ref": "modules/administracao/usuarios/f-pesquisar-usuarios.md"
+    },
+    {
+      "id": "ADM-USR-05",
+      "nome": "Reativar usuário",
+      "entidades": [
+        "Usuario"
+      ],
+      "ref": "modules/administracao/usuarios/f-reativar-usuario.md"
+    },
+    {
+      "id": "AGT-EXE-02",
+      "nome": "Detalhar requisitos",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-detalhar-requisitos.md"
+    },
+    {
+      "id": "AGT-EXE-07",
+      "nome": "Executar testes do sistema",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-executar-testes-do-sistema.md"
+    },
+    {
+      "id": "AGT-EXE-10",
+      "nome": "Gerar análise de impacto",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-analise-impacto.md"
+    },
+    {
+      "id": "AGT-EXE-04",
+      "nome": "Gerar casos de teste",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-casos-de-teste.md"
+    },
+    {
+      "id": "AGT-EXE-06",
+      "nome": "Gerar código",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-codigo.md"
+    },
+    {
+      "id": "AGT-EXE-03",
+      "nome": "Gerar modelo de dados",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-modelo-de-dados.md"
+    },
+    {
+      "id": "AGT-EXE-05",
+      "nome": "Gerar plano de implementação",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-plano-de-implementacao.md"
+    },
+    {
+      "id": "AGT-EXE-09",
+      "nome": "Gerar preparação do sistema",
+      "entidades": [
+        "ExecucaoAgente"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-preparacao-do-sistema.md"
+    },
+    {
+      "id": "AGT-EXE-09.2",
+      "nome": "Materializar preparação aprovada (agente)",
+      "entidades": [
+        "ExecucaoAgente"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-preparacao-do-sistema.md"
+    },
+    {
+      "id": "AGT-EXE-11",
+      "nome": "Gerar protótipo",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-gerar-prototipo.md"
+    },
+    {
+      "id": "AGT-EXE-08",
+      "nome": "Preparar implantação",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-preparar-implantacao.md"
+    },
+    {
+      "id": "AGT-EXE-01",
+      "nome": "Processar triagem",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/agentes/execucao/f-processar-triagem.md"
+    },
+    {
+      "id": "DEM-INT-02",
+      "nome": "Iniciar esteira",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/intake/f-iniciar-esteira.md"
+    },
+    {
+      "id": "DEM-INT-03",
+      "nome": "Iniciar execução do acervo",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/intake/f-iniciar-execucao-do-acervo.md"
+    },
+    {
+      "id": "DEM-INT-01",
+      "nome": "Registrar demanda",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/intake/f-registrar-demanda.md"
+    },
+    {
+      "id": "DEM-PAI-02",
+      "nome": "Cancelar demanda",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/painel/f-cancelar-demanda.md"
+    },
+    {
+      "id": "DEM-PAI-01",
+      "nome": "Pesquisar demandas",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/painel/f-pesquisar-demandas.md"
+    },
+    {
+      "id": "DEM-PAI-01.2",
+      "nome": "Consultar resumo do painel (contadores)",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/demandas/painel/f-pesquisar-demandas.md"
+    },
+    {
+      "id": "EST-ACO-01",
+      "nome": "Acompanhar esteira",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-acompanhar-esteira.md"
+    },
+    {
+      "id": "EST-ACO-10",
+      "nome": "Consultar consumo de IA",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-consultar-consumo-de-ia.md"
+    },
+    {
+      "id": "EST-ACO-09",
+      "nome": "Consultar saúde das esteiras",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-consultar-saude-das-esteiras.md"
+    },
+    {
+      "id": "EST-ACO-08",
+      "nome": "Visualizar análise de impacto",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-analise-impacto.md"
+    },
+    {
+      "id": "EST-ACO-04",
+      "nome": "Visualizar casos de teste",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-casos-de-teste.md"
+    },
+    {
+      "id": "EST-ACO-05",
+      "nome": "Visualizar codificação",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-codificacao.md"
+    },
+    {
+      "id": "EST-ACO-07",
+      "nome": "Visualizar implantação",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-implantacao.md"
+    },
+    {
+      "id": "EST-ACO-03",
+      "nome": "Visualizar modelo de dados",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-modelo-de-dados.md"
+    },
+    {
+      "id": "EST-ACO-11",
+      "nome": "Visualizar protótipo",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-prototipo.md"
+    },
+    {
+      "id": "EST-ACO-02",
+      "nome": "Visualizar requisitos",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-requisitos.md"
+    },
+    {
+      "id": "EST-ACO-06",
+      "nome": "Visualizar testes do sistema",
+      "entidades": [
+        "Demanda"
+      ],
+      "ref": "modules/esteira/acompanhamento/f-visualizar-testes-do-sistema.md"
+    },
+    {
+      "id": "EST-APR-09",
+      "nome": "Aprovar escopo de impacto",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-aprovar-escopo.md"
+    },
+    {
+      "id": "EST-APR-01",
+      "nome": "Aprovar etapa",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-aprovar-etapa.md"
+    },
+    {
+      "id": "EST-APR-03",
+      "nome": "Aprovar feature",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-aprovar-feature.md"
+    },
+    {
+      "id": "EST-APR-04",
+      "nome": "Aprovar história",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-aprovar-historia.md"
+    },
+    {
+      "id": "EST-APR-07",
+      "nome": "Autorizar implantação",
+      "entidades": [
+        "GitHub"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-autorizar-implantacao.md"
+    },
+    {
+      "id": "EST-APR-06",
+      "nome": "Homologar entrega",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-homologar-entrega.md"
+    },
+    {
+      "id": "EST-APR-08",
+      "nome": "Listar pendências",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-listar-pendencias.md"
+    },
+    {
+      "id": "EST-APR-05",
+      "nome": "Reprovar testes do sistema",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-reprovar-testes-do-sistema.md"
+    },
+    {
+      "id": "EST-APR-10",
+      "nome": "Responder esclarecimentos",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-responder-esclarecimentos.md"
+    },
+    {
+      "id": "EST-APR-02",
+      "nome": "Solicitar ajustes",
+      "entidades": [
+        "PendenciaAprovacao"
+      ],
+      "ref": "modules/esteira/aprovacoes/f-solicitar-ajustes.md"
+    },
+    {
+      "id": "OPE-GCO-02",
+      "nome": "Criar organização",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-criar-organizacao-operador.md"
+    },
+    {
+      "id": "OPE-GCO-06",
+      "nome": "Definir limites de consumo",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-definir-limites-de-consumo.md"
+    },
+    {
+      "id": "OPE-GCO-03",
+      "nome": "Editar organização",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-editar-organizacao-operador.md"
+    },
+    {
+      "id": "OPE-GCO-07",
+      "nome": "Entrar como",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-entrar-como.md"
+    },
+    {
+      "id": "OPE-GCO-01",
+      "nome": "Listar contas",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-listar-contas.md"
+    },
+    {
+      "id": "OPE-GCO-01.2",
+      "nome": "Consultar resumo da plataforma",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-listar-contas.md"
+    },
+    {
+      "id": "OPE-GCO-05",
+      "nome": "Reativar conta",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-reativar-conta.md"
+    },
+    {
+      "id": "OPE-GCO-04",
+      "nome": "Suspender conta",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/operacao/gestao-contas/f-suspender-conta.md"
+    },
+    {
+      "id": "SIS-ACE-01",
+      "nome": "Visualizar catálogo de features",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/acervo/f-visualizar-catalogo-de-features.md"
+    },
+    {
+      "id": "SIS-ACE-02",
+      "nome": "Visualizar mapa de features",
+      "entidades": [
+        "EsteiraExecucao"
+      ],
+      "ref": "modules/sistemas/acervo/f-visualizar-mapa-de-features.md"
+    },
+    {
+      "id": "SIS-CAD-04",
+      "nome": "Alterar sistema",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-alterar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-01",
+      "nome": "Cadastrar sistema",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-cadastrar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-02",
+      "nome": "Definir sistema ativo",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-definir-sistema-ativo.md"
+    },
+    {
+      "id": "SIS-CAD-05",
+      "nome": "Preparar sistema",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-preparar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-05.2",
+      "nome": "Acompanhar preparação e proposta",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-preparar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-05.3",
+      "nome": "Aprovar proposta de preparação",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-preparar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-05.4",
+      "nome": "Solicitar ajustes na proposta",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-preparar-sistema.md"
+    },
+    {
+      "id": "SIS-CAD-03",
+      "nome": "Transferir sistema",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/cadastro/f-transferir-sistema.md"
+    },
+    {
+      "id": "SIS-CFG-02",
+      "nome": "Configurar aprovadores",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/configuracoes/f-configurar-aprovadores.md"
+    },
+    {
+      "id": "SIS-CFG-03",
+      "nome": "Configurar estratégia",
+      "entidades": [
+        "Sistema"
+      ],
+      "ref": "modules/sistemas/configuracoes/f-configurar-estrategia.md"
+    },
+    {
+      "id": "SIS-CFG-04",
+      "nome": "Configurar ferramenta de demandas",
+      "entidades": [
+        "FerramentaDemandas"
+      ],
+      "ref": "modules/sistemas/configuracoes/f-configurar-ferramenta-de-demandas.md"
+    },
+    {
+      "id": "SIS-CFG-01",
+      "nome": "Configurar repositórios",
+      "entidades": [
+        "Conta"
+      ],
+      "ref": "modules/sistemas/configuracoes/f-configurar-repositorios.md"
+    }
+  ]
+}
