@@ -5,7 +5,7 @@ mfo.py — ferramenta de referência do método MFO (Medição Funcional Objetiv
 
 Subcomandos:
   validar       <modelo.json>                      valida o Modelo Funcional Canônico (V-01 a V-11)
-  contar        <modelo.json> [--json]             PFO, perfil funcional, suplemento D, produção e rótulo
+  contar        <modelo.json> [--json]             PFO, perfil funcional, produção e rótulo
   mudanca       <antes.json> <depois.json> [--json] tamanho de uma mudança (RC-03), por modo de produção
   concordancia  <a.json> <b.json> [--json]         índice de concordância entre duas medições (seção 4.4)
   impacto       <modelo.json> --dirs A B | --git REPO A B   processos afetados por um diff de código (capítulo 8)
@@ -29,7 +29,7 @@ from collections import Counter
 
 VERSAO_METODO = "1.0"
 TIPOS = ("E", "X", "R", "W")
-RESERVADAS = {"MENSAGEM": "X", "DISPARO": "E"}
+RESERVADAS = {"DISPARO": "E"}
 NIVEIS = ("R", "C", "RC")
 TIPOS_UF = ("pessoa", "sistema", "dispositivo", "relogio")
 TIPOS_AGENTE = ("humano", "ia", "ferramenta")
@@ -222,30 +222,23 @@ def validar(modelo):
             elif situacao_evidencia(ac, fontes) is None:
                 erros.append(f"V-10: processo '{pid}': 'aceite' sem evidência válida (ou 'inferido': true com 'justificativa')")
 
-        # V-11 decisões (suplemento D, capítulo 12): desfechos (D1) e regras (D2)
-        dec = p.get("decisoes")
-        if dec is not None:
-            if not isinstance(dec, dict):
-                erros.append(f"V-11: processo '{pid}': 'decisoes' deve ser objeto com 'desfechos' e 'regras'")
-            else:
-                for lista in ("desfechos", "regras"):
-                    itens = dec.get(lista)
-                    if not isinstance(itens, list):
-                        erros.append(f"V-11: processo '{pid}': 'decisoes.{lista}' deve ser lista")
-                        continue
-                    if lista == "desfechos" and not itens:
-                        erros.append(f"V-11: processo '{pid}': 'decisoes.desfechos' precisa de ao menos o desfecho principal")
-                    ids = set()
-                    for k, it in enumerate(itens):
-                        rot = f"processo '{pid}', {lista} #{k + 1}"
-                        if not isinstance(it, dict) or not str(it.get("id", "")).strip():
-                            erros.append(f"V-11: {rot} precisa de 'id'")
-                            continue
-                        if it["id"] in ids:
-                            erros.append(f"V-11: {rot} repete o id '{it['id']}'")
-                        ids.add(it["id"])
-                        if situacao_evidencia(it, fontes) is None:
-                            erros.append(f"V-11: {rot} ('{it['id']}') sem evidência válida (ou 'inferido': true com 'justificativa')")
+        # V-11 desfechos (RI-12, RC-05): recusas e variantes além do desfecho principal, um por código ou mensagem
+        desf = p.get("desfechos")
+        if desf is not None and not isinstance(desf, list):
+            erros.append(f"V-11: processo '{pid}': 'desfechos' deve ser lista")
+            desf = []
+        ids_d = set()
+        for k, it in enumerate(desf or []):
+            rot = f"processo '{pid}', desfecho #{k + 1}"
+            if not isinstance(it, dict) or not str(it.get("id", "")).strip():
+                erros.append(f"V-11: {rot} precisa de 'id'")
+                continue
+            if it["id"] in ids_d:
+                erros.append(f"V-11: {rot} repete o id '{it['id']}'")
+            ids_d.add(it["id"])
+            if situacao_evidencia(it, fontes) is None:
+                erros.append(f"V-11: {rot} ('{it['id']}') sem evidência válida (ou 'inferido': true com 'justificativa')")
+        n_desf = len(desf or [])
 
         movs = p.get("movimentos")
         if not isinstance(movs, list) or not movs:
@@ -254,7 +247,6 @@ def validar(modelo):
 
         chaves = set()
         tipos = Counter()
-        n_mensagem = 0
         for j, m in enumerate(movs):
             rot = f"processo '{pid}', movimento #{j + 1}"
             if not isinstance(m, dict):
@@ -270,8 +262,6 @@ def validar(modelo):
             if ent in RESERVADAS:
                 if tipo != RESERVADAS[ent]:
                     erros.append(f"V-05: {rot}: '{ent}' só pode ser usada em movimentos {RESERVADAS[ent]}")
-                if ent == "MENSAGEM":
-                    n_mensagem += 1
             elif ent not in entidades:
                 erros.append(f"V-04: {rot} referencia entidade não declarada '{ent}'")
             else:
@@ -285,12 +275,10 @@ def validar(modelo):
             if m.get("usuario") is not None and m.get("usuario") not in ufs:
                 erros.append(f"V-08: {rot} referencia usuário funcional não declarado '{m.get('usuario')}'")
 
-        if n_mensagem > 1:
-            erros.append(f"V-05: processo '{pid}' tem {n_mensagem} movimentos X MENSAGEM (máximo 1)")
         if tipos["E"] == 0:
             erros.append(f"V-02: processo '{pid}' não tem movimento E")
-        if tipos["X"] == 0 and tipos["W"] == 0:
-            erros.append(f"V-03: processo '{pid}' não tem movimento X nem W")
+        if tipos["X"] == 0 and tipos["W"] == 0 and n_desf == 0:
+            erros.append(f"V-03: processo '{pid}' não tem movimento X nem W, nem desfecho")
 
         # V-09 assinatura: chaves + atributos (quando informados)
         attrs = []
@@ -341,7 +329,7 @@ def exigir_valido(modelo, rotulo):
 # ---------------------------------------------------------------------------
 
 def derivacao(p):
-    """RC-05. True/False quando todos os movimentos não reservados declaram 'atributos'; None caso contrário."""
+    """Derivação informativa (seção 3.5). True/False quando todos os movimentos não reservados declaram 'atributos'; None caso contrário."""
     entradas, saidas = set(), set()
     for m in p["movimentos"]:
         if m["entidade"] in RESERVADAS:
@@ -417,24 +405,15 @@ def indicadores_producao(pm, pfo_produzidos):
     return ind
 
 
-def decisoes_de(p):
-    """(D1, D2, ocultos) do processo: desfechos distinguíveis na fronteira, regras declaradas e, entre os
-    desfechos, quantos só um teste separa (mesmo código ou mensagem, condição de disparo distinta).
-    None quando não registrado."""
-    dec = p.get("decisoes")
-    if not isinstance(dec, dict):
-        return None, None, None
-    desf = dec.get("desfechos") or []
-    return len(desf), len(dec.get("regras") or []), sum(1 for d in desf if isinstance(d, dict) and d.get("oculto") is True)
+def desfechos_de(p):
+    """Desfechos declarados do processo (RI-12): recusas e variantes além do principal, um por código ou mensagem."""
+    d = p.get("desfechos")
+    return d if isinstance(d, list) else []
 
 
-def resumo_decisoes(linhas):
-    com = [l for l in linhas if l["d1"] is not None]
-    d1, d2, oc = sum(l["d1"] for l in com), sum(l["d2"] for l in com), sum(l["ocultos"] for l in com)
-    return {"D1": d1, "D2": d2, "D1_ocultos": oc, "D1_visiveis": d1 - oc,
-            "processos_com_registro": len(com), "processos_sem_registro": len(linhas) - len(com),
-            "D1_por_processo": (d1 / len(com)) if com else None,
-            "D2_por_processo": (d2 / len(com)) if com else None}
+def pfo_processo(p):
+    """RC-01: chaves de movimento distintas mais desfechos distintos (modelo válido: sem repetição, V-06 e V-11)."""
+    return len(p["movimentos"]) + len(desfechos_de(p))
 
 
 def contar(modelo):
@@ -447,20 +426,21 @@ def contar(modelo):
     pfo_por_processo = {}
     for p in modelo["processos"]:
         tipos = Counter(m["tipo"] for m in p["movimentos"])
-        pfo = len(p["movimentos"])  # modelo válido: chaves únicas (V-06)
-        ev = sum(1 for m in p["movimentos"] if situacao_evidencia(m, fontes) == "evidenciado")
+        desf = desfechos_de(p)
+        tipos["D"] = len(desf)
+        pfo = pfo_processo(p)
+        ev = sum(1 for x in p["movimentos"] + desf if situacao_evidencia(x, fontes) == "evidenciado")
         inf = pfo - ev
         d = derivacao(p)
         if d is True:
             d_sim += 1
         elif d is None:
             d_nd += 1
-        d1, d2, ocultos = decisoes_de(p)
         linhas.append({
             "id": p["id"], "nome": p.get("nome", ""),
-            "E": tipos["E"], "X": tipos["X"], "R": tipos["R"], "W": tipos["W"],
+            "E": tipos["E"], "X": tipos["X"], "R": tipos["R"], "W": tipos["W"], "D": tipos["D"],
             "pfo": pfo, "derivacao": d, "evidenciados": ev, "inferidos": inf,
-            "modo": modo_de(p), "aceite": status_aceite_de(p), "d1": d1, "d2": d2, "ocultos": ocultos,
+            "modo": modo_de(p), "aceite": status_aceite_de(p),
         })
         pfo_por_processo[p["id"]] = pfo
         total_tipos.update(tipos)
@@ -472,14 +452,14 @@ def contar(modelo):
     ne = len(modelo["entidades"])
     perfil = {
         "PFO": pfo, "NP": np_, "NE": ne,
-        "E": total_tipos["E"], "X": total_tipos["X"], "R": total_tipos["R"], "W": total_tipos["W"],
+        "E": total_tipos["E"], "X": total_tipos["X"], "R": total_tipos["R"], "W": total_tipos["W"], "D": total_tipos["D"],
         "densidade": (pfo / np_) if np_ else None,
         "persistencia": ((total_tipos["R"] + total_tipos["W"]) / pfo) if pfo else None,
-        "interface": ((total_tipos["E"] + total_tipos["X"]) / pfo) if pfo else None,
+        "interface": ((total_tipos["E"] + total_tipos["X"] + total_tipos["D"]) / pfo) if pfo else None,
         "entidades_por_processo": (ne / np_) if np_ else None,
         "evidencia_pct": pct(evidenciados, pfo),
         "evidenciados": evidenciados, "inferidos": inferidos,
-        "D": d_sim, "D_nd": d_nd,
+        "derivacao": d_sim, "derivacao_nd": d_nd,
     }
     producao = resumo_producao(modelo, pfo_por_processo)
     pm = modelo.get("producao")
@@ -493,7 +473,6 @@ def contar(modelo):
         "producao": producao, "indicadores_producao": indicadores,
         "producao_abrange": pm.get("abrange") if isinstance(pm, dict) else None,
         "estimativa": modelo.get("estimativa"),
-        "decisoes": resumo_decisoes(linhas),
     }
 
 
@@ -579,46 +558,31 @@ def relatorio_md(rel):
     if rel.get("estimativa"):
         e = rel["estimativa"]
         out.append(f"**Estimativa:** nível {e.get('nivel')} · {e.get('pfo_min')} a {e.get('pfo_max')} PFO · base: {e.get('base')}\n")
-    dz = rel.get("decisoes") or {}
-    if dz.get("processos_com_registro"):
-        sem = f" · {dz['processos_sem_registro']} processos sem registro" if dz["processos_sem_registro"] else ""
-        oc = f" (dos quais {dz['D1_ocultos']} só um teste distingue)" if dz.get("D1_ocultos") else ""
-        out.append(f"**Decisões (suplemento D):** D1 = {dz['D1']} desfechos{oc} · D2 = {dz['D2']} regras{sem}\n")
     out.append(f"**Propósito:** {rel['proposito']}\n")
     out.append("## Perfil funcional\n")
     out.append("| Indicador | Valor |\n|---|---|")
     out.append(f"| PFO | **{p['PFO']}** |")
     out.append(f"| NP (processos) | {p['NP']} |")
     out.append(f"| NE (entidades) | {p['NE']} |")
-    out.append(f"| E / X / R / W | {p['E']} / {p['X']} / {p['R']} / {p['W']} |")
+    out.append(f"| E / X / R / W / D | {p['E']} / {p['X']} / {p['R']} / {p['W']} / {p['D']} |")
     out.append(f"| Densidade (PFO/NP) | {fmt_num(p['densidade'])} |")
     out.append(f"| Persistência ((R+W)/PFO) | {fmt_num(p['persistencia'])} |")
-    out.append(f"| Interface ((E+X)/PFO) | {fmt_num(p['interface'])} |")
+    out.append(f"| Interface ((E+X+D)/PFO) | {fmt_num(p['interface'])} |")
     out.append(f"| Entidades por processo (NE/NP) | {fmt_num(p['entidades_por_processo'])} |")
     out.append(f"| Evidência | {p['evidencia_pct']:.0f}% ({p['inferidos']} inferidos) |")
-    d_txt = f"{p['D']} de {p['NP'] - p['D_nd']}" + (f" ({p['D_nd']} n/d)" if p["D_nd"] else "")
+    d_txt = f"{p['derivacao']} de {p['NP'] - p['derivacao_nd']}" + (f" ({p['derivacao_nd']} n/d)" if p["derivacao_nd"] else "")
     out.append(f"| Derivação (processos com atributo calculado) | {d_txt} |")
-    dz = rel.get("decisoes") or {}
-    if dz.get("processos_com_registro"):
-        oc = f" · {dz['D1_visiveis']} visíveis por código ou mensagem, {dz['D1_ocultos']} só por teste" if dz.get("D1_ocultos") else ""
-        out.append(f"| D1 desfechos (RC-05) | {dz['D1']} · {fmt_num(dz['D1_por_processo'])} por processo{oc} |")
-        out.append(f"| D2 regras declaradas (RC-05) | {dz['D2']} · {fmt_num(dz['D2_por_processo'])} por processo |")
     out.append("\n## Processos\n")
     com_prod = rel["producao"]["declarado"]
-    com_dec = bool((rel.get("decisoes") or {}).get("processos_com_registro"))
-    cab = "| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. |" + (" D1 | D2 |" if com_dec else "") + (" Modo | Aceite |" if com_prod else "")
-    out.append(cab + "\n|---|---|---|---|---|---|---|---|---|" + ("---|---|" if com_dec else "") + ("---|---|" if com_prod else ""))
+    cab = "| ID | Processo | E | X | R | W | D | PFO | Deriv. | Evid. |" + (" Modo | Aceite |" if com_prod else "")
+    out.append(cab + "\n|---|---|---|---|---|---|---|---|---|---|" + ("---|---|" if com_prod else ""))
     for l in rel["processos"]:
         d = {True: "sim", False: "não", None: "n/d"}[l["derivacao"]]
-        linha = f"| {l['id']} | {l['nome']} | {l['E']} | {l['X']} | {l['R']} | {l['W']} | **{l['pfo']}** | {d} | {l['evidenciados']}/{l['pfo']} |"
-        if com_dec:
-            linha += f" {l['d1'] if l['d1'] is not None else 'n/d'} | {l['d2'] if l['d2'] is not None else 'n/d'} |"
+        linha = f"| {l['id']} | {l['nome']} | {l['E']} | {l['X']} | {l['R']} | {l['W']} | {l['D']} | **{l['pfo']}** | {d} | {l['evidenciados']}/{l['pfo']} |"
         if com_prod:
             linha += f" {l['modo']} | {l['aceite'] or '—'} |"
         out.append(linha)
-    dz = rel.get("decisoes") or {}
-    out.append(f"| | **Total** | {p['E']} | {p['X']} | {p['R']} | {p['W']} | **{p['PFO']}** | | |"
-               + (f" **{dz.get('D1')}** | **{dz.get('D2')}** |" if com_dec else "") + (" | |" if com_prod else ""))
+    out.append(f"| | **Total** | {p['E']} | {p['X']} | {p['R']} | {p['W']} | {p['D']} | **{p['PFO']}** | | |" + (" | |" if com_prod else ""))
     if com_prod:
         out.append("")
         out.append(md_producao(rel["producao"], rel["indicadores_producao"], rel["producao_abrange"]))
@@ -630,11 +594,13 @@ def relatorio_md(rel):
 # ---------------------------------------------------------------------------
 
 def chaves_modelo(modelo):
-    """{(pid, tipo, entidade): movimento}"""
+    """{(pid, tipo, entidade): movimento} mais {(pid, "D", id): desfecho}: as unidades que a RC-01 conta."""
     out = {}
     for p in modelo["processos"]:
         for m in p["movimentos"]:
             out[(p["id"], m["tipo"], m["entidade"])] = m
+        for d in desfechos_de(p):
+            out[(p["id"], "D", d["id"])] = d
     return out
 
 
@@ -774,6 +740,8 @@ def _elementos_com_evidencia(modelo):
         yield f"{pid}", p
         for m in p.get("movimentos") or []:
             yield f"{pid} · {m.get('tipo')} {m.get('entidade')}", m
+        for d in desfechos_de(p):
+            yield f"{pid} · D {d.get('id')}", d
         if isinstance(p.get("producao"), dict):
             yield f"{pid} · produção", p["producao"]
         if isinstance(p.get("aceite"), dict):
@@ -971,6 +939,8 @@ def impacto(modelo, mudancas, fonte, prefixos=()):
         avaliar(p, "")
         for m in p.get("movimentos") or []:
             avaliar(m, f"{m.get('tipo')} {m.get('entidade')}")
+        for d in desfechos_de(p):
+            avaliar(d, f"D {d.get('id')}")
         processos.append({"id": p["id"], "nome": p.get("nome", ""), "situacao": situacao,
                           "trechos": sorted(set(trechos)), "candidatos": sorted(set(candidatos))})
     arquivos = []
@@ -1038,16 +1008,16 @@ def movimentos_tipicos(tipo, principal, extras):
     com entidade principal e entidades adicionais tocadas."""
     P = principal
     if tipo in ("criar", "alterar", "estado", "integrar", "outro"):
-        base = [("E", P), ("R", P), ("W", P), ("X", "MENSAGEM")]
+        base = [("E", P), ("R", P), ("W", P)]
         extra = [("R", e) for e in extras]
     elif tipo == "excluir":
-        base = [("E", P), ("W", P), ("X", "MENSAGEM")]
+        base = [("E", P), ("W", P)]
         extra = [("R", e) for e in extras]           # dependentes verificados
     elif tipo == "consultar":
-        base = [("E", P), ("R", P), ("X", P), ("X", "MENSAGEM")]
+        base = [("E", P), ("R", P), ("X", P)]
         extra = [m for e in extras for m in (("R", e), ("X", e))]
     elif tipo == "relatorio":
-        base = [("E", "DISPARO"), ("R", P), ("X", P), ("X", "MENSAGEM")]
+        base = [("E", "DISPARO"), ("R", P), ("X", P)]
         extra = [m for e in extras for m in (("R", e), ("X", e))]
     else:  # processar: automação disparada por evento ou relógio
         base = [("E", "DISPARO"), ("R", P), ("W", P)]
@@ -1060,12 +1030,17 @@ def movimentos_tipicos(tipo, principal, extras):
     return out
 
 
+# RE-01: desfechos típicos por tipo de processo (recusas além do desfecho principal)
+DESFECHOS_TIPICOS = {"criar": 1, "alterar": 1, "excluir": 1, "estado": 1, "integrar": 1, "outro": 1,
+                     "consultar": 0, "relatorio": 0, "processar": 0}
+
+
 def perfis(modelos):
     """RE-02: PFO por tipo de processo (n, mediana, p25, p75, média) a partir de modelos medidos."""
     por_tipo = {}
     for nome, modelo in modelos:
         for p in modelo["processos"]:
-            por_tipo.setdefault(tipo_processo(p), []).append(len(p["movimentos"]))
+            por_tipo.setdefault(tipo_processo(p), []).append(pfo_processo(p))
     saida = {}
     todos = []
     for tipo, valores in por_tipo.items():
@@ -1129,10 +1104,13 @@ def estimar(backlog, perfis_calibrados=None):
                          "justificativa": f"perfil típico '{tipo}' ({nivel}); confirmar na extração"})
             if e not in RESERVADAS:
                 entidades.setdefault(e, []).append(item["id"])
+        desf = [{"id": f"RECUSA{k + 1}", "descricao": "recusa de negócio típica do tipo", "tipo": "recusa", "inferido": True,
+                 "justificativa": f"perfil típico '{tipo}' ({nivel}); confirmar na extração"}
+                for k in range(DESFECHOS_TIPICOS.get(tipo, 1))]
         processos.append({"id": item["id"], "nome": p["nome"], "tipo_processo": tipo,
                           "disparadores": [{"usuario": uf, "evento": item.get("evento") or f"item de backlog {item['id']}"}],
                           "evidencia": [f"{fonte['id']}:{item.get('ref') or item['id']}"],
-                          "movimentos": movs})
+                          "movimentos": movs, **({"desfechos": desf} if desf else {})})
     for ent in backlog.get("entidades") or []:
         entidades.setdefault(ent, [])
     ufs = sorted({d["usuario"] for p in processos for d in p["disparadores"]})
@@ -1153,7 +1131,7 @@ def estimar(backlog, perfis_calibrados=None):
     # entidades não referenciadas por movimento violariam V-04: só entram as tocadas
     tocadas = {m["entidade"] for p in processos for m in p["movimentos"]}
     modelo["entidades"] = [e for e in modelo["entidades"] if e["id"] in tocadas]
-    pfo = sum(len(p["movimentos"]) for p in processos)
+    pfo = sum(pfo_processo(p) for p in processos)
     est = {"nivel": nivel, "pfo_modelo": pfo, "fator_calibracao": 1.0, "pfo_calibrado": pfo}
     if perfis_calibrados:
         tipos = [p["tipo_processo"] for p in processos]
@@ -1200,8 +1178,8 @@ def estimativa_md(modelo, medido=None):
     out.append("| ID | Processo | Tipo | Entidades | PFO |\n|---|---|---|---|---|")
     for p in modelo["processos"]:
         ents = sorted({m["entidade"] for m in p["movimentos"] if m["entidade"] not in RESERVADAS})
-        out.append(f"| {p['id']} | {p['nome']} | {p['tipo_processo']} | {', '.join(ents)} | {len(p['movimentos'])} |")
-    out.append("\nTodos os movimentos estão marcados como inferidos (evidência 0%); a extração substitui cada um por evidência conforme os artefatos surgem.\n")
+        out.append(f"| {p['id']} | {p['nome']} | {p['tipo_processo']} | {', '.join(ents)} | {pfo_processo(p)} |")
+    out.append("\nTodos os movimentos e desfechos estão marcados como inferidos (evidência 0%); a extração substitui cada um por evidência conforme os artefatos surgem.\n")
     return "\n".join(out)
 
 
@@ -1375,7 +1353,7 @@ def main(argv=None):
         if args.medido:
             mm = carregar(args.medido)
             exigir_valido(mm, args.medido)
-            medido = sum(len(p["movimentos"]) for p in mm["processos"])
+            medido = sum(pfo_processo(p) for p in mm["processos"])
         if args.saida:
             with open(args.saida, "w", encoding="utf-8") as f:
                 json.dump(modelo, f, ensure_ascii=False, indent=2)

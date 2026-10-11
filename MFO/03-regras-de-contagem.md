@@ -4,15 +4,16 @@
 
 A contagem é uma função determinística sobre um Modelo Funcional Canônico válido. Este
 capítulo define a função (RC), as validações que o modelo deve satisfazer antes de ser
-contado (V) e as regras para mudanças, agregação, suplemento e rotulagem.
+contado (V) e as regras para mudanças, agregação, derivação informativa e rotulagem.
 
 ## 3.1 Função de contagem
 
 > **RC-01 — Tamanho de um processo**
 >
 > PFO(processo) = número de chaves distintas (tipo, entidade) entre os movimentos do
-> processo. Cada chave vale 1 PFO, sem peso por tipo, por entidade ou por quantidade de
-> atributos.
+> processo **mais** o número de desfechos distintos além do principal (RI-12). Cada chave
+> e cada desfecho vale 1 PFO, sem peso por tipo, por entidade, por quantidade de atributos
+> ou por dificuldade da regra que produz o desfecho.
 
 > **RC-02 — Tamanho do software**
 >
@@ -23,7 +24,9 @@ contado (V) e as regras para mudanças, agregação, suplemento e rotulagem.
 
 Consequências diretas:
 
-- O menor processo possível tem 2 PFO (uma E e uma X ou W).
+- O menor processo possível tem 2 PFO: uma E e uma X, uma W ou um desfecho.
+- Um processo que recusa por três códigos distintos tem 3 PFO a mais do que o mesmo
+  processo sem recusa; dez validações sob o mesmo código valem 1.
 - Um processo que lê e grava a mesma entidade tem duas chaves (R e W) para ela.
 - Repetições de uma mesma chave no modelo são erro de validação (V-06), não dedução
   silenciosa: o modelo deve ser canônico.
@@ -37,15 +40,15 @@ não impedem a contagem, mas são listados no relatório.
 |---|---|---|
 | V-01 | erro | Identificadores de usuários funcionais, entidades e processos são únicos; `mfo`, `software`, `proposito`, `escopo`, `nivel`, `agente`, `fontes`, `usuarios_funcionais`, `entidades` e `processos` estão presentes; `nivel` é `R`, `C` ou `RC`. |
 | V-02 | erro | Todo processo tem pelo menos um movimento E (RI-04 T1). |
-| V-03 | erro | Todo processo tem pelo menos um movimento X ou W (RI-04 T2). |
-| V-04 | erro | Todo movimento referencia uma entidade declarada ou reservada; toda entidade declarada é referenciada por pelo menos um movimento. |
-| V-05 | erro | `MENSAGEM` só aparece em X e no máximo uma vez por processo; `DISPARO` só aparece em E (RI-05b, RI-06c). |
+| V-03 | erro | Todo processo tem pelo menos um movimento X ou W, ou um desfecho (RI-04 T2). |
+| V-04 | erro | Todo movimento referencia uma entidade declarada ou a reservada `DISPARO`; toda entidade declarada é referenciada por pelo menos um movimento. |
+| V-05 | erro | `DISPARO` só aparece em E (RI-05 b) e não é declarada como entidade. |
 | V-06 | erro | Não há duas chaves (tipo, entidade) iguais no mesmo processo (RI-09). |
-| V-07 | erro | Todo processo e todo movimento tem evidência com prefixo de fonte declarada, ou `inferido: true` com `justificativa` (RI-11). |
+| V-07 | erro | Todo processo, movimento e desfecho tem evidência com prefixo de fonte declarada, ou `inferido: true` com `justificativa` (RI-11). |
 | V-08 | erro | Todo processo tem pelo menos um disparador cujo `usuario` é um usuário funcional declarado (RI-02, RI-04 T1). |
 | V-09 | aviso | Dois processos com o mesmo conjunto de chaves e os mesmos atributos (quando informados) podem ser o mesmo processo (RI-04 b). O relatório os lista para revisão. |
 | V-10 | erro | Quando declarados: `producao.modo` é M0, M1, M2 ou M3 e `aceite.status` é aceito, pendente ou rejeitado, ambos com evidência ou inferência justificada; o bloco `producao` do modelo tem `abrange` (software ou mudanca) e valores numéricos não negativos (capítulo 9). |
-| V-11 | erro | Quando declarado: `decisoes` tem as listas `desfechos` (ao menos um item) e `regras`; cada item tem `id` único na lista e evidência ou inferência justificada (RC-05, capítulo 12). |
+| V-11 | erro | Quando declarados: `desfechos` é uma lista e cada item tem `id` único no processo e evidência ou inferência justificada (RI-12, RC-05). |
 
 A ferramenta de referência (`ferramentas/mfo.py validar`) implementa todas as validações.
 O esquema JSON cobre a parte estrutural de V-01, V-04, V-05, V-10 e V-11; as demais são
@@ -68,9 +71,11 @@ determinístico, como o do capítulo 10).
 >
 > PFO(mudança) = incluídos + alterados + excluídos.
 >
-> Um movimento é marcado como alterado quando mudou o conjunto de atributos que ele
-> movimenta ou a manipulação associada a ele (validação, cálculo, regra), conforme a
-> evidência. Mudanças que não afetam nenhum movimento (cor, texto fixo, desempenho,
+> As chaves de um modelo são as de movimento (processo, tipo, entidade) e as de desfecho
+> (processo, D, identificador). Um movimento é marcado como alterado quando mudou o
+> conjunto de atributos que ele movimenta ou a manipulação associada a ele (validação,
+> cálculo, regra), conforme a evidência; um desfecho, quando mudou o código, a mensagem
+> ou a condição que o produz. Mudanças que não afetam nenhum movimento (cor, texto fixo, desempenho,
 > refatoração, correção sem alteração de requisito) têm tamanho **zero** e devem ser
 > tratadas fora da métrica, por acordo contratual, como faz o Guia STI para manutenção
 > corretiva e adaptações não funcionais.
@@ -101,40 +106,22 @@ contagem.
 > c) Camadas diferentes (aplicação e serviço de infraestrutura, por exemplo) são medidas
 >    separadamente e reportadas separadamente.
 
-## 3.5 Suplemento D: decisões
+## 3.5 Desfechos e derivação
 
-A MFO, como o COSMIC, não mede manipulação de dados no tamanho. O que o PFO não vê, o
-capítulo 12 mostra: dois processos com as mesmas entidades em movimento podem diferir em
-uma ordem de grandeza no número de decisões que tomam. O suplemento D conta essa segunda
-dimensão com a mesma disciplina do PFO e a reporta sempre à parte.
-
-> **RC-05 — Suplemento D (decisões)**
+> **RC-05 — Desfechos no tamanho**
 >
-> a) **D1, desfechos distintos:** número de resultados que o processo pode produzir para o
->    usuário funcional, distinguíveis na fronteira por um teste de aceite: o desfecho
->    principal, cada variante de sucesso com efeito diferente e cada recusa ou erro de
->    negócio distinto por código, por mensagem ou, sob o mesmo código, pela condição de
->    entrada que o dispara, desde que declarada na fonte. Desfecho que só a condição
->    distingue é marcado `oculto` no modelo e informado à parte no relatório. Códigos
->    técnicos de autenticação, autorização e infraestrutura não contam (RI-10).
+> a) Os desfechos identificados pela RI-12 (um por código ou mensagem distinto, além do
+>    principal) entram na contagem como as chaves de movimento: 1 PFO cada, na RC-01, na
+>    mudança (RC-03) e na concordância (seção 4.4). Cada um tem evidência (V-07, V-11).
 >
-> b) **D2, regras declaradas:** número de regras de negócio enumeradas na fonte que
->    validam, restringem, mudam estado ou calculam, inclusive cada atributo derivado por
->    cálculo próprio. Regras de apresentação e técnicas não contam.
->
-> c) Cada desfecho e cada regra é um item do bloco `decisoes` do processo, com
->    identificador, descrição e evidência (RI-11). D1 tem ao menos o desfecho principal.
->
-> d) D1 e D2 são reportados por processo e no total, ao lado do PFO, e **nunca** somados a
->    ele. Processos sem o bloco aparecem como "n/d" e ficam fora das médias.
->
-> e) A base contratual é D1. D2 é registrada ao lado, como diagnóstico, até que
->    concordância entre medições e regressão sobre o histórico confirmem D1; o capítulo
->    12 fundamenta a escolha pelos critérios de objetividade e resistência a inflar.
+> b) Não há segunda dimensão, suplemento nem peso por regra: da decisão entra no número só
+>    o que ela devolve de visível. Regras sem desfecho próprio não contam, e dez
+>    validações sob um mesmo código valem um desfecho. O capítulo 12 registra por que a
+>    MFO escolheu assim.
 
 O relatório mantém, a título informativo, a derivação por atributos (processo cujas
 saídas ou gravações têm atributo ausente das entradas e leituras), que corresponde ao
-critério "dados derivados" da APF; ela não substitui D1 nem D2.
+critério "dados derivados" da APF; ela não entra no tamanho.
 
 ## 3.6 Rotulagem
 
@@ -144,11 +131,10 @@ critério "dados derivados" da APF; ela não substitui D1 nem D2.
 >
 > `<n> PFO · MFO <versão do método> · nível <R|C|RC> · evidência <p>% · agente: <tipo e nome; revisão humana sim/não> · escopo: <software, versão, escopo>`
 >
-> em que `evidência` é a porcentagem de movimentos com pelo menos uma evidência (não
-> inferidos). Mudanças usam a forma `<n> PFO de mudança (<i> incluídos, <a> alterados,
+> em que `evidência` é a porcentagem de movimentos e desfechos com pelo menos uma
+> evidência (não inferidos). Mudanças usam a forma `<n> PFO de mudança (<i> incluídos, <a> alterados,
 > <e> excluídos)` seguida do mesmo rótulo. Estimativas usam `≈ <n> PFO (estimativa
-> <E0|E1|E2>, <mín> a <máx>)` (capítulo 11). O suplemento, quando reportado, vem em linha
-> própria: `D = <n> de <NP>`.
+> <E0|E1|E2>, <mín> a <máx>)` (capítulo 11).
 
 Níveis de medição:
 

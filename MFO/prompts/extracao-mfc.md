@@ -57,9 +57,9 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
      entidade que descreve SOMENTE se o processo usa seus atributos.
    - X (RI-06): uma por entidade cujos atributos saem para um usuário funcional (tela,
      resposta, arquivo, mensagem, chamada a outro sistema). Saída com atributos de três
-     entidades = três X. Mensagens de erro/validação/sucesso/estado e identificadores
-     gerados (protocolo, token) = no máximo UMA X MENSAGEM por processo. Rótulos,
-     títulos, textos fixos e navegação não geram X.
+     entidades = três X. Mensagens de erro/validação/sucesso/estado NÃO são X: são
+     desfechos (item 8). Identificador gerado sem outros atributos (protocolo, token),
+     rótulos, títulos, textos fixos e navegação não geram X.
    - R (RI-07): uma por entidade da qual o processo obtém atributos do armazenamento para
      decidir, transformar ou enviar. Verificação de existência implícita na gravação não
      é R; verificação que lê atributos para decidir é R. Domínio, configuração, cache,
@@ -74,24 +74,23 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
    com FONTE declarada e localizador que permita abrir o artefato e confirmar (id de
    requisito, rota, símbolo com caminho, tabela/coluna, nome de tela ou mensagem).
    Sem evidência localizável: "inferido": true e "justificativa".
-8. Decisões (RC-05, capítulo 12): cada processo leva o bloco "decisoes", contado à parte e
-   nunca somado ao PFO. "desfechos" (D1, base contratual): o desfecho principal, cada
-   variante de sucesso com efeito diferente e cada recusa ou erro de negócio distinto por
-   código, por mensagem ou, sob o mesmo código, pela condição de entrada que o dispara,
-   desde que declarada na fonte; esta última leva "oculto": true. "regras" (D2,
-   diagnóstico): cada regra de negócio enumerada na fonte que valida, restringe, muda
-   estado ou calcula. Erros técnicos (RI-10) e regras de apresentação ficam fora. Cada
-   item tem "id" único na lista, "descricao" e "evidencia".
+8. Desfechos (RI-12, RC-05): cada processo lista em "desfechos" os resultados distintos,
+   além do principal, que devolve ao usuário funcional: um por código ou mensagem
+   (recusas, erros de negócio, variantes de sucesso com efeito diferente). O desfecho
+   principal NÃO é listado: já está nas X e W. Mesmo código ou mesma mensagem produzidos
+   por condições diferentes = UM desfecho. Erros técnicos (RI-10) não contam. Cada item
+   tem "id" (o código ou o nome da mensagem, único no processo), "descricao" e
+   "evidencia", e vale 1 PFO como um movimento.
 
 ## Casos frequentes (decisões fixadas)
-- Cadastro com unicidade (CPF único): E, R (verifica), W, X MENSAGEM.
-- Alterar: E, R, W, X MENSAGEM (a exibição prévia é o processo de consulta).
-- Excluir com bloqueio por dependentes: E, R (dependentes), W, X MENSAGEM. Sem verificação: E, W, X MENSAGEM.
-- Lista com filtros: E (filtros), R, X, X MENSAGEM ("nenhum registro").
-- Relatório sem parâmetros: E DISPARO, R..., X por entidade exibida, X MENSAGEM.
-- Autenticar: E Usuario, R Usuario, X MENSAGEM. Logout: não é processo. Trocar senha: E, R, W, X MENSAGEM.
+- Cadastro com unicidade (CPF único): E, R (verifica), W; desfecho: duplicidade.
+- Alterar: E, R, W; desfecho: não encontrado (a exibição prévia é o processo de consulta).
+- Excluir com bloqueio por dependentes: E, R (dependentes), W; desfecho: bloqueado. Sem verificação: E, W.
+- Lista com filtros: E (filtros), R, X; desfecho: "nenhum registro", quando a mensagem existe.
+- Relatório sem parâmetros: E DISPARO, R..., X por entidade exibida; desfecho: "sem dados", quando a mensagem existe.
+- Autenticar: E Usuario, R Usuario; desfecho: credenciais inválidas. Logout: não é processo. Trocar senha: E, R, W; desfecho: senha atual incorreta.
 - Job que envia e-mails por serviço externo: E DISPARO, R..., X por entidade enviada, E (status devolvido, se usado), W (se registra).
-- Consumidor de fila / webhook: E (entidade da mensagem), R..., W..., X MENSAGEM (se responde erro).
+- Consumidor de fila / webhook: E (entidade da mensagem), R..., W...; desfecho: rejeição com código, se responde erro.
 - Mesma função por tela e API: um processo, dois disparadores. Lote com relatório de rejeições além da entrada on-line: dois processos.
 
 ## Procedimento
@@ -100,12 +99,12 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
 3. Liste os candidatos a processo (pontos de entrada acessíveis a usuários funcionais) e
    aplique T1, T2, T3 e os desempates. Dê ids estáveis (P01, P02, ...) e nomes verbo+objeto.
 4. Para cada processo, liste os movimentos na ordem E, R, W, X, com atributos quando
-   conhecidos e evidência em cada um. Inclua a X MENSAGEM quando o processo emite
-   mensagens. Não repita chaves.
-5. Autoverifique: todo processo tem E; todo processo tem X ou W; toda entidade declarada é
-   usada; MENSAGEM só em X e no máximo uma por processo; DISPARO só em E; nenhuma chave
-   repetida; toda evidência tem prefixo de fonte declarada; dois processos com as mesmas
-   chaves e atributos provavelmente são um só.
+   conhecidos e evidência em cada um, e os desfechos além do principal (item 8). Não
+   repita chaves nem desfechos.
+5. Autoverifique: todo processo tem E; todo processo tem X, W ou desfecho; toda entidade
+   declarada é usada; DISPARO só em E; nenhuma chave repetida; toda evidência tem prefixo
+   de fonte declarada; dois processos com as mesmas chaves e atributos provavelmente são
+   um só.
 6. Responda SOMENTE com o JSON abaixo, sem comentários.
 
 ## Formato de saída
@@ -126,17 +125,11 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
         { "tipo": "E", "entidade": "<Nome ou DISPARO>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
         { "tipo": "R", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
         { "tipo": "W", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
-        { "tipo": "X", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] },
-        { "tipo": "X", "entidade": "MENSAGEM", "evidencia": ["<FONTE:loc>"] }
+        { "tipo": "X", "entidade": "<Nome>", "atributos": ["<...>"], "evidencia": ["<FONTE:loc>"] }
       ],
-      "decisoes": {
-        "desfechos": [
-          { "id": "OK", "descricao": "<desfecho principal>", "tipo": "sucesso", "evidencia": ["<FONTE:loc>"] },
-          { "id": "<CODIGO>", "descricao": "<causa da recusa>", "tipo": "recusa", "evidencia": ["<FONTE:loc>"] },
-          { "id": "<CODIGO>/2", "descricao": "<outra causa sob o mesmo código>", "tipo": "recusa", "oculto": true, "evidencia": ["<FONTE:loc>"] }
-        ],
-        "regras": [ { "id": "R1", "descricao": "<regra>", "tipo": "<validacao|limite|estado|calculo>", "evidencia": ["<FONTE:loc>"] } ]
-      }
+      "desfechos": [
+        { "id": "<CODIGO_OU_MENSAGEM>", "descricao": "<recusa ou variante, além do desfecho principal>", "tipo": "recusa", "evidencia": ["<FONTE:loc>"] }
+      ]
     }
   ]
 }

@@ -6,22 +6,22 @@
   "n_processos": 16,
   "geral": {
     "n": 16,
-    "mediana": 6.5,
+    "mediana": 7.5,
     "p25": 4.0,
-    "p75": 8.75,
-    "media": 6.75,
+    "p75": 9.0,
+    "media": 7.375,
     "min": 4,
-    "max": 12
+    "max": 14
   },
   "perfis": {
     "alterar": {
       "n": 2,
-      "mediana": 6.0,
-      "p25": 3.0,
-      "p75": 9.0,
-      "media": 6,
+      "mediana": 6.5,
+      "p25": 2.75,
+      "p75": 10.25,
+      "media": 6.5,
       "min": 4,
-      "max": 8
+      "max": 9
     },
     "consultar": {
       "n": 3,
@@ -36,19 +36,19 @@
       "n": 5,
       "mediana": 6,
       "p25": 4.0,
-      "p75": 8.0,
-      "media": 6,
+      "p75": 10.5,
+      "media": 7,
       "min": 4,
-      "max": 9
+      "max": 11
     },
     "estado": {
       "n": 3,
-      "mediana": 8,
-      "p25": 6.0,
-      "p75": 12.0,
-      "media": 8.666666666666666,
-      "min": 6,
-      "max": 12
+      "mediana": 9,
+      "p25": 7.0,
+      "p75": 14.0,
+      "media": 10,
+      "min": 7,
+      "max": 14
     },
     "excluir": {
       "n": 1,

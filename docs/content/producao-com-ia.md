@@ -9,7 +9,7 @@ O mercado remunera fábricas de software por ponto de função produzido, com pr
 calibrados para a produtividade de equipes humanas. Quando parte da produção passa a ser
 feita por IA, duas coisas precisam ficar separadas:
 
-- **O tamanho não muda.** Um software de 51 PFO tem 51 PFO, tenha sido escrito por uma
+- **O tamanho não muda.** Um software de 54 PFO tem 54 PFO, tenha sido escrito por uma
   pessoa, por um agente de IA ou por uma combinação. O PFO mede o produto. Se a unidade
   variasse com o produtor, a comparação entre softwares (objetivo O5) e o histórico de
   medições ficariam inutilizáveis. Este é o princípio P8, neutralidade de produtor.
@@ -190,11 +190,11 @@ P07 e P08 alterados em M2, P10 novo em M3, 6 horas humanas e R$ 40 de consumo de
 Saída de `mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json`:
 
 ```
-**Rótulo:** 8 PFO de mudança (4 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
+**Rótulo:** 9 PFO de mudança (5 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
 
-**Produção da mudança:** M2 IA dirigida 4 PFO (50%) · M3 IA autônoma 4 PFO (50%) · aceitos 8/8
+**Produção da mudança:** M2 IA dirigida 5 PFO (56%) · M3 IA autônoma 4 PFO (44%) · aceitos 9/9
 
-Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO · níveis: RC → RC
+Tamanho anterior: 54 PFO · tamanho posterior: 58 PFO · níveis: RC → RC
 
 ## Produção
 
@@ -202,28 +202,28 @@ Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO · níveis: RC → RC
 |---|---|---|---|
 | M0 humano | 0 | 0 | 0% |
 | M1 IA assistida | 0 | 0 | 0% |
-| M2 IA dirigida | 2 | 4 | 50% |
-| M3 IA autônoma | 1 | 4 | 50% |
+| M2 IA dirigida | 2 | 5 | 56% |
+| M3 IA autônoma | 1 | 4 | 44% |
 
-Aceite: **8 PFO de mudança aceitos** (100%) · 0 pendentes · 0 rejeitados · 0 sem registro
+Aceite: **9 PFO de mudança aceitos** (100%) · 0 pendentes · 0 rejeitados · 0 sem registro
 
 ### Indicadores de produção (abrange: a mudança, período 2026-05)
 
 | Indicador | Valor |
 |---|---|
-| PFO de mudança produzidos | 8 |
+| PFO de mudança produzidos | 9 |
 | Horas humanas (todo o ciclo) | 6,0 |
-| Alavancagem humana (PFO de mudança por hora humana) | 1,33 |
+| Alavancagem humana (PFO de mudança por hora humana) | 1,50 |
 | Custo total (BRL) | 940,00 |
-| Custo por PFO de mudança (BRL) | 117,50 |
-| Custo de IA por PFO de mudança (BRL) | 5,00 |
+| Custo por PFO de mudança (BRL) | 104,44 |
+| Custo de IA por PFO de mudança (BRL) | 4,44 |
 | Participação da IA no custo | 4% |
 ```
 
-A v1, produzida em M0 (160 horas humanas, valores ilustrativos), tem alavancagem de 0,32
-PFO por hora humana e custo de R$ 470,59 por PFO (`contar biblioteca-v1.mfc.json`).
+A v1, produzida em M0 (160 horas humanas, valores ilustrativos), tem alavancagem de 0,34
+PFO por hora humana e custo de R$ 444,44 por PFO (`contar biblioteca-v1.mfc.json`).
 Comparadas, as duas versões mostram a mecânica do arranjo B: o fator de M2 e M3 em
-relação a M0 sai da razão entre custos por PFO medidos (aqui 117,50 / 470,59 = 0,25, em
+relação a M0 sai da razão entre custos por PFO medidos (aqui 104,44 / 444,44 = 0,23, em
 números de exemplo), não de uma tabela de mercado.
 
 ## 9.10 Riscos específicos e salvaguardas

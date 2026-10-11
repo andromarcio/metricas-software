@@ -27,20 +27,19 @@ total, o **perfil funcional**, calculado pela ferramenta:
 
 | Indicador | Definição | O que revela |
 |---|---|---|
-| PFO | total de movimentos | tamanho |
+| PFO | total de movimentos e desfechos | tamanho |
 | NP | número de processos | amplitude funcional |
 | NE | número de entidades declaradas (sem as reservadas) | amplitude do domínio de dados |
-| E, X, R, W | movimentos por tipo | forma |
+| E, X, R, W, D | movimentos por tipo e desfechos | forma |
 | Densidade | PFO / NP | complexidade média das transações |
 | Persistência | (R + W) / PFO | quanto o software gira em torno de dados armazenados |
-| Interface | (E + X) / PFO | quanto gira em torno de troca com usuários e sistemas |
+| Interface | (E + X + D) / PFO | quanto gira em torno de troca com usuários e sistemas, respostas incluídas |
 | Entidades por processo | NE / NP | acoplamento médio entre funções e dados |
-| Evidência | movimentos com evidência / PFO | confiabilidade do modelo |
-| D1, D2 (suplemento D) | desfechos distintos e regras declaradas, totais e por processo | a dimensão de decisão que o PFO não vê (capítulo 12) |
+| Evidência | movimentos e desfechos com evidência / PFO | confiabilidade do modelo |
 
 Perfis típicos:
 
-- **CRUD administrativo:** densidade 3,5 a 4,5; persistência próxima de 0,5; muitos processos.
+- **CRUD administrativo:** densidade 4 a 5; persistência próxima de 0,45; muitos processos, um desfecho de recusa em quase todos.
 - **Integração / API de orquestração:** interface alta (> 0,6), muitas X para sistemas.
 - **Relatórios e BI operacional:** R dominante, X por várias entidades, densidade alta.
 - **Embarcado / controle:** E e X de dispositivos, poucas entidades, persistência baixa.
@@ -57,7 +56,6 @@ O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da
 |---|---|---|
 | Produtividade | PFO entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
 | Custo unitário | custo / PFO | idem |
-| Preço com duas dimensões | a × PFO + b × D, com a e b por regressão sobre o histórico | mesma classe de sistema; D = D1, a base contratual (capítulo 12) |
 | Densidade de defeitos | defeitos / PFO | mesma definição de defeito e janela |
 | Velocidade de evolução | PFO de mudança por período | mesmo software, modelos consecutivos |
 | Aderência R × C | PFO(C) / PFO(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |
@@ -81,22 +79,24 @@ excedente) estão no capítulo 9.
 | X | DER de saída; SE ou CE | Exit |
 | R | ALR referenciado; AIE | Read |
 | W | ALI mantido | Write |
-| X `MENSAGEM` | DER de mensagem | Exit de mensagens de erro/confirmação |
+| Desfecho (D) | DER de mensagem; parte da lógica de processamento | uma única Exit para todas as mensagens de erro e confirmação do processo |
 | E `DISPARO` | ação do usuário (DER de ação) | Entry disparadora de um atributo |
 | PFO de mudança | PF incluído, alterado, excluído | PFC incluído, alterado, excluído |
 
 ### Diferenças de resultado esperadas
 
-- **Em relação ao COSMIC:** os totais tendem a ser próximos, porque o primitivo é o mesmo.
-  As diferenças aparecem onde o COSMIC deixa ao medidor a identificação de grupos de dados
-  em saídas compostas (RI-06 a fixa uma X por entidade) e onde a MFO fixa casos
-  frequentes (canais, formatos, lista e detalhe). O exemplo do capítulo 6 mostra uma
-  faixa de 47 a 51 PFC para 51 PFO.
+- **Em relação ao COSMIC:** os movimentos são o mesmo primitivo, e a MFO soma a eles os
+  desfechos, que o COSMIC comprime numa única Exit de mensagens por processo. Sistemas
+  com muitas recusas distintas medem mais em PFO do que em PFC. As demais diferenças
+  aparecem onde o COSMIC deixa ao medidor a identificação de grupos de dados em saídas
+  compostas (RI-06 a fixa uma X por entidade) e onde a MFO fixa casos frequentes (canais,
+  formatos, lista e detalhe). O exemplo do capítulo 6 mostra uma faixa de 47 a 51 PFC
+  para 54 PFO, 43 deles movimentos.
 - **Em relação à APF:** a APF conta funções de dados diretamente (7 a 15 PF por arquivo
   lógico) e limita cada transação a 7 PF. Sistemas com muitos arquivos e transações
   simples tendem a ter mais PF que PFO; sistemas com transações ricas (muitas entidades por
   processo) tendem ao contrário. Não existe fator fixo de conversão. No sistema real do
-  capítulo 10, a razão PFO/PF de transação variou de 0,87 a 1,39 entre domínios (1,17 no
+  capítulo 10, a razão PFO/PF de transação variou de 0,87 a 1,48 entre domínios (1,28 no
   total), pelos motivos acima.
 
 ### Procedimento de calibração local
@@ -123,4 +123,5 @@ excedente) estão no capítulo 9.
   qualquer método funcional. Registre o requisito não funcional e trate-o fora.
 - **Software intensivo em algoritmos** (otimização, simulação, aprendizado de máquina): o
   tamanho funcional captura entradas, saídas e dados persistidos, não a dificuldade do
-  algoritmo. O suplemento D indica onde há derivação, mas não quanto custa.
+  algoritmo. A derivação informativa (seção 3.5) indica onde há cálculo, mas não quanto
+  custa; os desfechos contam o que a regra devolve, não a dificuldade de decidir.

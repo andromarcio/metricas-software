@@ -19,7 +19,7 @@ LEITOR = {"cpf": "111", "nome": "Ana", "email": "ana@exemplo.br", "telefone": "6
 
 def teste_P01_cadastrar_livro():
     assert api.tratar("POST /livros", LIVRO) == {"mensagem": "Livro cadastrado"}
-    assert "erro" in api.tratar("POST /livros", LIVRO)  # ISBN único -> X MENSAGEM
+    assert "erro" in api.tratar("POST /livros", LIVRO)  # ISBN único -> desfecho ISBN_DUPLICADO
 
 
 def teste_P02_alterar_livro():

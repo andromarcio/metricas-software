@@ -1,8 +1,8 @@
 # Concordância MFO — MFO/exemplos/aval/adm-usr-auto.mfc.json × MFO/exemplos/aval/adm-usr-revisado.mfc.json
 
-**Índice de concordância:** 0,541 (33 chaves comuns de 61)
+**Índice de concordância:** 0,588 (40 chaves comuns de 68)
 
-PFO em A: 37 · PFO em B: 57
+PFO em A: 44 · PFO em B: 64
 
 Leitura: interpretação diferente do escopo ou da fronteira: revisar a preparação antes de nova extração
 
@@ -31,13 +31,13 @@ Leitura: interpretação diferente do escopo ou da fronteira: revisar a prepara�
 - ADM-USR-06 · W Pessoa
 - ADM-USR-06 · X Perfil
 - ADM-USR-06 · X Usuario
+- B:ADM-USR-06b · D RESOURCE_NOT_FOUND
 - B:ADM-USR-06b · E Convite
 - B:ADM-USR-06b · R Conta
 - B:ADM-USR-06b · R Convite
 - B:ADM-USR-06b · R Perfil
 - B:ADM-USR-06b · X Conta
 - B:ADM-USR-06b · X Convite
-- B:ADM-USR-06b · X MENSAGEM
 - B:ADM-USR-06b · X Perfil
 
 Processos não pareados — só em A: —; só em B: ADM-USR-06b

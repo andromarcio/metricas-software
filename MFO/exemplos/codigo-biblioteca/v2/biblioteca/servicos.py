@@ -10,13 +10,13 @@ LIMITE_EMPRESTIMOS = 3
 
 
 class ErroDeNegocio(Exception):
-    """Mensagens de validação e recusa devolvidas ao usuário funcional (MFO: X MENSAGEM)."""
+    """Mensagens de validação e recusa devolvidas ao usuário funcional (MFO: desfechos, RI-12)."""
 
 
 # ---- P01 Cadastrar livro ----------------------------------------------------
 
 def cadastrar_livro(dados: dict) -> dict:
-    """RF-01. E Livro; R Livro (ISBN único); W Livro; X MENSAGEM."""
+    """RF-01. E Livro; R Livro (ISBN único); W Livro; desfechos (recusas)."""
     if repositorio.buscar_livro_por_isbn(dados["isbn"]):
         raise ErroDeNegocio("ISBN já cadastrado")
     repositorio.salvar_livro(Livro(**dados))
@@ -26,7 +26,7 @@ def cadastrar_livro(dados: dict) -> dict:
 # ---- P02 Alterar livro ------------------------------------------------------
 
 def alterar_livro(isbn: str, dados: dict) -> dict:
-    """RF-02. E Livro; R Livro; W Livro; X MENSAGEM."""
+    """RF-02. E Livro; R Livro; W Livro; desfechos (recusas)."""
     atual = repositorio.buscar_livro_por_isbn(isbn)
     if atual is None:
         raise ErroDeNegocio("Livro não encontrado")
@@ -38,7 +38,7 @@ def alterar_livro(isbn: str, dados: dict) -> dict:
 # ---- P03 Excluir livro ------------------------------------------------------
 
 def excluir_livro(isbn: str) -> dict:
-    """RF-03. E Livro; R Emprestimo (ativos do livro); W Livro; X MENSAGEM."""
+    """RF-03. E Livro; R Emprestimo (ativos do livro); W Livro; desfechos (recusas)."""
     if repositorio.emprestimos_ativos(livro=isbn):
         raise ErroDeNegocio("Livro com empréstimo ativo não pode ser excluído")
     repositorio.excluir_livro(isbn)
@@ -48,7 +48,7 @@ def excluir_livro(isbn: str) -> dict:
 # ---- P04 Consultar livros ---------------------------------------------------
 
 def consultar_livros(titulo: Optional[str] = None, autor: Optional[str] = None) -> dict:
-    """RF-04. E Livro (filtros); R Livro; X Livro; X MENSAGEM."""
+    """RF-04. E Livro (filtros); R Livro; X Livro; desfechos (recusas)."""
     livros = repositorio.listar_livros(titulo, autor)
     if not livros:
         return {"livros": [], "mensagem": "Nenhum livro encontrado"}
@@ -58,7 +58,7 @@ def consultar_livros(titulo: Optional[str] = None, autor: Optional[str] = None) 
 # ---- P05 Cadastrar leitor ---------------------------------------------------
 
 def cadastrar_leitor(dados: dict) -> dict:
-    """RF-05. E Leitor; R Leitor (CPF único); W Leitor; X MENSAGEM."""
+    """RF-05. E Leitor; R Leitor (CPF único); W Leitor; desfechos (recusas)."""
     if repositorio.buscar_leitor_por_cpf(dados["cpf"]):
         raise ErroDeNegocio("CPF já cadastrado")
     repositorio.salvar_leitor(Leitor(**dados))
@@ -68,7 +68,7 @@ def cadastrar_leitor(dados: dict) -> dict:
 # ---- P06 Registrar empréstimo -----------------------------------------------
 
 def registrar_emprestimo(cpf: str, isbn: str, data_emprestimo: date) -> dict:
-    """RF-06. E Emprestimo; R Leitor; R Livro; R Emprestimo; W Emprestimo; X Emprestimo; X MENSAGEM."""
+    """RF-06. E Emprestimo; R Leitor; R Livro; R Emprestimo; W Emprestimo; X Emprestimo; desfechos (recusas)."""
     leitor = repositorio.buscar_leitor_por_cpf(cpf)
     if leitor is None or leitor.situacao != "ativo":
         raise ErroDeNegocio("Leitor inexistente ou inativo")
@@ -89,7 +89,7 @@ def registrar_emprestimo(cpf: str, isbn: str, data_emprestimo: date) -> dict:
 
 def registrar_devolucao(id_emprestimo: int, data_devolucao: date, isencao_multa: bool = False,
                         justificativa_isencao: str = "") -> dict:
-    """RF-07 (v2). E Emprestimo (com isenção); R Emprestimo; R ParametroMulta; W Emprestimo; X Emprestimo; X MENSAGEM."""
+    """RF-07 (v2). E Emprestimo (com isenção); R Emprestimo; R ParametroMulta; W Emprestimo; X Emprestimo; desfechos (recusas)."""
     emprestimo = repositorio.buscar_emprestimo(id_emprestimo)
     if emprestimo is None or emprestimo.status != "ativo":
         raise ErroDeNegocio("Empréstimo não encontrado ou já devolvido")
@@ -108,7 +108,7 @@ def registrar_devolucao(id_emprestimo: int, data_devolucao: date, isencao_multa:
 # ---- P08 Relatório de atrasos -----------------------------------------------
 
 def relatorio_atrasos(hoje: date) -> dict:
-    """RF-08 (v2). E DISPARO; R Emprestimo; R Leitor; R Livro; X Emprestimo; X Leitor; X Livro; X MENSAGEM."""
+    """RF-08 (v2). E DISPARO; R Emprestimo; R Leitor; R Livro; X Emprestimo; X Leitor; X Livro; desfechos (recusas)."""
     linhas: List[dict] = []
     for e in repositorio.emprestimos_em_atraso(hoje):
         dias = (hoje - date.fromisoformat(e["data_prevista"])).days
@@ -122,7 +122,7 @@ def relatorio_atrasos(hoje: date) -> dict:
 # ---- P10 Consultar leitor ---------------------------------------------------
 
 def consultar_leitor(cpf: str) -> dict:
-    """RF-10 (v2). E Leitor (cpf); R Leitor; X Leitor; X MENSAGEM."""
+    """RF-10 (v2). E Leitor (cpf); R Leitor; X Leitor; desfechos (recusas)."""
     leitor = repositorio.buscar_leitor_por_cpf(cpf)
     if leitor is None:
         return {"mensagem": "Leitor não encontrado"}

@@ -19,15 +19,15 @@ mapeiam-se para o modelo canônico assim:
 
 | Seção do N3 (siesa-engine) | Conceito MFO | Regra de mapeamento |
 |---|---|---|
-| front-matter `id`, `entidade`, `endpoints`, `error_codes` | identidade do processo, entidade principal, disparador, mensagens | RM-01 |
+| front-matter `id`, `entidade`, `endpoints`, `error_codes` | identidade do processo, entidade principal, disparador, desfechos | RM-01 |
 | `## Superfície` e `## Eventos › Consumidos` | usuário funcional e evento disparador | RM-01: ação em tela ou tela própria = pessoa; webhook ou evento consumido = sistema; rotina = relógio |
 | `## Campos` (coluna Entidade, Preenchimento) | movimentos E, por entidade | RM-02: um E por entidade com "entrada do usuário"; `lista de opções` de outra entidade vira R + X dela |
 | `## Dados lidos e gravados` (Entidade, Papel) | R e W | RM-03: lê = R, grava = W |
 | `### Memória de cálculo` (`alr` por processo elementar e "por que cada ALR") | R e W quando a seção anterior falta | RM-04: EE mantém a entidade principal (W) e lê as demais (R); SE e CE leem todas; sistema externo (AIE) acessado por chamada = E |
-| `## API` (resposta 2xx, tabela de erros) e `## Colunas do resultado` | X e X MENSAGEM | RM-05 e RM-06: consulta devolve X da entidade principal; EE devolve X quando a resposta traz `data`; erros = X MENSAGEM |
+| `## API` (resposta 2xx) e `## Colunas do resultado` | X | RM-05: consulta devolve X da entidade principal; EE devolve X quando a resposta traz `data` |
+| tabela de erros da `## API` e `error_codes` do front-matter | desfechos (RI-12) | RM-06: um desfecho por código de erro de negócio distinto; célula com dois códigos vale dois; códigos técnicos (`AUTH_*`, `INTERNAL*`…) não contam; recusa indicada só nos cenários vale um |
 | `## Métricas de tamanho` (Papel principal ou acessório) | um processo por elementar principal; acessório = R + X dentro do processo | RM-07 (combobox, card e menu não são processos, RI-04 b) |
 | `## Eventos › Publicados` | não conta: consumidores internos (RC-04 b) | RM-08 |
-| tabela de erros da `## API`, `error_codes`, `## Regras de negócio`, `## Derivações` | decisões D1 e D2 (capítulo 12) | RM-09: D1 = desfecho principal mais uma causa por código de erro de negócio e, sob o mesmo código, por condição enumerada na situação (marcada oculta); D2 = um por regra numerada e por derivação |
 
 A tabela é implementada por [`ferramentas/extrair_n3.py`](https://github.com/andromarcio/metricas-software/blob/main/MFO/ferramentas/extrair_n3.py),
 um extrator determinístico (agente do tipo `ferramenta`): sem modelo de linguagem, sem
@@ -46,21 +46,25 @@ tamanho dessa lacuna.
 
 | Indicador | Valor |
 |---|---|
-| PFO (piso mecânico) | **492** |
+| PFO (piso mecânico) | **542** |
 | NP / NE | 85 / 20 |
-| E / X / R / W | 101 / 158 / 157 / 76 |
-| Densidade | 5,79 |
-| Persistência / Interface | 0,47 / 0,53 |
+| E / X / R / W / D | 101 / 84 / 157 / 76 / 124 |
+| Densidade | 6,38 |
+| Persistência / Interface | 0,43 / 0,57 |
 | Disparadores | 60 por pessoa, 25 por sistema |
-| Evidências verificadas (`auditar --fonte DOC`) | 720 de 720 |
+| Evidências verificadas (`auditar --fonte DOC`) | 769 de 769 |
 | Modo de produção (heurística git) | M2 em 85 processos |
 
-Rótulo: `492 PFO · MFO 1.0 · nível R · evidência 100% · agente: ferramenta (extrair_n3.py 1.0); sem revisão humana · escopo: Aval (siesa-doc) 5.0.0, todos os domínios`.
+Rótulo: `542 PFO · MFO 1.0 · nível R · evidência 100% · agente: ferramenta (extrair_n3.py 1.0); sem revisão humana · escopo: Aval (siesa-doc) 5.0.0, todos os domínios`.
 
-O número é um **piso**: o que a estrutura declara explicitamente. O relatório completo
-está em [`relatorio-aval-5.0.0.md`](#/mfo-exemplos-aval-relatorio-aval-5.0.0); os 20 avisos
-V-09 são pares de processos de mudança de estado (desativar e reativar, por exemplo) que
-têm as mesmas chaves e são legitimamente distintos (RI-04 a).
+O número é um **piso**: o que a estrutura declara explicitamente. Dos 542 PFO, 124 são
+desfechos, um por código da tabela de erros de cada N3: é a parte mais mecânica da
+contagem, porque já nasce em tabela. Um único movimento é inferido: um processo elementar
+secundário sem saída nem gravação declaradas, para o qual o extrator presume a saída da
+entidade principal (RI-04 T2). O relatório completo está em
+[`relatorio-aval-5.0.0.md`](#/mfo-exemplos-aval-relatorio-aval-5.0.0); os 21 avisos V-09 são
+pares de processos de mudança de estado (desativar e reativar, por exemplo) que têm as
+mesmas chaves e são legitimamente distintos (RI-04 a).
 
 A atribuição de produção pelo git (RP-01, heurística: maioria dos commits do arquivo com
 trailer de coautoria de IA) classifica todos os N3 como M2, IA dirigida: o `siesa-doc`
@@ -76,35 +80,36 @@ com memória de cálculo). Cruzando as duas medidas por domínio
 
 | Domínio | Processos | PFO (mecânico) | PF (N3) | PFO/PF |
 |---|---|---|---|---|
-| ADM Administração | 24 | 159 | 117 | 1,36 |
+| ADM Administração | 24 | 171 | 117 | 1,46 |
 | AGT Agentes | 12 | 59 | 68 | 0,87 |
-| DEM Demandas | 6 | 34 | 31 | 1,10 |
-| EST Esteira | 21 | 130 | 106 | 1,23 |
-| OPE Operação | 8 | 43 | 31 | 1,39 |
-| SIS Sistemas | 14 | 67 | 69 | 0,97 |
-| **Total** | **85** | **492** | **422** | **1,17** |
+| DEM Demandas | 6 | 40 | 31 | 1,29 |
+| EST Esteira | 21 | 149 | 106 | 1,41 |
+| OPE Operação | 8 | 46 | 31 | 1,48 |
+| SIS Sistemas | 14 | 77 | 69 | 1,12 |
+| **Total** | **85** | **542** | **422** | **1,28** |
 
-Leitura: as duas medidas andam juntas (a razão fica entre 0,87 e 1,39 por domínio), e
+Leitura: as duas medidas andam juntas (a razão fica entre 0,87 e 1,48 por domínio), e
 onde divergem a razão é explicável pelo primitivo: Agentes tem processos com poucos
-movimentos e DER altos (uma execução que grava um resultado grande), onde a APF pesa
-mais; Administração e Operação têm processos que tocam muitas entidades (perfil,
-auditoria, conta, pessoa), onde cada entidade é um movimento na MFO e apenas um ALR na
-APF. A APF do sistema soma ainda 73 PF de funções de dados (10 ALIs), que a MFO não
-conta diretamente.
+movimentos, sem tabela de erros e com DER altos (uma execução que grava um resultado
+grande), onde a APF pesa mais; Administração, Esteira e Operação têm processos que tocam
+muitas entidades (perfil, auditoria, conta, pessoa) e recusam por vários códigos, onde
+cada entidade e cada código é uma unidade na MFO e apenas um ALR ou um DER na APF. A APF
+do sistema soma ainda 73 PF de funções de dados (10 ALIs), que a MFO não conta
+diretamente.
 
 ## 10.4 Extração mecânica × leitura com as regras
 
 Para medir a lacuna da extração mecânica, o feature set **Usuários** (ADM-USR, 6 N3) foi
-medido duas vezes: pelo extrator e por leitura dos N3 aplicando RI-01 a RI-11
+medido duas vezes: pelo extrator e por leitura dos N3 aplicando RI-01 a RI-12
 ([`adm-usr-auto.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/aval/adm-usr-auto.mfc.json) e
 [`adm-usr-revisado.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/aval/adm-usr-revisado.mfc.json); ambos com 100%
 das evidências verificadas contra o repositório).
 
 | Medição | Processos | PFO | APF (N3) |
 |---|---|---|---|
-| Extrator (`ferramenta`) | 6 | 37 | 34 PF |
-| Leitura com as regras (`ia`) | 7 | 57 | |
-| Índice de concordância | | **0,541** (33 chaves comuns de 61) | |
+| Extrator (`ferramenta`) | 6 | 44 | 34 PF |
+| Leitura com as regras (`ia`) | 7 | 64 | |
+| Índice de concordância | | **0,588** (40 chaves comuns de 68) | |
 
 As 28 chaves divergentes ([`concordancia-adm-usr.md`](#/mfo-exemplos-aval-concordancia-adm-usr))
 concentram-se em quatro padrões, todos sustentados por texto do N3 que o extrator não lê:
@@ -115,6 +120,10 @@ concentram-se em quatro padrões, todos sustentados por texto do N3 que o extrat
 | Trilha de auditoria gravada em cada ação | W EventoAuditoria em 5 processos | `## Campos automáticos` ("Registro de auditoria") e `## Eventos` | RI-08 c |
 | Nome de entidade referenciada na resposta (nome do perfil, da organização) | X Perfil, X Conta | corpo da resposta em `## API` | RI-06 a |
 | Consulta do convite pelo código como processo próprio (disparador distinto, resultado válido sozinho) | processo ADM-USR-06b | `## Métricas de tamanho` marca como acessório | RI-04 T3 |
+
+Os desfechos quase não divergem: 13 no extrator contra 14 na leitura, e a diferença é o
+processo de consulta do convite, que a mecânica funde ao aceite. A tabela de erros do
+N3 é fonte fechada; os movimentos é que dependem de prosa.
 
 Duas conclusões. A primeira é sobre o extrator: ele é um piso confiável e auditável
 (nenhuma chave inventada; as 4 chaves só dele são leituras e saídas que a memória de
@@ -133,19 +142,16 @@ mecânica:
 Com isso, a memória de cálculo APF e o modelo MFO passariam a ser gerados da mesma fonte,
 e a concordância entre extração mecânica e leitura tenderia a 1.
 
-## 10.4a Decisões no Aval
+## 10.4a Desfechos no Aval
 
-A extração mecânica também conta a segunda dimensão (capítulo 12, RM-09): D1 pela tabela
-de erros da `## API`, uma causa por código e, sob o mesmo código, uma por condição que a
-coluna de situação enumera ("usuário ou perfil fora da conta" vale duas, a segunda marcada
-como oculta), mais o desfecho principal; D2 pelos itens de `## Regras de negócio` e de
-`## Derivações`. No Aval 5.0.0, 77 processos têm o registro (os 8 processos elementares
-secundários não): D1 = 231 desfechos, dos quais 36 só a condição de disparo distingue,
-D2 = 285 regras, medianas de 3 e 3 por processo, máximos de 7 e 9. Em Usuários, a
-extração mecânica deu D1 = 24 e D2 = 14 contra 26 e 14 da leitura revisada; a diferença
-em D1 é o processo secundário de consulta do convite, que a mecânica não separa. Ao
-contrário dos movimentos, as decisões já nascem em tabelas no N3 e a mecânica quase não
-perde nada.
+A tabela de erros da `## API` rende, no Aval 5.0.0, 124 desfechos em 67 dos 85
+processos: mediana de 1 por processo, máximo de 4, 1,5 na média. Os processos sem
+desfecho são os de Agentes (execuções internas, sem tabela de erros) e os elementares
+secundários. Uma linha com dois códigos ("`DEMANDA_FEATURE_NOT_APPROVED` ·
+`VALIDATION_ERROR`") vale dois; uma situação com duas causas sob o mesmo código
+("usuário ou perfil fora da conta") vale um, porque a fronteira devolve o mesmo código
+(RI-12 b). Em Usuários, 13 desfechos mecânicos contra 14 da leitura revisada. Ao contrário
+dos movimentos, os desfechos já nascem em tabela no N3, e a mecânica quase não perde nada.
 
 ## 10.5 Mudança entre duas versões da documentação
 
@@ -156,10 +162,14 @@ como alterado todo movimento cuja seção de origem mudou (aproximação da RD-0
 de seção). Saída de `mfo.py mudanca` ([`mudanca-aval-1.23.1-para-5.0.0.md`](#/mfo-exemplos-aval-mudanca-aval-1.23.1-para-5.0.0)):
 
 ```
-360 PFO de mudança (228 incluídos, 106 alterados, 26 excluídos) · MFO 1.0 · nível R · evidência 100% · agente: ferramenta (extrair_n3.py 1.0)
-Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
+397 PFO de mudança (263 incluídos, 102 alterados, 32 excluídos) · MFO 1.0 · nível R · evidência 99% · agente: ferramenta (extrair_n3.py 1.0)
+Tamanho anterior: 311 PFO · tamanho posterior: 542 PFO · níveis: R → R
 Processos novos: 24 · processos removidos: nenhum
 ```
+
+A evidência de 99% vem dos oito processos da versão de julho sem saída nem gravação
+declaradas, cuja saída o extrator presume (um movimento inferido cada); na versão de
+outubro os N3 passaram a declará-las.
 
 O `mfo.py impacto` com as duas referências git
 ([`impacto-aval-1.23.1-para-5.0.0.md`](#/mfo-exemplos-aval-impacto-aval-1.23.1-para-5.0.0))
@@ -177,7 +187,7 @@ ordem de grandeza.
 ## 10.6 O que o exemplo real ensina
 
 - **A unidade é reconhecível em uma estrutura de documentação madura** sem medidor
-  certificado e sem planilha: 492 PFO, 720 evidências verificadas, em segundos.
+  certificado e sem planilha: 542 PFO, 769 evidências verificadas, em segundos.
 - **O piso mecânico e a leitura com regras têm papéis diferentes.** O piso serve para
   acompanhar evolução, detectar escopo e comparar versões com custo zero; a leitura
   serve para contrato. A concordância entre os dois mede a maturidade da documentação.

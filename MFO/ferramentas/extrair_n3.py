@@ -7,7 +7,7 @@ da estrutura de documentação N3 do siesa-engine (features em modules/**/f-*.md
 Lê, de cada N3: front-matter (id, entidade, endpoints, error_codes, estado), `## Superfície`,
 `## Campos`, `## Colunas do resultado`, `## Dados lidos e gravados`, `## Métricas de tamanho`
 com `### Memória de cálculo` (ALR por processo elementar), `## API` e `## Eventos`, e aplica
-as regras de mapeamento do capítulo 10 (RM-01 a RM-09). Toda movimentação cita a seção de
+as regras de mapeamento do capítulo 10 (RM-01 a RM-08). Toda movimentação cita a seção de
 origem como evidência (`DOC:<arquivo>#<seção>`), verificável por `mfo.py auditar`.
 
 Uso:
@@ -140,48 +140,27 @@ def limpar_entidade(nome):
 
 
 # ---------------------------------------------------------------------------
-# decisões (RM-09): D1 desfechos pelos códigos de resposta, D2 regras pelas regras numeradas
+# desfechos (RM-06): um por código de erro de negócio da tabela de erros da ## API
 # ---------------------------------------------------------------------------
 
 CODIGOS_TECNICOS = re.compile(r"^(AUTH_|INTERNAL|RATE_|SERVICE_UNAVAILABLE|TIMEOUT)", re.I)
-
-
-SEPARADORES_CAUSA = re.compile(r"\s+ou\s+|\s*/\s*|\s*,\s*")
 SEPARADORES_CODIGO = re.compile(r"\s*[·,/]\s*|\s+ou\s+")
+SEPARADORES_CAUSA = re.compile(r"\s*/\s*|\s+ou\s+")
 
 
-def causas_de(situ):
-    """Causas distintas de uma célula 'Situação': enumeração por vírgula, 'ou' ou barra. Texto entre
-    parênteses é explicação e o que segue ponto e vírgula é nota; nenhum dos dois separa causa."""
-    base = re.sub(r"\([^)]*\)", "", situ.split(";")[0])
-    itens = []
-    for x in SEPARADORES_CAUSA.split(base):
-        x = re.sub(r"^(ou|e)\s+", "", x.strip(" .,;:—-"))
-        if x and norm(x) not in {norm(i) for i in itens}:
-            itens.append(x)
-    return itens
+def desfechos_n3(sec, fm, ev):
+    """RM-06: um desfecho por código de erro de negócio distinto na tabela de erros de ## API, mais
+    os códigos do front-matter sem linha na tabela. Célula com vários códigos ("A · B", situação
+    "x / y") vale um desfecho por código. Códigos técnicos de autenticação e infraestrutura ficam
+    fora (RI-10). O desfecho principal não é listado (RI-12)."""
+    desfechos, vistos = [], set()
 
-
-def decisoes_n3(sec, fm, ev):
-    """D1: um desfecho principal mais cada causa de recusa distinguível na tabela de erros de ## API
-    (RC-05 a): uma causa por código e, sob um mesmo código, uma por condição de disparo enumerada na
-    situação ("usuário ou perfil fora da conta" vale duas, a segunda marcada como oculta: só o teste a
-    distingue). Célula com vários códigos ("A · B" com "x / y") pareia código e causa. Códigos do
-    front-matter sem linha na tabela entram uma vez. Códigos técnicos de autenticação e infraestrutura
-    ficam fora (RI-10).
-    D2: cada item numerado de ## Regras de negócio e cada linha de ## Derivações."""
-    desfechos = [{"id": "OK", "descricao": "desfecho principal", "evidencia": [ev("Cenários" if "Cenários" in sec else "Descrição")]}]
-    vistos = set()
-
-    def registrar(codigo, causa, oculto):
-        chave = (codigo, norm(causa))
-        if chave in vistos:
+    def registrar(codigo, descricao):
+        if codigo in vistos:
             return
-        vistos.add(chave)
-        n = sum(1 for c, _ in vistos if c == codigo)
-        ident = codigo if n == 1 else f"{codigo}/{n}"
-        desfechos.append({"id": ident, "descricao": causa[:120], "tipo": "recusa", "evidencia": [ev("API")],
-                          **({"oculto": True} if oculto else {})})
+        vistos.add(codigo)
+        desfechos.append({"id": codigo, "descricao": (descricao or "recusa ou erro de negócio")[:120],
+                          "tipo": "recusa", "evidencia": [ev("API")]})
 
     for cab, corpo in tabelas(sec.get("API", "")):
         ic, isit = coluna(cab, "code", "codigo", "código"), coluna(cab, "situacao", "situação", "quando")
@@ -192,31 +171,15 @@ def decisoes_n3(sec, fm, ev):
                 continue
             cel = re.sub(r"[`*⚠️]", "", r[ic]).split("(")[0]
             codigos = [c.strip() for c in SEPARADORES_CODIGO.split(cel) if c.strip() and not CODIGOS_TECNICOS.match(c.strip())]
-            if not codigos:
-                continue
             situ = r[isit].strip() if 0 <= isit < len(r) else ""
-            causas = causas_de(situ) or [situ or "recusa ou erro de negócio"]
-            if len(codigos) > 1:
-                for i, c in enumerate(codigos):
-                    registrar(c, causas[i] if len(causas) == len(codigos) else situ, False)
-                continue
-            for k, causa in enumerate(causas):
-                registrar(codigos[0], causa, k > 0)
-    codigos = {c for c, _ in vistos}
+            causas = [x.strip() for x in SEPARADORES_CAUSA.split(situ) if x.strip()]
+            for k, c in enumerate(codigos):
+                registrar(c, causas[k] if len(codigos) > 1 and len(causas) == len(codigos) else situ)
     for c in fm.get("error_codes") or []:
         c = str(c).strip()
-        if c and c not in codigos and not CODIGOS_TECNICOS.match(c):
-            codigos.add(c)
-            desfechos.append({"id": c, "descricao": "recusa ou erro de negócio", "tipo": "recusa", "evidencia": [ev("API")]})
-    regras = []
-    for m in re.finditer(r"(?m)^\s*(\d+)\.\s+(.+)$", sec.get("Regras de negócio", "")):
-        regras.append({"id": f"R{m.group(1)}", "descricao": m.group(2).strip()[:120], "evidencia": [ev("Regras de negócio")]})
-    for cab, corpo in tabelas(sec.get("Derivações", "")):
-        ic = coluna(cab, "campo derivado")
-        for r in corpo:
-            if ic >= 0 and ic < len(r) and r[ic].strip() and not r[ic].startswith("["):
-                regras.append({"id": f"C{len(regras) + 1}", "descricao": f"cálculo: {r[ic].strip()[:100]}", "tipo": "calculo", "evidencia": [ev("Derivações")]})
-    return {"desfechos": desfechos, "regras": regras}
+        if c and not CODIGOS_TECNICOS.match(c):
+            registrar(c, "")
+    return desfechos
 
 
 # ---------------------------------------------------------------------------
@@ -319,7 +282,7 @@ def extrair_feature(caminho, raiz):
     if not pes:
         pes = [{"nome": titulo, "papel": "principal", "tipo": "EE" if endpoints and any(e.split()[0] in ("POST", "PUT", "PATCH", "DELETE") for e in endpoints) else "CE", "pf": 0, "alr": [], "motivos": {}}]
 
-    # RM-05 saídas e RM-06 mensagens: ## API, ## Colunas do resultado, error_codes
+    # RM-05 saídas: ## API, ## Colunas do resultado
     devolve_objeto = bool(re.search(r"//\s*2\d\d[^\n]*\n\s*\{\s*\"data\"\s*:\s*\{", api))
     erros = [r for cab, corpo in tabelas(api) if coluna(cab, "http") >= 0 for r in corpo]
     tem_mensagem = bool(erros) or bool(fm.get("error_codes")) or bool(re.search(r"(?m)^\s*(Then|Então)\b.*\b(nao|não|recus|impede|bloque|apont)", sec.get("Cenários", "")))
@@ -380,21 +343,27 @@ def extrair_feature(caminho, raiz):
                 for e in a["alr"]:
                     add("R", e, ev("Métricas de tamanho"))
                     add("X", e, ev("Métricas de tamanho"))
-        if tem_mensagem:
-            add("X", "MENSAGEM", ev("API" if erros else "Cenários"))
-        if not any(t in ("X", "W") for (t, _) in movs):
-            add("X", "MENSAGEM", ev("Cenários"))
+        # desfechos (RM-06): a tabela de erros é da feature e fica no primeiro processo; recusa só
+        # indicada nos cenários vale um desfecho por mensagem (RI-12)
+        desf = desfechos_n3(sec, fm, ev) if n == 0 else []
+        if n == 0 and not desf and tem_mensagem:
+            desf = [{"id": "RECUSA", "descricao": "recusa indicada nos cenários", "tipo": "recusa", "evidencia": [ev("Cenários")]}]
+        movimentos = [{"tipo": t, "entidade": e, "evidencia": sorted(s)} for (t, e), s in
+                      sorted(movs.items(), key=lambda kv: ("ERWX".index(kv[0][0]), kv[0][1]))]
+        if not desf and not any(m["tipo"] in ("X", "W") for m in movimentos):
+            # RI-04 T2: o N3 não declara saída nem gravação; o efeito existe, mas o extrator não o localiza
+            movimentos.append({"tipo": "X", "entidade": principal, "inferido": True,
+                               "justificativa": "efeito presumido: o N3 não declara saída nem gravação deste processo elementar (RI-04 T2)"})
 
         processos.append({
             "id": pid, "nome": pe["nome"] if n else titulo or pe["nome"],
-            **({"decisoes": decisoes_n3(sec, fm, ev)} if n == 0 else {}),
+            **({"desfechos": desf} if desf else {}),
             "disparadores": [{"usuario": UF[uf]["id"], "evento": evento}],
             "evidencia": [ev("Métricas de tamanho"), ev("API")],
             "apf": {"pf": pe["pf"] + (sum(a["pf"] for a in acessorios) if n == 0 else 0), "tipo": tipo_pe,
                     "pes": [pe["nome"]] + ([a["nome"] for a in acessorios] if n == 0 else [])},
             "n3": {"arquivo": rel, "estado": fm.get("estado", ""), "dominio": fm.get("dominio", ""), "feature_set": fm.get("feature_set", "")},
-            "movimentos": [{"tipo": t, "entidade": e, "evidencia": sorted(s)} for (t, e), s in
-                           sorted(movs.items(), key=lambda kv: ("ERWX".index(kv[0][0]), kv[0][1]))],
+            "movimentos": movimentos,
         })
     return processos, {"principal": principal, "dominio": fm.get("dominio", ""), "arquivo": rel}
 
@@ -434,9 +403,9 @@ def marcar_alterados(processos, raiz_depois, raiz_antes):
         return cache[k]
 
     for p in processos:
-        for m in p["movimentos"]:
+        for m in p["movimentos"] + p.get("desfechos", []):
             mudou = False
-            for e in m["evidencia"]:
+            for e in m.get("evidencia", []):
                 _, loc = e.split(":", 1)
                 rel, _, secao = loc.partition("#")
                 a, d = texto(raiz_antes, rel), texto(raiz_depois, rel)
@@ -482,7 +451,7 @@ def extrair(raiz, escopos=(), git=False, antes=None):
                     p["producao"] = prod
         for p in procs:
             for m in p["movimentos"]:
-                if m["entidade"] not in ("MENSAGEM", "DISPARO"):
+                if m["entidade"] != "DISPARO":
                     entidades.setdefault(m["entidade"], set()).add(f"DOC:{info['arquivo']}#{m['entidade']}")
         dominios.add(info["dominio"])
         processos.extend(procs)

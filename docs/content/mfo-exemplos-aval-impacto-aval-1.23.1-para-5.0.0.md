@@ -390,8 +390,8 @@ Arquivos alterados: 375 (M 225, A 142, D 8) · fonte de evidências: DOC
 | ADM-CTA-01 Criar conta | afetado (trecho) | modules/administracao/conta/f-criar-conta.md#Memória de cálculo (alterado) | R EventoAuditoria (alterado); W Conta (alterado); W Usuario (alterado) |
 | ADM-CTA-03 Recuperar senha | afetado (trecho) | modules/administracao/conta/f-recuperar-senha.md#Memória de cálculo (alterado) | R EventoAuditoria (alterado); W Usuario (alterado) |
 | ADM-CTA-03.2 Redefinir a senha | afetado (arquivo) | — | — |
-| ADM-INT-01 Configurar conexão GitHub | afetado (trecho) | modules/administracao/integracoes/f-configurar-conexao-github.md#API (alterado); modules/administracao/integracoes/f-configurar-conexao-github.md#Memória de cálculo (alterado) | E GitHub (alterado); R EventoAuditoria (alterado); W Conta (alterado); X GitHub (alterado); X MENSAGEM (alterado) |
-| ADM-INT-01.2 Processar revogação (webhook do GitHub) | afetado (trecho) | modules/administracao/integracoes/f-configurar-conexao-github.md#API (alterado) | X GitHub (alterado); X MENSAGEM (alterado) |
+| ADM-INT-01 Configurar conexão GitHub | afetado (trecho) | modules/administracao/integracoes/f-configurar-conexao-github.md#API (alterado); modules/administracao/integracoes/f-configurar-conexao-github.md#Memória de cálculo (alterado) | D CONEXAO_GITHUB_INACTIVE (alterado); D CONEXAO_GITHUB_INSTALL_FAILED (alterado); E GitHub (alterado); R EventoAuditoria (alterado); W Conta (alterado); X GitHub (alterado) |
+| ADM-INT-01.2 Processar revogação (webhook do GitHub) | afetado (trecho) | modules/administracao/integracoes/f-configurar-conexao-github.md#API (alterado) | X GitHub (alterado) |
 | ADM-ORG-03 Alterar organização | afetado (arquivo) | — | — |
 | ADM-ORG-01 Criar organização | afetado (arquivo) | — | — |
 | ADM-ORG-02 Visualizar organização | afetado (arquivo) | — | — |
@@ -423,7 +423,7 @@ Arquivos alterados: 375 (M 225, A 142, D 8) · fonte de evidências: DOC
 | EST-ACO-01 Acompanhar esteira | afetado (arquivo) | — | — |
 | EST-ACO-08 Visualizar análise de impacto | afetado (arquivo) | — | — |
 | EST-ACO-04 Visualizar casos de teste | afetado (arquivo) | — | — |
-| EST-ACO-05 Visualizar codificação | afetado (trecho) | modules/esteira/acompanhamento/f-visualizar-codificacao.md#API (alterado) | X EtapaExecucao (alterado); X MENSAGEM (alterado) |
+| EST-ACO-05 Visualizar codificação | afetado (trecho) | modules/esteira/acompanhamento/f-visualizar-codificacao.md#API (alterado) | D RESOURCE_NOT_FOUND (alterado); X EtapaExecucao (alterado) |
 | EST-ACO-07 Visualizar implantação | afetado (arquivo) | — | — |
 | EST-ACO-03 Visualizar modelo de dados | afetado (arquivo) | — | — |
 | EST-ACO-02 Visualizar requisitos | afetado (arquivo) | — | — |

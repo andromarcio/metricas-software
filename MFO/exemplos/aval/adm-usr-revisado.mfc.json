@@ -148,46 +148,18 @@
             "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Colunas do resultado"
           ],
           "nota": "RI-06 a: nome do perfil pertence a Perfil"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
-          ],
-          "nota": "422 e lista vazia"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "lista de usuários com contagens",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Cenários"
-            ]
-          },
-          {
-            "id": "VALIDATION_ERROR",
-            "descricao": "parâmetros fora do domínio",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
-            ]
-          }
-        ],
-        "regras": [
-          {
-            "id": "C1",
-            "descricao": "contagens derivadas: total, ativos, convites pendentes, inativos",
-            "tipo": "calculo",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#Campos automáticos"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "VALIDATION_ERROR",
+          "descricao": "parâmetros fora do domínio",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-pesquisar-usuarios.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-02",
@@ -269,98 +241,34 @@
             "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
           ],
           "nota": "resposta 201 e e-mail ao convidado pelo serviço SMTP (mesma chave: conta uma vez, RI-09 a)"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-          ],
-          "nota": "409, 404, 422"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "convite criado e e-mail disparado",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Cenários"
-            ]
-          },
-          {
-            "id": "CONVITE_EMAIL_ACTIVE",
-            "descricao": "e-mail já ativo na organização",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-            ]
-          },
-          {
-            "id": "CONVITE_EMAIL_ACTIVE/2",
-            "descricao": "convite pendente para o e-mail",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-            ],
-            "oculto": true,
-            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "perfil de outra conta",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND/2",
-            "descricao": "perfil inexistente",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-            ],
-            "oculto": true,
-            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
-          },
-          {
-            "id": "VALIDATION_ERROR",
-            "descricao": "e-mail fora do formato",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
-            ]
-          }
-        ],
-        "regras": [
-          {
-            "id": "R1",
-            "descricao": "o convite define o perfil único da pessoa",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R2",
-            "descricao": "e-mail não pode pertencer a outro usuário ativo da organização",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R3",
-            "descricao": "convite expira sem uso em 24 horas",
-            "tipo": "limite",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-convidar-usuario.md#Regras de negócio"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "CONVITE_EMAIL_ACTIVE",
+          "descricao": "e-mail já ativo ou convite pendente",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ]
+        },
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "perfil de outra conta ou inexistente",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ]
+        },
+        {
+          "id": "VALIDATION_ERROR",
+          "descricao": "e-mail fora do formato",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-convidar-usuario.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-03",
@@ -434,72 +342,26 @@
             "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
           ],
           "nota": "usuarioId e perfil novo"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
-          ],
-          "nota": "409, 404"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "perfil substituído",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Cenários"
-            ]
-          },
-          {
-            "id": "USUARIO_LAST_ADMIN",
-            "descricao": "último Administrador ativo",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "usuário fora da conta",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND/2",
-            "descricao": "perfil fora da conta",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
-            ],
-            "oculto": true,
-            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
-          }
-        ],
-        "regras": [
-          {
-            "id": "R1",
-            "descricao": "cada usuário tem exatamente um perfil; a troca substitui o anterior",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R2",
-            "descricao": "ao menos um usuário ativo com o perfil Administrador",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#Regras de negócio"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "USUARIO_LAST_ADMIN",
+          "descricao": "último Administrador ativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ]
+        },
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "usuário ou perfil fora da conta",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-alterar-perfil-do-usuario.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-04",
@@ -557,62 +419,26 @@
             "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
           ],
           "nota": "usuarioId e situação"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
-          ],
-          "nota": "409, 404"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "usuário desativado",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Cenários"
-            ]
-          },
-          {
-            "id": "USUARIO_LAST_ADMIN",
-            "descricao": "último Administrador ativo",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "usuário fora da conta",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
-            ]
-          }
-        ],
-        "regras": [
-          {
-            "id": "R1",
-            "descricao": "desativação revoga o acesso sem remover registros",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R2",
-            "descricao": "ao menos um usuário ativo com o perfil Administrador",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-desativar-usuario.md#Regras de negócio"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "USUARIO_LAST_ADMIN",
+          "descricao": "último Administrador ativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ]
+        },
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "usuário fora da conta",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-desativar-usuario.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-05",
@@ -686,62 +512,26 @@
             "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
           ],
           "nota": "nome do perfil restaurado (RI-06 a)"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
-          ],
-          "nota": "409, 404"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "usuário reativado com o perfil anterior",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Cenários"
-            ]
-          },
-          {
-            "id": "USUARIO_NOT_INACTIVE",
-            "descricao": "situação diferente de Inativo",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "usuário fora da conta",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
-            ]
-          }
-        ],
-        "regras": [
-          {
-            "id": "R1",
-            "descricao": "a reativação restaura o perfil anterior",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R2",
-            "descricao": "somente usuários inativos podem ser reativados",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-reativar-usuario.md#Regras de negócio"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "USUARIO_NOT_INACTIVE",
+          "descricao": "situação diferente de Inativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ]
+        },
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "usuário fora da conta",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-reativar-usuario.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-06b",
@@ -815,37 +605,18 @@
             "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
           ],
           "nota": "nome do perfil (RI-06 a)"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-          ],
-          "nota": "404"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "convite exibido",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ]
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "código inexistente",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ]
-          }
-        ],
-        "regras": []
-      }
+      "desfechos": [
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "código inexistente",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ]
+        }
+      ]
     },
     {
       "id": "ADM-USR-06",
@@ -953,106 +724,34 @@
             "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
           ],
           "nota": "nome do perfil (RI-06 a)"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-          ],
-          "nota": "409, 404, 422"
         }
       ],
-      "decisoes": {
-        "desfechos": [
-          {
-            "id": "OK",
-            "descricao": "acesso ativado na organização",
-            "tipo": "sucesso",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Cenários"
-            ]
-          },
-          {
-            "id": "CONVITE_INVALID",
-            "descricao": "convite fora de pendente",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ]
-          },
-          {
-            "id": "CONVITE_INVALID/2",
-            "descricao": "e-mail divergente do convite",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ],
-            "oculto": true,
-            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
-          },
-          {
-            "id": "RESOURCE_NOT_FOUND",
-            "descricao": "código inexistente",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ]
-          },
-          {
-            "id": "VALIDATION_ERROR",
-            "descricao": "senha fora do padrão",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ]
-          },
-          {
-            "id": "VALIDATION_ERROR/2",
-            "descricao": "nome fora do padrão",
-            "tipo": "recusa",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
-            ],
-            "oculto": true,
-            "nota": "mesmo código; distinguível só pela condição de entrada que o dispara"
-          }
-        ],
-        "regras": [
-          {
-            "id": "R1",
-            "descricao": "só convite pendente pode ser aceito",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R2",
-            "descricao": "o aceite ativa o usuário com o perfil do convite",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R3",
-            "descricao": "e-mail de pessoa existente exige prova de identidade",
-            "tipo": "validacao",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
-            ]
-          },
-          {
-            "id": "R4",
-            "descricao": "o aceite conclui o convite e é registrado na auditoria",
-            "tipo": "estado",
-            "evidencia": [
-              "DOC:modules/administracao/usuarios/f-aceitar-convite.md#Regras de negócio"
-            ]
-          }
-        ]
-      }
+      "desfechos": [
+        {
+          "id": "CONVITE_INVALID",
+          "descricao": "convite fora de pendente ou e-mail divergente",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ]
+        },
+        {
+          "id": "RESOURCE_NOT_FOUND",
+          "descricao": "código inexistente",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ]
+        },
+        {
+          "id": "VALIDATION_ERROR",
+          "descricao": "senha ou nome fora do padrão",
+          "tipo": "recusa",
+          "evidencia": [
+            "DOC:modules/administracao/usuarios/f-aceitar-convite.md#API"
+          ]
+        }
+      ]
     }
   ]
 }

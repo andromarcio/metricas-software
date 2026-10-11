@@ -46,7 +46,7 @@ window.DOKU_CONFIG = {
         { title: "9. Produção com IA", page: "producao-com-ia", icon: "flow" },
         { title: "10. Exemplo real: Aval", page: "exemplo-real-aval", icon: "search" },
         { title: "11. Estimativa", page: "estimativa", icon: "ticket" },
-        { title: "12. Decisões, a segunda dimensão", page: "decisoes", icon: "link" },
+        { title: "12. Desfechos: a decisão no tamanho", page: "decisoes", icon: "link" },
       ],
     },
     {

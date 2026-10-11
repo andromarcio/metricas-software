@@ -186,14 +186,6 @@
             "REQ:RF-01",
             "COD:v2/biblioteca/repositorio.py#salvar_livro"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-01 (confirmação e erros de validação)",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -208,7 +200,18 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "ISBN_DUPLICADO",
+          "descricao": "ISBN já cadastrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-01 (ISBN único)",
+            "COD:v2/biblioteca/servicos.py#ISBN já cadastrado"
+          ]
+        }
+      ]
     },
     {
       "id": "P02",
@@ -269,14 +272,6 @@
             "REQ:RF-02",
             "COD:v2/biblioteca/repositorio.py#salvar_livro"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-02",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -291,7 +286,18 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "NAO_ENCONTRADO",
+          "descricao": "livro não encontrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-02",
+            "COD:v2/biblioteca/servicos.py#Livro não encontrado"
+          ]
+        }
+      ]
     },
     {
       "id": "P03",
@@ -341,14 +347,6 @@
             "REQ:RF-03",
             "COD:v2/biblioteca/repositorio.py#excluir_livro"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-03",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -363,7 +361,18 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "EMPRESTIMO_ATIVO",
+          "descricao": "recusa se houver empréstimo ativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-03",
+            "COD:v2/biblioteca/servicos.py#empréstimo ativo"
+          ]
+        }
+      ]
     },
     {
       "id": "P04",
@@ -421,14 +430,6 @@
             "REQ:RF-04",
             "COD:v2/biblioteca/servicos.py#consultar_livros"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-04 (nenhum livro encontrado)",
-            "COD:v2/biblioteca/servicos.py#Nenhum livro encontrado"
-          ]
         }
       ],
       "aceite": {
@@ -443,7 +444,18 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "VAZIO",
+          "descricao": "nenhum livro encontrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-04",
+            "COD:v2/biblioteca/servicos.py#Nenhum livro encontrado"
+          ]
+        }
+      ]
     },
     {
       "id": "P05",
@@ -500,14 +512,6 @@
             "REQ:RF-05",
             "COD:v2/biblioteca/repositorio.py#salvar_leitor"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-05",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -522,7 +526,18 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "CPF_DUPLICADO",
+          "descricao": "CPF já cadastrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-05",
+            "COD:v2/biblioteca/servicos.py#CPF já cadastrado"
+          ]
+        }
+      ]
     },
     {
       "id": "P06",
@@ -614,14 +629,6 @@
             "REQ:RF-06 (apresenta a data prevista)",
             "COD:v2/biblioteca/servicos.py#data_prevista"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-06 (recusas e confirmação)",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -636,7 +643,45 @@
         "evidencia": [
           "PROC:commits da v1.0 (jan–fev/2026) com autores humanos; processo não alterado na v2.0"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "LEITOR_INATIVO",
+          "descricao": "leitor inexistente ou inativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v2/biblioteca/servicos.py#Leitor inexistente ou inativo"
+          ]
+        },
+        {
+          "id": "LIVRO_INEXISTENTE",
+          "descricao": "livro não encontrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v2/biblioteca/servicos.py#Livro não encontrado"
+          ]
+        },
+        {
+          "id": "SEM_EXEMPLAR",
+          "descricao": "nenhum exemplar disponível",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v2/biblioteca/servicos.py#Nenhum exemplar disponível"
+          ]
+        },
+        {
+          "id": "LIMITE",
+          "descricao": "leitor atingiu o limite de empréstimos",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06",
+            "COD:v2/biblioteca/servicos.py#limite de empréstimos"
+          ]
+        }
+      ]
     },
     {
       "id": "P07",
@@ -719,14 +764,6 @@
             "REQ:RF-07 (apresenta o valor da multa)",
             "COD:v2/biblioteca/servicos.py#\"multa\""
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-07",
-            "COD:v2/biblioteca/servicos.py#ErroDeNegocio"
-          ]
         }
       ],
       "aceite": {
@@ -741,7 +778,27 @@
         "evidencia": [
           "PROC:PR #41 — commit 7c1e2d com coautoria de agente de IA; revisão humana registrada na PR"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "NAO_ATIVO",
+          "descricao": "empréstimo não encontrado ou já devolvido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-07",
+            "COD:v2/biblioteca/servicos.py#já devolvido"
+          ]
+        },
+        {
+          "id": "ISENCAO_SEM_JUSTIFICATIVA",
+          "descricao": "isenção de multa exige justificativa",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-07 (v2: isenção de multa)",
+            "COD:v2/biblioteca/servicos.py#Isenção de multa exige justificativa"
+          ]
+        }
+      ]
     },
     {
       "id": "P08",
@@ -839,14 +896,6 @@
             "REQ:RF-08",
             "COD:v2/biblioteca/servicos.py#titulo_livro"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-08 (não há atrasos)",
-            "COD:v2/biblioteca/servicos.py#Não há empréstimos em atraso"
-          ]
         }
       ],
       "aceite": {
@@ -861,7 +910,18 @@
         "evidencia": [
           "PROC:PR #41 — commit 9ab3f0 com coautoria de agente de IA; revisão humana registrada na PR"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "VAZIO",
+          "descricao": "não há empréstimos em atraso",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-08",
+            "COD:v2/biblioteca/servicos.py#Não há empréstimos em atraso"
+          ]
+        }
+      ]
     },
     {
       "id": "P09",
@@ -1061,14 +1121,6 @@
             "REQ:RF-10",
             "COD:v2/biblioteca/servicos.py#consultar_leitor"
           ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-10 (leitor não encontrado)",
-            "COD:v2/biblioteca/servicos.py#Leitor não encontrado"
-          ]
         }
       ],
       "aceite": {
@@ -1083,7 +1135,18 @@
         "evidencia": [
           "PROC:PR #42 aberta por agente de IA a partir de RF-10, com testes gerados; aceite humano em 2026-05-20"
         ]
-      }
+      },
+      "desfechos": [
+        {
+          "id": "LEITOR_NAO_ENCONTRADO",
+          "descricao": "leitor não encontrado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-10 (leitor não encontrado)",
+            "COD:v2/biblioteca/servicos.py#Leitor não encontrado"
+          ]
+        }
+      ]
     }
   ],
   "producao": {

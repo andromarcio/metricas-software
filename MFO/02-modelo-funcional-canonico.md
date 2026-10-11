@@ -22,8 +22,9 @@ os conceitos e as **regras de identificação (RI)** que dizem o que entra no mo
 ```
 
 Um software é um conjunto de **processos**. Cada processo é disparado por um **usuário
-funcional**, movimenta **entidades** por meio de **movimentos** (E, X, R, W) e termina.
-O tamanho é o número de movimentos.
+funcional**, movimenta **entidades** por meio de **movimentos** (E, X, R, W), devolve um
+ou mais **desfechos** e termina. O tamanho é o número de movimentos mais o número de
+desfechos além do principal.
 
 ## 2.2 Fronteira, escopo e propósito
 
@@ -103,17 +104,18 @@ para o usuário funcional e que o software persiste ou troca como unidade.
 > e) Trilha de auditoria ou histórico exigido pelo usuário funcional (quem, quando, o quê,
 >    consultável) é entidade. Log técnico não é.
 
-### Entidades reservadas
+### Entidade reservada
 
-Dois nomes são reservados e não precisam ser declarados no modelo:
+Um nome é reservado e não precisa ser declarado no modelo:
 
 | Entidade | Tipo permitido | Quando usar |
 |---|---|---|
-| `MENSAGEM` | só X | Indicações de erro, validação, sucesso, estado ou identificador gerado pelo processo (protocolo, número de pedido, token) enviadas ao usuário funcional **sem** outros atributos de entidade. No máximo uma por processo, cobrindo todas as mensagens desse processo. |
 | `DISPARO` | só E | Sinal de disparo que não carrega atributo de nenhuma entidade: tique de relógio, comando sem parâmetros, clique em "gerar relatório" sem filtros. |
 
-Se a mensagem contém atributos de uma entidade ("limite excedido em R$ 100,00", em que o
-valor foi calculado a partir da conta), conta-se uma X dessa entidade em vez de `MENSAGEM`.
+Mensagens de erro, validação, sucesso e estado não são movimentos: são **desfechos**
+(seção 2.7, RI-12). Se a mensagem carrega atributos de uma entidade ("limite excedido em
+R$ 100,00", em que o valor foi calculado a partir da conta), há, além do desfecho, uma X
+dessa entidade.
 
 ## 2.5 Processos
 
@@ -126,8 +128,8 @@ Um **processo** é a menor unidade de funcionalidade que tem disparador, efeito 
 > - **T1 (disparador):** existe um evento, percebido por um usuário funcional, que faz o
 >   software começar a agir e que carrega pelo menos um movimento E (de uma entidade ou
 >   de `DISPARO`).
-> - **T2 (efeito):** ao terminar, o software gravou pelo menos uma entidade (W) ou enviou
->   pelo menos uma entidade ou mensagem a um usuário funcional (X).
+> - **T2 (efeito):** ao terminar, o software gravou pelo menos uma entidade (W), enviou
+>   pelo menos uma entidade a um usuário funcional (X) ou devolveu um desfecho (RI-12).
 > - **T3 (autonomia):** ao terminar, o software aguarda um novo disparador e o efeito é
 >   válido para o usuário funcional sem que outra etapa seja obrigatória.
 >
@@ -162,27 +164,27 @@ Um **processo** é a menor unidade de funcionalidade que tem disparador, efeito 
 
 ### Casos frequentes
 
-| Situação | Decisão | Movimentos típicos |
+| Situação | Decisão | Movimentos e desfechos típicos |
 |---|---|---|
-| Cadastro com validação de unicidade (CPF único) | 1 processo | E, R (verifica), W, X `MENSAGEM` |
-| Alterar registro existente | 1 processo (a exibição prévia é o processo de consulta) | E, R, W, X `MENSAGEM` |
-| Excluir registro, bloqueado se houver dependentes | 1 processo | E, R (dependentes), W, X `MENSAGEM` |
-| Excluir sem nenhuma verificação | 1 processo | E, W, X `MENSAGEM` |
-| Lista com filtros | 1 processo | E (filtros), R, X, X `MENSAGEM` ("nenhum registro") |
-| Relatório sem parâmetros | 1 processo | E `DISPARO`, R…, X…, X `MENSAGEM` |
+| Cadastro com validação de unicidade (CPF único) | 1 processo | E, R (verifica), W · desfecho: duplicidade |
+| Alterar registro existente | 1 processo (a exibição prévia é o processo de consulta) | E, R, W · desfecho: não encontrado |
+| Excluir registro, bloqueado se houver dependentes | 1 processo | E, R (dependentes), W · desfecho: bloqueado |
+| Excluir sem nenhuma verificação | 1 processo | E, W |
+| Lista com filtros | 1 processo | E (filtros), R, X · desfecho: "nenhum registro", quando a mensagem existe |
+| Relatório sem parâmetros | 1 processo | E `DISPARO`, R…, X… · desfecho: "sem dados", quando a mensagem existe |
 | Relatório em PDF e CSV | 1 processo | idem |
 | Mesma função por tela e por API | 1 processo com dois disparadores | idem |
 | Entrada on-line e carga em lote com relatório de rejeições | 2 processos | lote tem X ou W adicional |
-| Assistente de 3 etapas que grava ao final | 1 processo | E (todas as entidades informadas), R, W, X `MENSAGEM` |
-| Autenticar (login e senha) | 1 processo | E Usuário, R Usuário, X `MENSAGEM` |
+| Assistente de 3 etapas que grava ao final | 1 processo | E (todas as entidades informadas), R, W · desfechos: cada recusa com código ou mensagem própria |
+| Autenticar (login e senha) | 1 processo | E Usuário, R Usuário · desfecho: credenciais inválidas |
 | Sair (logout) | não é processo | — |
-| Trocar senha | 1 processo | E, R, W, X `MENSAGEM` |
+| Trocar senha | 1 processo | E, R, W · desfecho: senha atual incorreta |
 | Job diário que envia e-mails por serviço externo | 1 processo | E `DISPARO`, R…, X… (para o serviço), E (status devolvido, se usado), W (se registra envio) |
-| Consumir mensagem de fila e gravar | 1 processo | E (entidade da mensagem), R…, W…, X `MENSAGEM` (ack com erro, se houver) |
-| Webhook recebido | 1 processo | E, R, W, X `MENSAGEM` |
+| Consumir mensagem de fila e gravar | 1 processo | E (entidade da mensagem), R…, W… · desfecho: rejeição com motivo, se houver |
+| Webhook recebido | 1 processo | E, R, W · desfecho: rejeição com código |
 | Sensor dispara alarme | 1 processo | E (leitura), R (limites), X (comando ao atuador) |
 | Exportar dados para outro sistema por arquivo | 1 processo | E `DISPARO` ou filtros, R…, X… |
-| Importar dados de outro sistema lidos direto do banco dele | 1 processo | E `DISPARO`, R (entidades do outro sistema), W…, X `MENSAGEM` |
+| Importar dados de outro sistema lidos direto do banco dele | 1 processo | E `DISPARO`, R (entidades do outro sistema), W… · desfecho: rejeição, se houver relatório de recusa |
 | Página estática, ajuda, "sobre" | não é processo | — |
 
 ## 2.6 Movimentos
@@ -211,11 +213,11 @@ movimento é a tripla (processo, tipo, entidade).
 >    (tela, resposta de API, arquivo, mensagem, sinal a dispositivo). Uma saída que combina
 >    atributos de três entidades gera três X.
 >
-> b) Chamada a sistema externo é X da(s) entidade(s) enviada(s). Se a chamada não envia
->    atributo de entidade (só um sinal), é X `MENSAGEM`.
+> b) Chamada a sistema externo é X da(s) entidade(s) enviada(s). Chamada que não envia
+>    atributo de entidade (só um sinal de controle) não é X.
 >
-> c) Conta-se no máximo uma X `MENSAGEM` por processo, cobrindo todas as mensagens de
->    erro, validação, sucesso e estado que o processo emite.
+> c) Mensagens de erro, validação, sucesso e estado não são X: são desfechos (RI-12).
+>    Identificador gerado sem outros atributos (protocolo, token) também não é X.
 >
 > d) Rótulos, títulos, cabeçalhos, textos fixos, totais de página e elementos de navegação
 >    não são atributos de entidade e não geram X.
@@ -262,11 +264,40 @@ movimento é a tripla (processo, tipo, entidade).
 > transações, migrações de esquema, testes, scripts de build e implantação, telemetria,
 > e qualquer funcionalidade sem usuário funcional identificável.
 
-## 2.7 Evidência
+## 2.7 Desfechos
+
+Um processo não devolve só dados: devolve um **resultado**, e um processo que recusa por
+dez motivos diferentes faz mais pelo usuário funcional do que um que recusa por um. A
+MFO conta isso pelo que o sistema **emite de diferente**, nunca pela regra que o produz.
+
+> **RI-12 — Desfecho**
+>
+> a) Um desfecho é um resultado que o processo devolve ao usuário funcional e que se
+>    distingue dos demais pelo que o sistema emite: um código de resposta ou uma mensagem
+>    diferente. Contam-se os desfechos **além do principal**: cada recusa ou erro de
+>    negócio com código ou mensagem próprios e cada variante de sucesso com efeito
+>    diferente (aprovação total e parcial). O desfecho principal não conta: ele já está
+>    nas saídas e gravações do processo.
+>
+> b) Mesmo código ou mesma mensagem, ainda que produzidos por condições diferentes, são
+>    **um** desfecho. O que a fronteira não distingue não é desfecho, é implementação.
+>
+> c) Mensagens parametrizadas pelo mesmo molde ("campo X é obrigatório", para cada campo)
+>    são um desfecho. Códigos técnicos de autenticação, autorização e infraestrutura não
+>    contam (RI-10).
+>
+> d) Cada desfecho tem identificador (o código ou o nome da mensagem, único no processo),
+>    descrição e evidência (RI-11), e é registrado na lista `desfechos` do processo. Vale
+>    1 PFO, como uma chave de movimento (RC-01).
+
+O capítulo 12 mostra por que a unidade é o desfecho e não a regra, e o que acontece com
+um processo que esconde várias regras sob um código só.
+
+## 2.8 Evidência
 
 > **RI-11 — Evidência**
 >
-> a) Todo processo e todo movimento carregam pelo menos uma referência de evidência no
+> a) Todo processo, todo movimento e todo desfecho carregam pelo menos uma referência de evidência no
 >    formato `FONTE:localizador`, em que `FONTE` é o identificador de uma fonte declarada
 >    no modelo e `localizador` aponta o trecho (id de requisito, nome de tela, rota,
 >    símbolo de código com caminho, tabela ou coluna, nome de mensagem).
@@ -277,7 +308,7 @@ movimento é a tripla (processo, tipo, entidade).
 > c) A evidência deve permitir que um revisor abra o artefato e confirme o elemento sem
 >    conhecer o medidor. Evidência vaga ("código do sistema") não satisfaz a regra.
 
-## 2.8 Estrutura do modelo
+## 2.9 Estrutura do modelo
 
 O modelo é um documento JSON validado pelo esquema [`schema/mfc.schema.json`](schema/mfc.schema.json).
 Campos marcados com * são obrigatórios.
@@ -298,7 +329,7 @@ Campos marcados com * são obrigatórios.
   "usuarios_funcionais": [                         // * RI-02
     { "id": "UF1", "nome": "Bibliotecário", "tipo": "pessoa" }
   ],
-  "entidades": [                                   // * RI-03 (exceto reservadas)
+  "entidades": [                                   // * RI-03 (exceto a reservada DISPARO)
     { "id": "Livro", "descricao": "Título do acervo", "atributos": ["isbn", "titulo"], "evidencia": ["REQ:RF-01", "COD:db/livro"] }
   ],
   "processos": [                                   // * RI-04
@@ -310,20 +341,24 @@ Campos marcados com * são obrigatórios.
       "movimentos": [                              // RI-05 a RI-09
         { "tipo": "E", "entidade": "Livro", "evidencia": ["COD:LivroRequest"], "atributos": ["isbn", "titulo", "autor", "ano", "quantidade"] },
         { "tipo": "R", "entidade": "Livro", "evidencia": ["REQ:RF-01 (ISBN único)"] },
-        { "tipo": "W", "entidade": "Livro", "evidencia": ["COD:LivroRepositorio.salvar"] },
-        { "tipo": "X", "entidade": "MENSAGEM", "evidencia": ["COD:LivroController erros 400/409 e 201"] }
+        { "tipo": "W", "entidade": "Livro", "evidencia": ["COD:LivroRepositorio.salvar"] }
+      ],
+      "desfechos": [                               // RI-12: além do principal, um por código ou mensagem
+        { "id": "ISBN_DUPLICADO", "descricao": "ISBN já cadastrado", "evidencia": ["REQ:RF-01 (ISBN único)", "COD:LivroController 409"] }
       ]
     }
   ]
 }
 ```
 
-Campos opcionais em movimentos: `atributos` (lista; habilita o suplemento de derivação,
-RC-05), `inferido` e `justificativa` (RI-11b), `alterado` (RC-03), `nota`.
+Campos opcionais em movimentos: `atributos` (lista; habilita a derivação informativa da
+seção 3.5), `inferido` e `justificativa` (RI-11b), `alterado` (RC-03), `nota`. Cada
+desfecho tem `id`, `descricao` e `evidencia`, com os mesmos opcionais `inferido`,
+`justificativa`, `alterado` e `nota`.
 Identificadores de processos e entidades devem ser estáveis entre versões do mesmo
 software, pois a medição de mudanças depende deles.
 
-## 2.9 Onde encontrar cada conceito
+## 2.10 Onde encontrar cada conceito
 
 | Conceito | Em requisitos / histórias | Em telas e protótipos | Em APIs e contratos | Em código e banco |
 |---|---|---|---|---|
@@ -332,5 +367,6 @@ software, pois a medição de mudanças depende deles.
 | Processo | "o sistema deve permitir…", caso de uso, história | botão de ação, submissão, item de menu que executa algo | rota/operação, método RPC, tópico consumido | handler de rota, comando, job, consumer, callback de dispositivo |
 | E | dados informados, arquivo recebido, evento | campos de entrada | parâmetros, corpo da requisição, mensagem recebida | parâmetros do handler, payload desserializado |
 | X | dados apresentados, enviados, impressos, notificados | campos exibidos, listagem, download | corpo da resposta, chamada a serviço, mensagem publicada | serialização, render, chamada HTTP de saída, publish |
+| Desfecho | "recusa se…", "informa o motivo", "ou informa que não há…" | mensagens de validação e alertas distintos | códigos de resposta, tabela de erros | exceções de negócio mapeadas para resposta, códigos 4xx, mensagens distintas |
 | R | "consulta", "verifica", "com base em" | dados carregados na tela | — | SELECT/find/get, leitura de arquivo |
 | W | "registra", "grava", "atualiza", "exclui" | ação de salvar | — | INSERT/UPDATE/DELETE/save, escrita de arquivo |

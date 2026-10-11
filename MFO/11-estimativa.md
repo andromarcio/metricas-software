@@ -19,11 +19,13 @@ evidenciados. Não há um segundo método nem uma segunda unidade.
 >    abre o nome: criar, alterar, excluir, estado (aprovar, cancelar, desativar…),
 >    consultar, relatório, processar (automação por evento ou relógio) e integrar.
 >
-> b) Os movimentos do processo são os do **perfil típico** do tipo (tabela da seção 11.3),
->    aplicado à entidade principal e às entidades adicionais tocadas: cada entidade
->    adicional acrescenta uma leitura e, em consultas e relatórios, também uma saída.
+> b) Os movimentos e desfechos do processo são os do **perfil típico** do tipo (tabela da
+>    seção 11.3), aplicado à entidade principal e às entidades adicionais tocadas: cada
+>    entidade adicional acrescenta uma leitura e, em consultas e relatórios, também uma
+>    saída; criar, alterar, excluir, mudar de estado e integrar trazem um desfecho de
+>    recusa; consultar, relatório e processar, nenhum.
 >
-> c) Todo movimento estimado leva `inferido: true` com a justificativa "perfil típico". O
+> c) Todo movimento e desfecho estimado leva `inferido: true` com a justificativa "perfil típico". O
 >    modelo passa pelas mesmas validações de um modelo medido e é contado pela mesma
 >    função. O rótulo muda: `≈ n PFO (estimativa Ex, mín a máx)`.
 
@@ -72,23 +74,24 @@ exatamente o papel dos perfis típicos.
 Derivados da tabela de casos frequentes do capítulo 2. `P` é a entidade principal; cada
 entidade adicional acrescenta os movimentos da última coluna.
 
-| Tipo | Movimentos base | PFO base | Por entidade adicional |
+| Tipo | Movimentos e desfechos base | PFO base | Por entidade adicional |
 |---|---|---|---|
-| criar | E P · R P (unicidade) · W P · X MENSAGEM | 4 | + R |
-| alterar | E P · R P · W P · X MENSAGEM | 4 | + R |
-| excluir | E P · W P · X MENSAGEM | 3 | + R (dependentes) |
-| estado | E P · R P · W P · X MENSAGEM | 4 | + R |
-| consultar | E P (filtros) · R P · X P · X MENSAGEM | 4 | + R + X |
-| relatório | E DISPARO · R P · X P · X MENSAGEM | 4 | + R + X |
+| criar | E P · R P (unicidade) · W P · D (recusa) | 4 | + R |
+| alterar | E P · R P · W P · D (recusa) | 4 | + R |
+| excluir | E P · W P · D (bloqueio) | 3 | + R (dependentes) |
+| estado | E P · R P · W P · D (estado inválido) | 4 | + R |
+| consultar | E P (filtros) · R P · X P | 3 | + R + X |
+| relatório | E DISPARO · R P · X P | 3 | + R + X |
 | processar | E DISPARO · R P · W P | 3 | + R |
-| integrar | E P · R P · W P · X MENSAGEM | 4 | + R |
-| outro | E P · R P · W P · X MENSAGEM | 4 | + R |
+| integrar | E P · R P · W P · D (rejeição) | 4 | + R |
+| outro | E P · R P · W P · D (recusa) | 4 | + R |
 
 O que os modelos medidos mostram sobre esses padrões: em 101 processos de três modelos
 (Aval mecânico, biblioteca e Usuários revisado), a mediana é 6 PFO por processo e varia
-pouco entre tipos (5 a 6, com 9 em relatórios). O tipo discrimina menos do que o número
-de entidades tocadas. Por isso a entrada mais valiosa de um backlog é a lista de entidades
-de cada item, e por isso a calibração local pesa mais do que a tabela.
+de 5 a 8 conforme o tipo (processar 5, mudanças de estado 8, 9 no único relatório). O
+tipo discrimina menos do que o número de entidades tocadas e de recusas distintas. Por
+isso a entrada mais valiosa de um backlog é a lista de entidades de cada item, e por isso
+a calibração local pesa mais do que a tabela.
 
 ## 11.4 Ferramenta e formato do backlog
 
@@ -119,12 +122,12 @@ calcula o erro relativo contra um modelo medido do mesmo escopo.
 
 | Estimativa | Base de perfis | Resultado (intervalo) | Medido | Erro | Medido no intervalo |
 |---|---|---|---|---|---|
-| Biblioteca E0, 3 entidades mantidas | padrão | 55 (33 a 77) | 51 | 8% | sim |
-| Biblioteca E1, 9 itens com entidades | padrão | 45 (34 a 56) | 51 | 12% | sim |
-| Biblioteca E1, 9 itens com entidades | calibrada, 101 processos | 54 (46 a 60) | 51 | 6% | sim |
-| Aval E1, 85 features só pelo nome e entidade principal | padrão | 328 (246 a 410) | 492 | 33% | não |
-| Aval E1, idem | calibrada em outros sistemas, 16 processos | 585 (419 a 788) | 492 | 19% | sim |
-| Aval E1, idem | calibrada incluindo o próprio Aval (circular, só ilustra o mecanismo) | 501 (411 a 577) | 492 | 2% | sim |
+| Biblioteca E0, 3 entidades mantidas | padrão | 52 (31 a 73) | 54 | 4% | sim |
+| Biblioteca E1, 9 itens com entidades | padrão | 43 (32 a 54) | 54 | 20% | no limite |
+| Biblioteca E1, 9 itens com entidades | calibrada, 101 processos | 56 (46 a 70) | 54 | 4% | sim |
+| Aval E1, 85 features só pelo nome e entidade principal | padrão | 304 (228 a 380) | 542 | 44% | não |
+| Aval E1, idem | calibrada em outros sistemas, 16 processos | 616 (433 a 873) | 542 | 14% | sim |
+| Aval E1, idem | calibrada incluindo o próprio Aval (circular, só ilustra o mecanismo) | 544 (433 a 666) | 542 | 0% | sim |
 
 Arquivos: [`biblioteca-backlog.json`](exemplos/biblioteca-backlog.json),
 [`biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json),
@@ -133,11 +136,13 @@ Arquivos: [`biblioteca-backlog.json`](exemplos/biblioteca-backlog.json),
 `*-estimativa-*.md` ao lado de cada um.
 
 Três leituras. A estimativa da biblioteca ficou dentro do intervalo nos três casos porque o
-backlog listava as entidades de cada item. A do Aval pelos nomes, com só a entidade
-principal, subestimou em um terço: os processos do Aval tocam três ou quatro entidades em
-média, e isso o nome não diz. Com perfis calibrados em outros sistemas, ainda sem ler os
-N3, o intervalo passou a conter o valor medido. A regra prática: peça as entidades
-tocadas antes de pedir qualquer outra coisa, e calibre com o primeiro sistema medido.
+backlog listava as entidades de cada item; a E1 padrão encostou no limite porque o perfil
+típico prevê uma recusa por processo e Registrar empréstimo tem quatro. A do Aval pelos
+nomes, com só a entidade principal, subestimou em quase metade: os processos do Aval
+tocam três ou quatro entidades e recusam por um ou dois códigos em média, e isso o nome
+não diz. Com perfis calibrados em outros sistemas, ainda sem ler os N3, o intervalo
+passou a conter o valor medido. A regra prática: peça as entidades tocadas e as recusas
+previstas antes de pedir qualquer outra coisa, e calibre com o primeiro sistema medido.
 
 ## 11.6 Acompanhar a precisão
 
