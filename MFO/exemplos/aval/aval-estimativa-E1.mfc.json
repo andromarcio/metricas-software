@@ -148,12 +148,6 @@
           "entidade": "EventoAuditoria",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -188,10 +182,13 @@
           "entidade": "Identidade Google",
           "inferido": true,
           "justificativa": "perfil típico 'outro' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'outro' (E1); confirmar na extração"
         }
@@ -228,10 +225,13 @@
           "entidade": "Identidade Google",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -302,10 +302,13 @@
           "entidade": "Usuario",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -342,10 +345,13 @@
           "entidade": "Pessoa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -382,10 +388,13 @@
           "entidade": "GitHub",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -456,10 +465,13 @@
           "entidade": "ModeloEtapa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -496,10 +508,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -536,10 +551,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -576,12 +594,6 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -616,10 +628,13 @@
           "entidade": "Funcionalidade",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -656,10 +671,13 @@
           "entidade": "PerfilFuncionalidade",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -696,10 +714,13 @@
           "entidade": "Perfil",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -736,10 +757,13 @@
           "entidade": "Funcionalidade",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -776,10 +800,13 @@
           "entidade": "PerfilFuncionalidade",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -816,12 +843,6 @@
           "entidade": "Funcionalidade",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -856,10 +877,13 @@
           "entidade": "Pessoa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -896,10 +920,13 @@
           "entidade": "Usuario",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -936,10 +963,13 @@
           "entidade": "Convite",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -976,10 +1006,13 @@
           "entidade": "Usuario",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -1016,12 +1049,6 @@
           "entidade": "Usuario",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -1056,10 +1083,13 @@
           "entidade": "Usuario",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -1094,12 +1124,6 @@
         {
           "tipo": "X",
           "entidade": "GitHub",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -1442,10 +1466,13 @@
           "entidade": "GitHub",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -1516,10 +1543,13 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -1556,10 +1586,13 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -1596,10 +1629,13 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -1636,10 +1672,13 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -1676,12 +1715,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -1714,12 +1747,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -1756,12 +1783,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -1794,12 +1815,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -1836,12 +1851,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -1874,12 +1883,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -1916,12 +1919,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -1954,12 +1951,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -1996,12 +1987,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2034,12 +2019,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -2076,12 +2055,6 @@
           "entidade": "GitHub",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2114,12 +2087,6 @@
         {
           "tipo": "X",
           "entidade": "Demanda",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -2156,12 +2123,6 @@
           "entidade": "Demanda",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2196,10 +2157,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2236,10 +2200,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2276,10 +2243,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2316,10 +2286,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2356,10 +2329,13 @@
           "entidade": "GitHub",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2396,10 +2372,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2436,12 +2415,6 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2476,10 +2449,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2516,10 +2492,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2556,10 +2535,13 @@
           "entidade": "PendenciaAprovacao",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -2596,10 +2578,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -2636,10 +2621,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -2676,10 +2664,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -2716,10 +2707,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'outro' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'outro' (E1); confirmar na extração"
         }
@@ -2756,12 +2750,6 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2794,12 +2782,6 @@
         {
           "tipo": "X",
           "entidade": "Conta",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -2836,10 +2818,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2876,10 +2861,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -2916,12 +2904,6 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -2954,12 +2936,6 @@
         {
           "tipo": "X",
           "entidade": "EsteiraExecucao",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
@@ -2996,10 +2972,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3036,10 +3015,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -3076,10 +3058,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3116,10 +3101,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3156,12 +3144,6 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -3196,10 +3178,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'estado' (E1); confirmar na extração"
         }
@@ -3236,10 +3221,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -3276,10 +3264,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3316,10 +3307,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3356,10 +3350,13 @@
           "entidade": "Sistema",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3396,10 +3393,13 @@
           "entidade": "FerramentaDemandas",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3436,10 +3436,13 @@
           "entidade": "Conta",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -3448,11 +3451,11 @@
   ],
   "estimativa": {
     "nivel": "E1",
-    "pfo_modelo": 328,
-    "fator_calibracao": 1.7835365853658536,
-    "pfo_calibrado": 585,
-    "pfo_min": 419,
-    "pfo_max": 788,
+    "pfo_modelo": 304,
+    "fator_calibracao": 2.0246710526315788,
+    "pfo_calibrado": 616,
+    "pfo_min": 433,
+    "pfo_max": 873,
     "base": "perfis de 16 processos medidos (biblioteca-v1.mfc.json, adm-usr-revisado.mfc.json)"
   }
 }

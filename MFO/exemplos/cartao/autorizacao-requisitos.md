@@ -1,7 +1,7 @@
 # Autorização de compra com cartão — requisitos ilustrativos
 
 Exemplo hipotético, simplificado, de um autorizador de compras com cartão, usado no
-capítulo 12 para comparar as duas dimensões da MFO. Os códigos de resposta são
+capítulo 12 para mostrar como os desfechos de um processo entram no tamanho. Os códigos de resposta são
 ilustrativos e seguem o espírito da ISO 8583, não uma tabela de bandeira específica.
 
 ## RF-01 Autorizar compra

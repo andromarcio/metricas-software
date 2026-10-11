@@ -146,12 +146,15 @@
           "evidencia": [
             "REQ:RF-01"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "ISBN_DUPLICADO",
+          "descricao": "ISBN já cadastrado",
+          "tipo": "recusa",
           "evidencia": [
-            "REQ:RF-01 (confirmação e erros de validação)"
+            "REQ:RF-01 (ISBN único)"
           ]
         }
       ]
@@ -210,10 +213,13 @@
           "evidencia": [
             "REQ:RF-02"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "ISBN_DUPLICADO",
+          "descricao": "ISBN já cadastrado (a unicidade continua valendo)",
+          "tipo": "recusa",
           "evidencia": [
             "REQ:RF-02"
           ]
@@ -274,10 +280,13 @@
           "evidencia": [
             "REQ:RF-03"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "EMPRESTIMO_ATIVO",
+          "descricao": "recusa se houver empréstimo ativo",
+          "tipo": "recusa",
           "evidencia": [
             "REQ:RF-03"
           ]
@@ -335,12 +344,15 @@
           "evidencia": [
             "REQ:RF-04"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "VAZIO",
+          "descricao": "nenhum livro encontrado",
+          "tipo": "recusa",
           "evidencia": [
-            "REQ:RF-04 (nenhum livro encontrado)"
+            "REQ:RF-04"
           ]
         }
       ]
@@ -395,10 +407,13 @@
           "evidencia": [
             "REQ:RF-05"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "CPF_DUPLICADO",
+          "descricao": "CPF já cadastrado",
+          "tipo": "recusa",
           "evidencia": [
             "REQ:RF-05"
           ]
@@ -487,12 +502,31 @@
           "evidencia": [
             "REQ:RF-06 (apresenta a data prevista)"
           ]
+        }
+      ],
+      "desfechos": [
+        {
+          "id": "LEITOR_INATIVO",
+          "descricao": "leitor inexistente ou inativo",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06"
+          ]
         },
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "SEM_EXEMPLAR",
+          "descricao": "nenhum exemplar disponível",
+          "tipo": "recusa",
           "evidencia": [
-            "REQ:RF-06 (recusas e confirmação)"
+            "REQ:RF-06"
+          ]
+        },
+        {
+          "id": "LIMITE",
+          "descricao": "leitor atingiu o limite de empréstimos",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:RF-06"
           ]
         }
       ]
@@ -564,13 +598,6 @@
           ],
           "evidencia": [
             "REQ:RF-07 (apresenta o valor da multa)"
-          ]
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "evidencia": [
-            "REQ:RF-07"
           ]
         }
       ]
@@ -672,12 +699,15 @@
           "evidencia": [
             "REQ:RF-08"
           ]
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "VAZIO",
+          "descricao": "não há empréstimos em atraso",
+          "tipo": "recusa",
           "evidencia": [
-            "REQ:RF-08 (não há atrasos)"
+            "REQ:RF-08"
           ]
         }
       ]

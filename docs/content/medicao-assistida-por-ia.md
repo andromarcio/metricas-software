@@ -16,7 +16,7 @@ supôs. A MFO foi desenhada em torno disso:
 | A IA inventa um processo ou uma entidade | Todo elemento exige evidência localizável (RI-11, V-07); o grau de evidência vai no rótulo. |
 | A IA fragmenta demais (cada tela vira processo) ou de menos (um módulo vira processo) | Testes T1 a T3 de RI-04 e desempates fixos; V-09 aponta processos possivelmente duplicados. |
 | A IA confunde dados técnicos com entidades | RI-03 c e d, RI-10. |
-| A IA esquece mensagens, disparadores ou leituras de validação | V-02, V-03 e a tabela de casos frequentes (seção 2.5). |
+| A IA esquece desfechos, disparadores ou leituras de validação | V-02, V-03 e a tabela de casos frequentes (seção 2.5). |
 | Ninguém sabe se a medição é reproduzível | Segunda medição independente e índice de concordância (seção 4.4). |
 
 ## 4.2 Protocolo
@@ -82,7 +82,8 @@ práticas para código:
   nunca pelo nome da tela ou do DTO (RI-03 a).
 - **R e W** são identificados nos acessos a persistência alcançáveis a partir do ponto de
   entrada, não apenas nos escritos no handler.
-- Caminhos de erro geram **uma** X `MENSAGEM` por processo, por mais numerosos que sejam.
+- Caminhos de erro geram um **desfecho** por código ou mensagem distinto que chega ao
+  usuário funcional (RI-12); dez validações sob o mesmo código são um desfecho.
 - Código morto, feature flags desligadas e endpoints internos de saúde ou métricas são
   excluídos (RI-10).
 
@@ -91,8 +92,9 @@ práticas para código:
 > **Índice de concordância**
 >
 > Dados dois modelos do mesmo software, C = |K_A ∩ K_B| / |K_A ∪ K_B|, em que K é o
-> conjunto de chaves (processo, tipo, entidade) de cada modelo, com processos pareados
-> por `id` ou, na falta dele, por nome normalizado. C varia de 0 a 1.
+> conjunto de chaves de cada modelo, de movimento (processo, tipo, entidade) e de desfecho
+> (processo, D, identificador), com processos pareados por `id` ou, na falta dele, por
+> nome normalizado. C varia de 0 a 1.
 
 Interpretação sugerida:
 
@@ -121,7 +123,7 @@ formam, com o tempo, a base de exemplos da organização e realimentam o prompt.
 ## 4.6 Ferramenta de referência
 
 `ferramentas/mfo.py` é a implementação de referência das regras RC-01 a RC-06 e V-01 a
-V-09. Não tem dependências externas.
+V-11. Não tem dependências externas.
 
 ```
 python3 mfo.py validar <modelo.json>                 # lista erros e avisos; código de saída 1 se houver erro

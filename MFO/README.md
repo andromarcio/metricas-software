@@ -29,26 +29,28 @@ seu armazenamento persistente.
 | **Entidade** | Grupo nomeado de atributos que descreve uma única coisa de interesse do negócio, persistida ou trocada como unidade. |
 | **Processo** | Menor unidade de funcionalidade com disparador identificável, efeito observável (saída ou gravação) e autonomia (deixa o software em estado consistente). |
 | **Movimento** | Deslocamento de **uma** entidade em um processo. Quatro tipos: **E** (entra de um UF), **X** (sai para um UF), **R** (lida do armazenamento), **W** (gravada no armazenamento). |
+| **Desfecho** | Resultado distinto que o processo devolve ao UF, além do principal: cada recusa, erro de negócio ou variante de sucesso com código ou mensagem próprios. |
 | **Evidência** | Referência a um artefato (requisito, tela, endpoint, função, tabela) que sustenta cada processo e cada movimento. |
 | **Rótulo** | Identificação obrigatória do resultado: versão do método, nível de medição, grau de evidência, agente e escopo. |
 
-**Regra de contagem única:** cada movimento distinto (processo, tipo, entidade) vale **1 PFO**.
-O tamanho do software é a soma dos movimentos de todos os seus processos. Não há pesos,
-tabelas de complexidade nem fatores de ajuste.
+**Regra de contagem única:** cada movimento distinto (processo, tipo, entidade) e cada
+desfecho distinto além do principal valem **1 PFO**. O tamanho do software é a soma dos
+movimentos e desfechos de todos os seus processos. Não há pesos, tabelas de complexidade
+nem fatores de ajuste.
 
-**Duas entidades reservadas:** `MENSAGEM` (indicações de erro, sucesso ou estado, no máximo
-uma X por processo) e `DISPARO` (sinal de disparo sem dados, como o tique de um relógio).
+**Uma entidade reservada:** `DISPARO` (sinal de disparo sem dados, como o tique de um
+relógio). Mensagens de erro, sucesso ou estado não são movimentos: são desfechos.
 
 **Tamanho de uma mudança:** movimentos incluídos + alterados + excluídos entre o modelo
 anterior e o posterior, calculado por diferença de chaves. Em código, o diff entre duas
 versões delimita o que reextrair e prova o que mudou; cada movimento cita arquivo e
 trecho verificáveis por máquina.
 
-**Decisões, a segunda dimensão:** o PFO mede entidades em movimento e não vê quantas
-decisões um processo toma. O suplemento D conta, à parte e nunca somado, os desfechos
-distinguíveis por um teste de aceite (D1, a base contratual) e as regras declaradas (D2,
-diagnóstico) de cada processo, com evidência por item. Um autorizador de cartão e um
-aceite de convite empatam em PFO e se separam por quatro a seis vezes em D.
+**Decisões dentro do tamanho:** o que um processo decide entra na conta pelo que ele
+devolve de diferente: um desfecho por código ou mensagem. Um autorizador de cartão com 17
+códigos de recusa e um aceite de convite com três movem um número parecido de entidades
+e medem 29 e 14 PFO. Dez validações sob o mesmo código valem um: o que a fronteira não
+distingue não é função.
 
 **Estimativa:** uma estimativa é o mesmo modelo com movimentos inferidos por perfis típicos,
 rotulada por nível (E0 indicativo, E1 estimado, E2 detalhado) e sempre com intervalo; o
@@ -68,8 +70,8 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 ## Sumário
 
 - [1. Motivação e princípios de projeto](01-motivacao-e-principios.md)
-- [2. Modelo Funcional Canônico — conceitos e regras de identificação (RI-01 a RI-11)](02-modelo-funcional-canonico.md)
-- [3. Regras de contagem, validação e mudança (RC-01 a RC-06, V-01 a V-09)](03-regras-de-contagem.md)
+- [2. Modelo Funcional Canônico — conceitos e regras de identificação (RI-01 a RI-12)](02-modelo-funcional-canonico.md)
+- [3. Regras de contagem, validação e mudança (RC-01 a RC-06, V-01 a V-11)](03-regras-de-contagem.md)
 - [4. Medição assistida por IA — protocolo, concordância e salvaguardas](04-medicao-assistida-por-ia.md)
 - [5. Comparação entre softwares — perfil funcional, indicadores e relação com APF e COSMIC](05-comparacao-entre-softwares.md)
 - [6. Exemplo completo — sistema de biblioteca medido de ponta a ponta](06-exemplo-completo.md)
@@ -78,7 +80,7 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 - [9. Medindo a produção com IA (RP-01 a RP-04)](09-producao-com-ia.md)
 - [10. Exemplo real: a documentação do Aval (siesa-doc) e a estrutura do siesa-engine (RM-01 a RM-08)](10-exemplo-real-aval.md)
 - [11. Estimativa (RE-01 a RE-04)](11-estimativa.md)
-- [12. Decisões: a segunda dimensão (RC-05, D1 e D2)](12-decisoes.md)
+- [12. Desfechos: a decisão dentro do tamanho (RI-12, RC-05)](12-decisoes.md)
 
 ### Artefatos de apoio
 
@@ -88,13 +90,13 @@ concordância) e as divergências são resolvidas por regra e evidência, nunca 
 | Ferramenta de referência | [`ferramentas/mfo.py`](ferramentas/mfo.py) | `validar`, `contar`, `mudanca`, `concordancia`, `impacto`, `auditar`, `perfis`, `estimar` (Python 3.8+, sem dependências) |
 | Extrator para a estrutura N3 do siesa-engine | [`ferramentas/extrair_n3.py`](ferramentas/extrair_n3.py) | Modelo mecânico a partir de `modules/**/f-*.md`, com produção pelo git e marcação de alterados |
 | Prompt de extração para IA | [`prompts/extracao-mfc.md`](prompts/extracao-mfc.md) | Produzir o modelo a partir de requisitos ou código |
-| Exemplo: biblioteca v1 | [`exemplos/biblioteca-v1.mfc.json`](exemplos/biblioteca-v1.mfc.json) | Modelo completo (51 PFO) |
-| Exemplo: biblioteca v2 | [`exemplos/biblioteca-v2.mfc.json`](exemplos/biblioteca-v2.mfc.json) | Medição de mudança (8 PFO de mudança) |
+| Exemplo: biblioteca v1 | [`exemplos/biblioteca-v1.mfc.json`](exemplos/biblioteca-v1.mfc.json) | Modelo completo (54 PFO) |
+| Exemplo: biblioteca v2 | [`exemplos/biblioteca-v2.mfc.json`](exemplos/biblioteca-v2.mfc.json) | Medição de mudança (9 PFO de mudança) |
 | Exemplo: segunda medição da v1 | [`exemplos/biblioteca-v1-medicao-B.mfc.json`](exemplos/biblioteca-v1-medicao-B.mfc.json) | Índice de concordância entre medições |
 | Exemplo: código da biblioteca, v1 e v2 | [`exemplos/codigo-biblioteca/`](exemplos/codigo-biblioteca/README.md) | Medição por diff, auditoria de evidências e testes de aceitação por processo |
-| Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 492 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado, perfis calibrados e estimativa E1 |
-| Exemplo: estimativas da biblioteca | [`exemplos/biblioteca-backlog.json`](exemplos/biblioteca-backlog.json), [`exemplos/biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json) | E1 por backlog e E0 por entidades, comparadas aos 51 PFO medidos |
-| Exemplo: autorizador de cartão (hipotético) | [`exemplos/cartao/`](exemplos/cartao/autorizacao-requisitos.md) | 13 PFO, 24 desfechos e 25 regras num processo só: a segunda dimensão, com seis regras de fraude sob um código único |
+| Exemplo real: Aval (siesa-doc) | [`exemplos/aval/`](exemplos/aval/) | 542 PFO mecânicos, PFO × PF, mudança entre versões, concordância mecânico × revisado, perfis calibrados e estimativa E1 |
+| Exemplo: estimativas da biblioteca | [`exemplos/biblioteca-backlog.json`](exemplos/biblioteca-backlog.json), [`exemplos/biblioteca-backlog-indicativo.json`](exemplos/biblioteca-backlog-indicativo.json) | E1 por backlog e E0 por entidades, comparadas aos 54 PFO medidos |
+| Exemplo: autorizador de cartão (hipotético) | [`exemplos/cartao/`](exemplos/cartao/autorizacao-requisitos.md) | 29 PFO num processo só: 12 movimentos e 17 códigos de recusa; seis regras de fraude sob um código único contam um |
 
 ### Uso rápido
 
@@ -114,7 +116,7 @@ python3 MFO/ferramentas/mfo.py estimar  MFO/exemplos/biblioteca-backlog.json --p
 Todo tamanho MFO deve ser apresentado com o rótulo completo, por exemplo:
 
 ```
-51 PFO · MFO 1.0 · nível RC · evidência 100% · agente: IA + revisão humana · escopo: Biblioteca v1.0 (RF-01 a RF-09)
+54 PFO · MFO 1.0 · nível RC · evidência 100% · agente: IA + revisão humana · escopo: Biblioteca v1.0 (RF-01 a RF-09)
 ```
 
 Tamanhos sem rótulo, ou com níveis de medição diferentes, não devem ser comparados.

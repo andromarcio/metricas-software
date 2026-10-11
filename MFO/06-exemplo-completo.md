@@ -74,35 +74,35 @@ Abaixo, os movimentos de cada processo com a regra que os sustenta.
 
 **P01 Cadastrar livro** (UF1) — 4 PFO
 
-| Tipo | Entidade | Atributos | Evidência e regra |
+| Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
 | E | Livro | isbn, titulo, autor, ano, quantidade | RF-01 · RI-05 a |
 | R | Livro | isbn | RF-01 "ISBN único" · RI-07 a (lê para decidir) |
 | W | Livro | isbn, titulo, autor, ano, quantidade | RF-01 · RI-08 a |
-| X | MENSAGEM | — | RF-01 confirmação e erros · RI-06 c |
+| D | ISBN_DUPLICADO | — | RF-01 "ISBN único": recusa com mensagem própria · RI-12 |
 
-**P02 Alterar livro** (UF1) — 4 PFO: E Livro · R Livro · W Livro · X MENSAGEM. A exibição
+**P02 Alterar livro** (UF1) — 4 PFO: E Livro · R Livro · W Livro · D NAO_ENCONTRADO. A exibição
 dos dados atuais antes da alteração pertence a P04 (tabela de casos frequentes).
 
 **P03 Excluir livro** (UF1) — 4 PFO
 
-| Tipo | Entidade | Atributos | Evidência e regra |
+| Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
 | E | Livro | isbn | RF-03 |
 | R | Emprestimo | livro, status | RF-03 "recusa se houver empréstimo ativo" · RI-07 b (lê atributos para decidir) |
 | W | Livro | isbn | RF-03 · RI-08 a (exclusão é W) |
-| X | MENSAGEM | — | RF-03 |
+| D | EMPRESTIMO_ATIVO | — | RF-03 "recusa se houver empréstimo ativo" · RI-12 |
 
 Não há R de Livro: a existência do livro é verificada implicitamente pela exclusão (RI-07 b).
 
 **P04 Consultar livros** (UF1) — 4 PFO: E Livro (filtros titulo, autor) · R Livro · X Livro ·
-X MENSAGEM ("nenhum encontrado"). O CSV é formato, não processo.
+D VAZIO ("nenhum encontrado" é mensagem distinta do resultado). O CSV é formato, não processo.
 
-**P05 Cadastrar leitor** (UF1) — 4 PFO: E Leitor · R Leitor (CPF único) · W Leitor · X MENSAGEM.
+**P05 Cadastrar leitor** (UF1) — 4 PFO: E Leitor · R Leitor (CPF único) · W Leitor · D CPF_DUPLICADO.
 
-**P06 Registrar empréstimo** (UF1) — 7 PFO
+**P06 Registrar empréstimo** (UF1) — 10 PFO
 
-| Tipo | Entidade | Atributos | Evidência e regra |
+| Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
 | E | Emprestimo | leitor, livro, data_emprestimo | RF-06 · RI-03 b (chaves de leitor e livro são atributos do empréstimo) |
 | R | Leitor | cpf, situacao | RF-06 "leitor ativo" |
@@ -110,15 +110,18 @@ X MENSAGEM ("nenhum encontrado"). O CSV é formato, não processo.
 | R | Emprestimo | leitor, livro, status | RF-06 empréstimos ativos do livro e do leitor |
 | W | Emprestimo | leitor, livro, data_emprestimo, data_prevista, status | RF-06 |
 | X | Emprestimo | data_prevista | RF-06 "apresenta a data prevista" · RI-06 a |
-| X | MENSAGEM | — | RF-06 recusas e confirmação |
+| D | LEITOR_INATIVO | — | RF-06 "leitor ativo": a mensagem "leitor inexistente ou inativo" é uma só · RI-12 b |
+| D | LIVRO_INEXISTENTE | — | código: "Livro não encontrado" (RF-06 não o enuncia; conta no nível C) |
+| D | SEM_EXEMPLAR | — | RF-06 "exemplar disponível" |
+| D | LIMITE | — | RF-06 "menos de três empréstimos ativos" |
 
 **P07 Registrar devolução** (UF1) — 6 PFO: E Emprestimo (id, data_devolucao) · R Emprestimo ·
 R ParametroMulta (valor_dia) · W Emprestimo (data_devolucao, multa, status) · X Emprestimo
-(multa) · X MENSAGEM.
+(multa) · D NAO_ATIVO ("empréstimo não encontrado ou já devolvido").
 
 **P08 Relatório de atrasos** (UF1) — 9 PFO
 
-| Tipo | Entidade | Atributos | Evidência e regra |
+| Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
 | E | DISPARO | — | RF-08 "sem parâmetros" · RI-05 b |
 | R | Emprestimo | id, leitor, livro, data_prevista, status | RF-08 |
@@ -128,11 +131,11 @@ R ParametroMulta (valor_dia) · W Emprestimo (data_devolucao, multa, status) · 
 | X | Emprestimo | data_prevista, dias_atraso, multa_estimada | RF-08 · RI-06 a |
 | X | Leitor | nome | RF-08 · RI-06 a (atributo pertence a Leitor, RI-03 b) |
 | X | Livro | titulo | RF-08 · RI-06 a |
-| X | MENSAGEM | — | RF-08 "não há atrasos" |
+| D | VAZIO | — | RF-08 "não há atrasos" · RI-12 |
 
-**P09 Notificar atrasos** (UF2 relógio) — 9 PFO
+**P09 Notificar atrasos** (UF2 relógio) — 9 PFO, sem desfecho: o status de envio é atributo gravado em Notificacao, não mensagem a um usuário funcional
 
-| Tipo | Entidade | Atributos | Evidência e regra |
+| Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
 | E | DISPARO | — | RF-09 "diariamente" · RI-05 b (tique do relógio) |
 | R | Emprestimo | id, leitor, livro, data_prevista, status | RF-09 |
@@ -151,9 +154,9 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 ```
 # Relatório MFO — Biblioteca 1.0
 
-**Rótulo:** 51 PFO · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue
+**Rótulo:** 54 PFO · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue
 
-**Produção:** M0 humano 51 PFO (100%) · aceitos 51/51
+**Produção:** M0 humano 54 PFO (100%) · aceitos 54/54
 
 **Propósito:** Dimensionar o sistema para contratação e servir de exemplo de referência da MFO
 
@@ -161,42 +164,43 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 
 | Indicador | Valor |
 |---|---|
-| PFO | **51** |
+| PFO | **54** |
 | NP (processos) | 9 |
 | NE (entidades) | 5 |
-| E / X / R / W | 10 / 17 / 17 / 7 |
-| Densidade (PFO/NP) | 5,67 |
-| Persistência ((R+W)/PFO) | 0,47 |
-| Interface ((E+X)/PFO) | 0,53 |
+| E / X / R / W / D | 10 / 9 / 17 / 7 / 11 |
+| Densidade (PFO/NP) | 6,00 |
+| Persistência ((R+W)/PFO) | 0,44 |
+| Interface ((E+X+D)/PFO) | 0,56 |
 | Entidades por processo (NE/NP) | 0,56 |
 | Evidência | 100% (0 inferidos) |
-| D (derivação, RC-05) | 4 de 9 |
+| Derivação (processos com atributo calculado) | 4 de 9 |
 
 ## Processos
 
-| ID | Processo | E | X | R | W | PFO | Deriv. | Evid. | Modo | Aceite |
-|---|---|---|---|---|---|---|---|---|---|---|
-| P01 | Cadastrar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
-| P02 | Alterar livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
-| P03 | Excluir livro | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
-| P04 | Consultar livros | 1 | 2 | 1 | 0 | **4** | não | 4/4 | M0 | aceito |
-| P05 | Cadastrar leitor | 1 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
-| P06 | Registrar empréstimo | 1 | 2 | 3 | 1 | **7** | sim | 7/7 | M0 | aceito |
-| P07 | Registrar devolução | 1 | 2 | 2 | 1 | **6** | sim | 6/6 | M0 | aceito |
-| P08 | Relatório de atrasos | 1 | 4 | 4 | 0 | **9** | sim | 9/9 | M0 | aceito |
-| P09 | Notificar atrasos | 2 | 3 | 3 | 1 | **9** | sim | 9/9 | M0 | aceito |
-| | **Total** | 10 | 17 | 17 | 7 | **51** | | | | |
+| ID | Processo | E | X | R | W | D | PFO | Deriv. | Evid. | Modo | Aceite |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P01 | Cadastrar livro | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P02 | Alterar livro | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P03 | Excluir livro | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P04 | Consultar livros | 1 | 1 | 1 | 0 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P05 | Cadastrar leitor | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
+| P06 | Registrar empréstimo | 1 | 1 | 3 | 1 | 4 | **10** | sim | 10/10 | M0 | aceito |
+| P07 | Registrar devolução | 1 | 1 | 2 | 1 | 1 | **6** | sim | 6/6 | M0 | aceito |
+| P08 | Relatório de atrasos | 1 | 3 | 4 | 0 | 1 | **9** | sim | 9/9 | M0 | aceito |
+| P09 | Notificar atrasos | 2 | 3 | 3 | 1 | 0 | **9** | sim | 9/9 | M0 | aceito |
+| | **Total** | 10 | 9 | 17 | 7 | 11 | **54** | | | | |
 ```
 
 O relatório segue com a seção **Produção** (modo de produção, aceite e indicadores de
-alavancagem e custo), descrita no capítulo 9. Com o bloco `decisoes` registrado, a tabela
-ganha as colunas D1 e D2 (capítulo 12): na v1, 23 desfechos, dois deles distinguíveis só pela
-condição de entrada, e 15 regras ao lado dos 51 PFO.
+alavancagem e custo), descrita no capítulo 9.
 
-Leitura do perfil: densidade alta (5,67) para um sistema de cadastro, puxada pelos dois
-processos de atraso, que cruzam quatro entidades. O suplemento D aponta exatamente os
-quatro processos que calculam algo (data prevista, multa, dias de atraso): é o que a APF
-chamaria de "dados derivados", obtido aqui por comparação de conjuntos de atributos.
+Leitura do perfil: dos 54 PFO, 43 são movimentos e 11 são desfechos, um por recusa ou
+mensagem distinta. Só Registrar empréstimo tem quatro, e Notificar atrasos não tem
+nenhum. A densidade (6,00) é alta para um sistema de cadastro, puxada por esse processo e
+pelos dois de atraso, que cruzam quatro entidades. A derivação informativa aponta
+exatamente os quatro processos que calculam algo (data prevista, multa, dias de atraso):
+é o que a APF chamaria de "dados derivados", obtido aqui por comparação de conjuntos de
+atributos.
 
 ## 6.5 Medindo uma mudança (RC-03)
 
@@ -210,33 +214,38 @@ A versão 2.0 traz três alterações de requisitos:
 
 No modelo da v2 ([`exemplos/biblioteca-v2.mfc.json`](exemplos/biblioteca-v2.mfc.json)),
 os movimentos E e W de Emprestimo em P07 ganharam atributos e foram marcados
-`"alterado": true`; em P08, a R de ParametroMulta foi removida e a X de Emprestimo perdeu
-um atributo (marcada alterada); P10 foi incluído. Saída de
+`"alterado": true`, e P07 ganhou o desfecho da isenção sem justificativa; em P08, a R de
+ParametroMulta foi removida e a X de Emprestimo perdeu um atributo (marcada alterada); P10
+foi incluído, com o desfecho de leitor não encontrado. Saída de
 `mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json`:
 
 ```
-**Rótulo:** 8 PFO de mudança (4 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
+**Rótulo:** 9 PFO de mudança (5 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
 
-**Produção da mudança:** M2 IA dirigida 4 PFO (50%) · M3 IA autônoma 4 PFO (50%) · aceitos 8/8
+**Produção da mudança:** M2 IA dirigida 5 PFO (56%) · M3 IA autônoma 4 PFO (44%) · aceitos 9/9
 
-Tamanho anterior: 51 PFO · tamanho posterior: 54 PFO · níveis: RC → RC
+Tamanho anterior: 54 PFO · tamanho posterior: 58 PFO · níveis: RC → RC
 
-## Incluídos (4)
+## Incluídos (5)
+
+- P07 · D ISENCAO_SEM_JUSTIFICATIVA
+- P10 · D LEITOR_NAO_ENCONTRADO
 - P10 · E Leitor
 - P10 · R Leitor
 - P10 · X Leitor
-- P10 · X MENSAGEM
 
 ## Alterados (3)
+
 - P07 · E Emprestimo
 - P07 · W Emprestimo
 - P08 · X Emprestimo
 
 ## Excluídos (1)
+
 - P08 · R ParametroMulta
 ```
 
-A mudança mede 8 PFO embora o software tenha crescido apenas 3 PFO (51 para 54): o
+A mudança mede 9 PFO embora o software tenha crescido apenas 4 PFO (54 para 58): o
 tamanho da mudança inclui o que foi alterado e removido, exatamente como PF e PFC de
 melhoria. A mesma mudança, vista pelo diff do código, está na seção 8.5; sua composição
 por modo de produção e os indicadores de custo, na seção 9.9.
@@ -249,32 +258,43 @@ a partir dos requisitos (nível R). Comparar uma medição de nível R com a de 
 mesmo software é legítimo (seção 3.6). Saída de `mfo.py concordancia`:
 
 ```
-**Índice de concordância:** 0,887 (47 chaves comuns de 53)
-PFO em A: 51 · PFO em B: 49
+**Índice de concordância:** 0,825 (47 chaves comuns de 57)
+
+PFO em A: 54 · PFO em B: 50
+
 Leitura: divergência localizada: revisar os processos divergentes e o glossário de entidades
 
-## Só em A (4)
+## Só em A (7)
+
 - P01 · R Livro
+- P02 · D NAO_ENCONTRADO
+- P06 · D LIVRO_INEXISTENTE
+- P07 · D NAO_ATIVO
 - P09 · X Emprestimo
 - P09 · X Leitor
 - P09 · X Livro
 
-## Só em B (2)
+## Só em B (3)
+
+- P02 · D ISBN_DUPLICADO
 - P03 · R Livro
 - P09 · X Notificacao
 ```
 
-Os totais diferem pouco (51 contra 49), mas o índice mostra que há seis chaves em
-desacordo, o que o total esconderia. Conciliação, uma linha por divergência:
+Os totais diferem (54 contra 50) e o índice mostra dez chaves em desacordo, três delas
+desfechos que só o código revela, o que o total esconderia. Conciliação, uma linha por
+divergência:
 
 | Chave | Regra | Decisão | Evidência que decide |
 |---|---|---|---|
 | P01 · R Livro (só em A) | RI-07 a | manter | RF-01 exige ISBN único: o processo lê Livro para decidir |
 | P03 · R Livro (só em B) | RI-07 b | remover | RF-03 não usa atributo de Livro; a existência é implícita na exclusão |
 | P09 · X Emprestimo, X Leitor, X Livro (só em A) e X Notificacao (só em B) | RI-06 a, RI-03 b | manter A, remover B | os atributos enviados (nome, e-mail, título, data prevista, dias) pertencem a Leitor, Livro e Emprestimo; Notificacao persiste apenas data e status de envio |
+| P02 · D NAO_ENCONTRADO (só em A) e D ISBN_DUPLICADO (só em B) | RI-12 a, RI-11 | manter A, remover B | o código devolve "Livro não encontrado"; a unicidade do ISBN (RF-02) não produz recusa própria no código, que a trata no cadastro |
+| P06 · D LIVRO_INEXISTENTE e P07 · D NAO_ATIVO (só em A) | RI-12 a | manter | "Livro não encontrado" e "Empréstimo não encontrado ou já devolvido" existem no código; os requisitos não os enunciam, e uma medição só de nível R não os vê |
 
 O modelo conciliado coincide com A; o rótulo final registra os dois agentes. Em uma
-organização, as três linhas acima entram na base de exemplos que realimenta o prompt.
+organização, as cinco linhas acima entram na base de exemplos que realimenta o prompt.
 
 ## 6.7 O mesmo sistema em APF e em COSMIC (ilustrativo)
 
@@ -326,9 +346,12 @@ diretamente (28 PF, 44% do total), enquanto na MFO os dados só pesam quando mov
 Observação: a faixa vem de um único ponto de julgamento, a identificação dos grupos de
 dados nas saídas compostas (a linha do relatório e o e-mail descrevem um objeto de
 interesse "empréstimo em atraso" ou três objetos?). O manual COSMIC admite as duas
-leituras conforme os RFU. A MFO fixa a leitura por entidade (RI-06 a) e por isso chega
-sempre a 51; a segunda medição da seção 6.6 mostrou exatamente essa divergência sendo
-detectada e fechada por regra.
+leituras conforme os RFU. A MFO fixa a leitura por entidade (RI-06 a) e por isso seus
+movimentos dão sempre 43. Os 11 desfechos que completam os 54 PFO são diferença de
+primitivo, não de julgamento: o COSMIC comprime todas as mensagens de um processo numa
+Exit só (8 no total aqui), e a MFO conta uma por recusa ou mensagem distinta. A segunda
+medição da seção 6.6 mostrou a divergência de grupos de dados sendo detectada e fechada
+por regra.
 
 ### Resumo
 
@@ -336,4 +359,4 @@ detectada e fechada por regra.
 |---|---|---|
 | APF | 64 PF | classificação de dados de código, SE × CE, faixas de complexidade |
 | COSMIC | 47 a 51 PFC | grupos de dados em saídas compostas |
-| MFO | 51 PFO | nenhuma após as regras; divergências restantes medidas pelo índice de concordância |
+| MFO | 54 PFO | nenhuma após as regras; divergências restantes medidas pelo índice de concordância |

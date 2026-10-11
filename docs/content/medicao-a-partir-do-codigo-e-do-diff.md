@@ -35,7 +35,7 @@ fronteira de um ponto de entrada:
 | R | leitura de persistência alcançável a partir do ponto de entrada | `SELECT`, `find`, `get`, `query`, leitura de arquivo, `EXEC SQL SELECT`, `READ` em COBOL, cursor em PL/SQL |
 | W | escrita de persistência alcançável a partir do ponto de entrada | `INSERT`, `UPDATE`, `DELETE`, `save`, `persist`, escrita de arquivo, `WRITE`/`REWRITE`, `EXEC SQL INSERT` |
 | Entidade | unidade de persistência ou de troca | tabela, coleção, documento, classe de domínio ou entidade do ORM, tipo de mensagem, layout de registro |
-| MENSAGEM | caminhos de erro e confirmação do ponto de entrada | exceções de negócio mapeadas para resposta, códigos 4xx, mensagens de validação |
+| Desfecho (D) | caminhos de recusa e erro do ponto de entrada, um por código ou mensagem distinto (RI-12) | exceções de negócio mapeadas para resposta, códigos 4xx, mensagens de validação distintas |
 
 Regras de leitura do código:
 
@@ -181,11 +181,11 @@ encontrado na extração da v2 a partir da nova rota em `api.py`.
 **Auditoria.** `mfo.py auditar biblioteca-v2.mfc.json --raiz codigo-biblioteca --fonte COD --fonte TST`:
 
 ```
-**89 de 89 evidências verificadas (100%)**
+**93 de 93 evidências verificadas (100%)**
 ```
 
 **Mudança.** `mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json` produz os
-mesmos 8 PFO de mudança do capítulo 6 (4 incluídos, 3 alterados, 1 excluído), agora com
+mesmos 9 PFO de mudança do capítulo 6 (5 incluídos, 3 alterados, 1 excluído), agora com
 evidências de código em cada chave e com a composição por modo de produção do capítulo 9.
 
 **Aceite.** Os testes em `codigo-biblioteca/testes/teste_aceitacao.py` exercitam um

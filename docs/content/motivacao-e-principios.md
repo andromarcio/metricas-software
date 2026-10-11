@@ -31,7 +31,7 @@ grandes de software:
 | Id | Objetivo | Como a MFO atende |
 |---|---|---|
 | O1 | Objetividade | Regras de identificação escritas como testes sim/não (RI-xx), contagem por função determinística (RC-xx), validações automáticas (V-xx). |
-| O2 | Simplicidade | Sete conceitos, um primitivo de contagem (o movimento), um peso (1), duas entidades reservadas. O núcleo cabe em uma página. |
+| O2 | Simplicidade | Sete conceitos, duas coisas contadas do mesmo jeito (o movimento e o desfecho), um peso (1), uma entidade reservada. O núcleo cabe em uma página. |
 | O3 | Independência de tecnologia | Mede o que o software faz para seus usuários funcionais; nunca como foi construído. Aplicável a sistemas de negócio, APIs, batch, embarcados, mobile e linhas de comando. |
 | O4 | Aplicabilidade por IA | O produto da interpretação é um modelo JSON com evidências; o número sai de uma ferramenta; a reprodutibilidade é medida por índice de concordância. |
 | O5 | Comparabilidade | Rótulo obrigatório (nível, evidência, agente, escopo) e perfil funcional (distribuição E/X/R/W, densidade) além do total. |
@@ -44,10 +44,11 @@ grandes de software:
 técnicos e de qualidade (desempenho, segurança, usabilidade, plataforma) são registrados
 no rótulo e tratados fora da métrica, como fazem APF e COSMIC.
 
-**P2 — Um único primitivo.** O tamanho é proporcional ao número de movimentações de dados
-(princípio P-03 do COSMIC). Não há tabelas de complexidade, pesos por tipo nem fator de
-ajuste: cada movimento vale 1 PFO. Toda regra que precisaria de um "peso" é substituída
-por uma regra de identificação.
+**P2 — Um peso só.** O tamanho é o número de coisas distintas que cruzam a fronteira ou o
+armazenamento: as movimentações de dados (princípio P-03 do COSMIC) e os desfechos
+distintos que o processo devolve. Não há tabelas de complexidade, pesos por tipo nem
+fator de ajuste: cada movimento e cada desfecho vale 1 PFO. Toda regra que precisaria de
+um "peso" é substituída por uma regra de identificação.
 
 **P3 — Interpretar e calcular são passos separados.** A interpretação produz o Modelo
 Funcional Canônico (MFC). O cálculo é uma função pura sobre o modelo. Qualquer pessoa ou
@@ -79,30 +80,31 @@ medido à parte, é esforço, custo, modo de produção e qualidade.
 | Dimensão | APF (IFPUG CPM 4.3.1) | COSMIC 3.0.1 | MFO 1.0 |
 |---|---|---|---|
 | Unidade | PF | PFC | PFO |
-| Primitivo contado | Funções de dados (ALI, AIE) e de transação (EE, SE, CE) | Movimentações de dados (E, X, R, W) | Movimentações de dados (E, X, R, W) |
-| Peso | 3 a 15 por tabela de complexidade | 1 por movimentação | 1 por movimento |
+| Primitivo contado | Funções de dados (ALI, AIE) e de transação (EE, SE, CE) | Movimentações de dados (E, X, R, W) | Movimentações de dados (E, X, R, W) e desfechos distintos (D) |
+| Peso | 3 a 15 por tabela de complexidade | 1 por movimentação | 1 por movimento ou desfecho |
 | Teto por função | Sim (máx. 7 por transação, 15 por dado) | Não | Não |
 | Dados persistentes | Contados diretamente (ALI/AIE) | Contados via R/W | Contados via R/W; entidades listadas no perfil |
 | Formato do resultado | Planilha de contagem | Lista de processos e movimentações | Modelo JSON validável + relatório gerado |
 | Evidência por item | Recomendada | Recomendada | Obrigatória (ou marcação de inferência) |
 | Saídas com várias entidades | Uma função; DER/ALR contam complexidade | Depende da identificação de grupos de dados | Uma X por entidade cujos atributos saem (RI-06) |
-| Mensagens de erro | DER de mensagem | Uma Exit por processo | Uma X `MENSAGEM` por processo |
+| Mensagens de erro | DER de mensagem | Uma Exit por processo | Um desfecho por código ou mensagem distinto (RI-12) |
 | Vários canais da mesma função | Single ou multiple instance (escolha do medidor) | Geralmente um processo | Um processo (RI-04) |
 | Mudanças | PF incluído, alterado, excluído | PFC incluído, alterado, excluído | Diferença de chaves entre dois modelos |
-| Verificação automática | Não prevista | Não prevista | Validações V-01 a V-10, auditoria de evidências e índice de concordância |
+| Verificação automática | Não prevista | Não prevista | Validações V-01 a V-11, auditoria de evidências e índice de concordância |
 | Medição a partir do código | Não prevista; exige requisitos | Admite derivar RFU do software instalado | Nível C com evidência `arquivo#trecho` verificável por máquina; diff delimita e prova a mudança (capítulo 8) |
 | Produtor do software | Não distingue | Não distingue | Neutro no tamanho; modo de produção e aceite por processo (capítulo 9) |
 | Estimativa antecipada | Contagem estimativa e indicativa (NESMA), exige funções já classificadas | Dimensionamento aproximado por tamanhos médios | Mesmo modelo com movimentos inferidos; níveis E0 a E2 com intervalo; calibração por modelos medidos (capítulo 11) |
-| Complexidade de decisão | Três faixas por DER e ALR, com teto | Não medida | Segunda dimensão contada à parte: desfechos distintos e regras declaradas, com evidência por item (capítulo 12) |
+| Complexidade de decisão | Três faixas por DER e ALR, com teto | Não medida | Dentro do tamanho, pelo que a decisão devolve: um desfecho por código ou mensagem distinto, com evidência por item (capítulo 12) |
 
 ## 1.5 O que a MFO não mede
 
 - Esforço, custo, prazo ou produtividade. O PFO é tamanho; esses indicadores derivam dele
   quando combinados com dados da organização (seção 5.3).
 - Requisitos não funcionais e qualidade do código.
-- Complexidade algorítmica dentro do tamanho. Como o COSMIC, a MFO assume que a
-  manipulação de dados está embutida nos movimentos. A dimensão de decisão é contada à
-  parte, como segundo número (RC-05, capítulo 12), e nunca somada ao PFO.
+- Complexidade algorítmica. Como o COSMIC, a MFO assume que a manipulação de dados está
+  embutida nos movimentos. Da decisão entra no tamanho só o que ela produz de visível: um
+  desfecho por código ou mensagem distinto (RI-12, capítulo 12); regras que não mudam o
+  que o processo devolve não contam.
 - Riqueza de interface. Dois processos com os mesmos movimentos têm o mesmo tamanho,
   ainda que um tenha uma tela sofisticada e o outro um comando de terminal.
 - Pedaços muito pequenos. Como em qualquer método funcional, uma mudança de um ou dois

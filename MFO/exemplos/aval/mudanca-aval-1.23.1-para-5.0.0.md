@@ -1,12 +1,12 @@
 # Mudança MFO — Aval (siesa-doc) 1.23.1 → Aval (siesa-doc) 5.0.0
 
-**Rótulo:** 360 PFO de mudança (228 incluídos, 106 alterados, 26 excluídos) · MFO 1.0 · nível R · evidência 100% · agente: ferramenta (extrair_n3.py 1.0); sem revisão humana · escopo: Aval (siesa-doc) 5.0.0, features de todos os domínios: ADM, AGT, DEM, EST, OPE, SIS
+**Rótulo:** 397 PFO de mudança (263 incluídos, 102 alterados, 32 excluídos) · MFO 1.0 · nível R · evidência 99% · agente: ferramenta (extrair_n3.py 1.0); sem revisão humana · escopo: Aval (siesa-doc) 5.0.0, features de todos os domínios: ADM, AGT, DEM, EST, OPE, SIS
 
-**Produção da mudança:** M2 IA dirigida 360 PFO (100%)
+**Produção da mudança:** M2 IA dirigida 397 PFO (100%)
 
-Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
+Tamanho anterior: 311 PFO · tamanho posterior: 542 PFO · níveis: R → R
 
-## Incluídos (228)
+## Incluídos (263)
 
 - ADM-CTA-01 · E Identidade Google
 - ADM-CTA-01 · E Pessoa
@@ -21,12 +21,13 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - ADM-CTA-03 · W EventoAuditoria
 - ADM-CTA-03.2 · R EventoAuditoria
 - ADM-CTA-03.2 · W Usuario
+- ADM-CTA-04 · D RESOURCE_NOT_FOUND
+- ADM-CTA-04 · D VALIDATION_ERROR
 - ADM-CTA-04 · E Pessoa
 - ADM-CTA-04 · R Conta
 - ADM-CTA-04 · R Usuario
 - ADM-CTA-04 · W Pessoa
 - ADM-CTA-04 · X Conta
-- ADM-CTA-04 · X MENSAGEM
 - ADM-CTA-04 · X Pessoa
 - ADM-CTA-04 · X Usuario
 - ADM-INT-01 · R Conta
@@ -35,25 +36,29 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - ADM-INT-01 · X Conta
 - ADM-INT-01.2 · R EventoAuditoria
 - ADM-INT-01.2 · W Conta
+- ADM-MOD-01 · D ETAPA_DESCONHECIDA
+- ADM-MOD-01 · D MODELO_IA_NAO_SUPORTADO
 - ADM-MOD-01 · E ModeloEtapa
 - ADM-MOD-01 · R Conta
 - ADM-MOD-01 · W Conta
 - ADM-MOD-01 · X Conta
-- ADM-MOD-01 · X MENSAGEM
 - ADM-MOD-01 · X ModeloEtapa
+- ADM-ORG-01 · D CONTA_IDENTIFICADOR_CONFLICT
+- ADM-ORG-01 · D VALIDATION_ERROR
 - ADM-ORG-01 · R Perfil
 - ADM-ORG-01 · W Conta
 - ADM-ORG-01 · W Perfil
 - ADM-ORG-01 · W Usuario
 - ADM-ORG-01 · X Conta
+- ADM-ORG-02 · D RECUSA
 - ADM-ORG-02 · E DISPARO
 - ADM-ORG-02 · R Conta
 - ADM-ORG-02 · R Perfil
 - ADM-ORG-02 · R Sistema
 - ADM-ORG-02 · R Usuario
-- ADM-ORG-02 · X Conta
+- ADM-ORG-03 · D CONTA_IDENTIFICADOR_CONFLICT
+- ADM-ORG-03 · D VALIDATION_ERROR
 - ADM-ORG-03 · W Conta
-- ADM-ORG-03 · X Conta
 - ADM-PER-01 · W EventoAuditoria
 - ADM-PER-02 · E PerfilFuncionalidade
 - ADM-PER-02 · W EventoAuditoria
@@ -61,28 +66,38 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - ADM-PER-03 · W EventoAuditoria
 - ADM-PER-04 · W EventoAuditoria
 - ADM-PER-05 · W EventoAuditoria
+- ADM-PER-06 · D RESOURCE_NOT_FOUND
 - ADM-PER-06 · E Funcionalidade
 - ADM-PER-06 · R Funcionalidade
 - ADM-PER-06 · R Perfil
 - ADM-PER-06 · X Funcionalidade
-- ADM-PER-06 · X MENSAGEM
+- ADM-USR-01 · D VALIDATION_ERROR
 - ADM-USR-01 · R Perfil
 - ADM-USR-01 · R Usuario
 - ADM-USR-01 · X Perfil
-- ADM-USR-01 · X Usuario
+- ADM-USR-02 · D CONVITE_EMAIL_ACTIVE
+- ADM-USR-02 · D RESOURCE_NOT_FOUND
+- ADM-USR-02 · D VALIDATION_ERROR
 - ADM-USR-02 · R Perfil
 - ADM-USR-02 · W Convite
 - ADM-USR-02 · W Usuario
 - ADM-USR-02 · X Convite
 - ADM-USR-02 · X Perfil
+- ADM-USR-03 · D RESOURCE_NOT_FOUND
+- ADM-USR-03 · D USUARIO_LAST_ADMIN
 - ADM-USR-03 · R Perfil
 - ADM-USR-03 · W Usuario
 - ADM-USR-03 · X Perfil
 - ADM-USR-03 · X Usuario
+- ADM-USR-04 · D RESOURCE_NOT_FOUND
+- ADM-USR-04 · D USUARIO_LAST_ADMIN
 - ADM-USR-04 · W Usuario
-- ADM-USR-04 · X Usuario
+- ADM-USR-05 · D RESOURCE_NOT_FOUND
+- ADM-USR-05 · D USUARIO_NOT_INACTIVE
 - ADM-USR-05 · W Usuario
-- ADM-USR-05 · X Usuario
+- ADM-USR-06 · D CONVITE_INVALID
+- ADM-USR-06 · D RESOURCE_NOT_FOUND
+- ADM-USR-06 · D VALIDATION_ERROR
 - ADM-USR-06 · E Pessoa
 - ADM-USR-06 · R Conta
 - ADM-USR-06 · R Convite
@@ -105,28 +120,33 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - AGT-EXE-09 · W ExecucaoAgente
 - AGT-EXE-09 · W Sistema
 - AGT-EXE-09.2 · E ExecucaoAgente
-- AGT-EXE-09.2 · X MENSAGEM
+- AGT-EXE-09.2 · X ExecucaoAgente
 - AGT-EXE-10 · E DISPARO
+- AGT-EXE-11 · D RESOURCE_NOT_FOUND
 - AGT-EXE-11 · E DISPARO
 - AGT-EXE-11 · E GitHub
 - AGT-EXE-11 · R Demanda
 - AGT-EXE-11 · R ExecucaoAgente
 - AGT-EXE-11 · W EsteiraExecucao
 - AGT-EXE-11 · X EtapaExecucao
-- AGT-EXE-11 · X MENSAGEM
+- DEM-INT-03 · D DEMANDA_FEATURE_ALREADY_RUNNING
+- DEM-INT-03 · D DEMANDA_FEATURE_NOT_APPROVED
+- DEM-INT-03 · D RESOURCE_NOT_FOUND
+- DEM-INT-03 · D VALIDATION_ERROR
 - DEM-INT-03 · E Demanda
 - DEM-INT-03 · R Sistema
 - DEM-INT-03 · W Demanda
 - DEM-INT-03 · W EsteiraExecucao
 - DEM-INT-03 · X Demanda
-- DEM-INT-03 · X MENSAGEM
+- DEM-PAI-02 · D DEMANDA_NOT_CANCELABLE
+- DEM-PAI-02 · D RESOURCE_NOT_FOUND
+- DEM-PAI-02 · D VALIDATION_ERROR
 - DEM-PAI-02 · E Demanda
 - DEM-PAI-02 · R EsteiraExecucao
 - DEM-PAI-02 · R EventoAuditoria
 - DEM-PAI-02 · R ExecucaoAgente
 - DEM-PAI-02 · W Demanda
 - DEM-PAI-02 · X Demanda
-- DEM-PAI-02 · X MENSAGEM
 - EST-ACO-01 · E DISPARO
 - EST-ACO-02 · E DISPARO
 - EST-ACO-03 · E DISPARO
@@ -136,30 +156,34 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - EST-ACO-06 · E DISPARO
 - EST-ACO-07 · E DISPARO
 - EST-ACO-08 · E DISPARO
+- EST-ACO-09 · D RESOURCE_NOT_FOUND
 - EST-ACO-09 · E DISPARO
 - EST-ACO-09 · R Demanda
 - EST-ACO-09 · R EsteiraExecucao
 - EST-ACO-09 · R ExecucaoAgente
 - EST-ACO-09 · X EsteiraExecucao
-- EST-ACO-09 · X MENSAGEM
+- EST-ACO-10 · D RESOURCE_NOT_FOUND
 - EST-ACO-10 · E DISPARO
 - EST-ACO-10 · R Demanda
 - EST-ACO-10 · R EsteiraExecucao
 - EST-ACO-10 · R ExecucaoAgente
 - EST-ACO-10 · X ExecucaoAgente
-- EST-ACO-10 · X MENSAGEM
+- EST-ACO-11 · D RESOURCE_NOT_FOUND
 - EST-ACO-11 · E DISPARO
 - EST-ACO-11 · E GitHub
 - EST-ACO-11 · R EtapaExecucao
 - EST-ACO-11 · X EtapaExecucao
-- EST-ACO-11 · X MENSAGEM
+- EST-APR-10 · D ETAPA_NOT_PENDING
+- EST-APR-10 · D ETAPA_SEM_ESCLARECIMENTOS
+- EST-APR-10 · D RESOURCE_VERSION_CONFLICT
+- EST-APR-10 · D VALIDATION_ERROR
 - EST-APR-10 · E PendenciaAprovacao
 - EST-APR-10 · R EsteiraExecucao
 - EST-APR-10 · R EventoAuditoria
 - EST-APR-10 · R ExecucaoAgente
 - EST-APR-10 · W ExecucaoAgente
-- EST-APR-10 · X MENSAGEM
 - EST-APR-10 · X PendenciaAprovacao
+- OPE-GCO-01 · D RECUSA
 - OPE-GCO-01 · E Conta
 - OPE-GCO-01 · R Conta
 - OPE-GCO-01 · R EsteiraExecucao
@@ -167,91 +191,102 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - OPE-GCO-01 · R Sistema
 - OPE-GCO-01 · R Usuario
 - OPE-GCO-01 · X Conta
-- OPE-GCO-01 · X MENSAGEM
 - OPE-GCO-01.2 · E Conta
 - OPE-GCO-01.2 · X Conta
-- OPE-GCO-01.2 · X MENSAGEM
+- OPE-GCO-02 · D CONTA_IDENTIFICADOR_CONFLICT
 - OPE-GCO-02 · E Conta
 - OPE-GCO-02 · R Convite
 - OPE-GCO-02 · R EventoAuditoria
 - OPE-GCO-02 · R Usuario
 - OPE-GCO-02 · W Conta
 - OPE-GCO-02 · X Conta
-- OPE-GCO-02 · X MENSAGEM
+- OPE-GCO-03 · D CONTA_IDENTIFICADOR_CONFLICT
+- OPE-GCO-03 · D RESOURCE_NOT_FOUND
 - OPE-GCO-03 · E Conta
 - OPE-GCO-03 · R EventoAuditoria
 - OPE-GCO-03 · W Conta
 - OPE-GCO-03 · X Conta
-- OPE-GCO-03 · X MENSAGEM
+- OPE-GCO-04 · D CONTA_NOT_SUSPENDABLE
+- OPE-GCO-04 · D RESOURCE_NOT_FOUND
 - OPE-GCO-04 · E Conta
 - OPE-GCO-04 · R EventoAuditoria
 - OPE-GCO-04 · W Conta
 - OPE-GCO-04 · X Conta
-- OPE-GCO-04 · X MENSAGEM
+- OPE-GCO-05 · D CONTA_NOT_SUSPENDED
+- OPE-GCO-05 · D RESOURCE_NOT_FOUND
 - OPE-GCO-05 · E Conta
 - OPE-GCO-05 · R EventoAuditoria
 - OPE-GCO-05 · W Conta
 - OPE-GCO-05 · X Conta
-- OPE-GCO-05 · X MENSAGEM
+- OPE-GCO-06 · D RESOURCE_NOT_FOUND
+- OPE-GCO-06 · D VALIDATION_ERROR
 - OPE-GCO-06 · E Conta
 - OPE-GCO-06 · R EventoAuditoria
 - OPE-GCO-06 · W Conta
 - OPE-GCO-06 · X Conta
-- OPE-GCO-06 · X MENSAGEM
+- OPE-GCO-07 · D RESOURCE_NOT_FOUND
 - OPE-GCO-07 · E Conta
 - OPE-GCO-07 · R EventoAuditoria
 - OPE-GCO-07 · W Conta
 - OPE-GCO-07 · X Conta
-- OPE-GCO-07 · X MENSAGEM
+- SIS-ACE-01 · D GITHUB_APP_UNAVAILABLE
+- SIS-ACE-01 · D RESOURCE_NOT_FOUND
+- SIS-ACE-01 · D SISTEMA_REPOSITORIES_MISSING
 - SIS-ACE-01 · E Sistema
 - SIS-ACE-01 · R Demanda
 - SIS-ACE-01 · R EsteiraExecucao
 - SIS-ACE-01 · R Sistema
-- SIS-ACE-01 · X MENSAGEM
 - SIS-ACE-01 · X Sistema
+- SIS-ACE-02 · D GITHUB_APP_UNAVAILABLE
+- SIS-ACE-02 · D RESOURCE_NOT_FOUND
+- SIS-ACE-02 · D SISTEMA_REPOSITORIES_MISSING
 - SIS-ACE-02 · E DISPARO
 - SIS-ACE-02 · R EsteiraExecucao
 - SIS-ACE-02 · R Sistema
-- SIS-ACE-02 · X MENSAGEM
 - SIS-ACE-02 · X Sistema
+- SIS-CAD-03 · D RESOURCE_NOT_FOUND
+- SIS-CAD-03 · D VALIDATION_ERROR
 - SIS-CAD-03 · R Conta
 - SIS-CAD-03 · R Usuario
 - SIS-CAD-03 · W Sistema
 - SIS-CAD-03 · X Sistema
+- SIS-CAD-05 · D CONEXAO_GITHUB_INACTIVE
+- SIS-CAD-05 · D CONEXAO_GITHUB_REPO_PERMISSION_MISSING
+- SIS-CAD-05 · D RESOURCE_VERSION_CONFLICT
+- SIS-CAD-05 · D VALIDATION_ERROR
 - SIS-CAD-05 · R Conta
 - SIS-CAD-05 · R ExecucaoAgente
 - SIS-CAD-05 · R Usuario
 - SIS-CAD-05 · W Sistema
-- SIS-CAD-05 · X Sistema
 - SIS-CAD-05.2 · E Sistema
-- SIS-CAD-05.2 · X MENSAGEM
 - SIS-CAD-05.2 · X Sistema
 - SIS-CAD-05.3 · E Sistema
-- SIS-CAD-05.3 · X MENSAGEM
 - SIS-CAD-05.3 · X Sistema
 - SIS-CAD-05.4 · E Sistema
-- SIS-CAD-05.4 · X MENSAGEM
 - SIS-CAD-05.4 · X Sistema
+- SIS-CFG-03 · D RESOURCE_NOT_FOUND
+- SIS-CFG-03 · D VALIDATION_ERROR
 - SIS-CFG-03 · W Sistema
 - SIS-CFG-03 · X Sistema
+- SIS-CFG-04 · D RESOURCE_NOT_FOUND
+- SIS-CFG-04 · D VALIDATION_ERROR
 - SIS-CFG-04 · R Sistema
-- SIS-CFG-04 · X FerramentaDemandas
 
-## Alterados (106)
+## Alterados (102)
 
+- ADM-AUD-01 · D VALIDATION_ERROR
 - ADM-AUD-01 · E EventoAuditoria
 - ADM-AUD-01 · R EventoAuditoria
 - ADM-AUD-01 · R Usuario
-- ADM-AUD-01 · X MENSAGEM
 - ADM-AUD-01 · X Usuario
 - ADM-CTA-01 · R EventoAuditoria
 - ADM-CTA-01 · W Conta
 - ADM-CTA-01 · W Usuario
+- ADM-CTA-02 · D RECUSA
 - ADM-CTA-02 · R Conta
 - ADM-CTA-02 · R EventoAuditoria
 - ADM-CTA-02 · R Perfil
 - ADM-CTA-02 · W Usuario
-- ADM-CTA-02 · X MENSAGEM
 - ADM-CTA-02 · X Usuario
 - ADM-CTA-03 · R EventoAuditoria
 - ADM-CTA-03 · W Usuario
@@ -262,10 +297,9 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - ADM-INT-01 · X GitHub
 - ADM-INT-01.2 · E GitHub
 - ADM-ORG-01 · E Conta
-- ADM-ORG-01 · X MENSAGEM
-- ADM-ORG-02 · X MENSAGEM
+- ADM-ORG-02 · X Conta
 - ADM-ORG-03 · E Conta
-- ADM-ORG-03 · X MENSAGEM
+- ADM-ORG-03 · X Conta
 - ADM-PER-01 · E Perfil
 - ADM-PER-01 · R EventoAuditoria
 - ADM-PER-01 · W Perfil
@@ -285,37 +319,34 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - ADM-PER-05 · R EventoAuditoria
 - ADM-PER-05 · W Funcionalidade
 - ADM-USR-01 · E Usuario
-- ADM-USR-01 · X MENSAGEM
 - ADM-USR-02 · E Convite
-- ADM-USR-02 · X MENSAGEM
 - ADM-USR-03 · E Usuario
-- ADM-USR-03 · X MENSAGEM
 - ADM-USR-04 · E Usuario
-- ADM-USR-04 · X MENSAGEM
+- ADM-USR-04 · X Usuario
 - ADM-USR-05 · E Usuario
-- ADM-USR-05 · X MENSAGEM
-- ADM-USR-06 · X MENSAGEM
+- ADM-USR-05 · X Usuario
 - AGT-EXE-09 · E ExecucaoAgente
 - DEM-INT-01 · E Demanda
+- DEM-INT-02 · D ESTEIRA_ALREADY_RUNNING
+- DEM-INT-02 · D RESOURCE_NOT_FOUND
+- DEM-INT-02 · D SISTEMA_REPOSITORIES_MISSING
 - DEM-INT-02 · E Demanda
 - DEM-INT-02 · X Demanda
-- DEM-INT-02 · X MENSAGEM
+- DEM-PAI-01 · D RECUSA
 - DEM-PAI-01 · E Demanda
-- DEM-PAI-01 · X MENSAGEM
-- DEM-PAI-01.2 · X MENSAGEM
+- EST-ACO-01 · D RESOURCE_NOT_FOUND
 - EST-ACO-01 · X EsteiraExecucao
-- EST-ACO-01 · X MENSAGEM
+- EST-ACO-02 · D RESOURCE_NOT_FOUND
 - EST-ACO-02 · X EtapaExecucao
-- EST-ACO-02 · X MENSAGEM
+- EST-ACO-03 · D RESOURCE_NOT_FOUND
 - EST-ACO-03 · X EtapaExecucao
-- EST-ACO-03 · X MENSAGEM
+- EST-ACO-04 · D RESOURCE_NOT_FOUND
 - EST-ACO-04 · X EtapaExecucao
-- EST-ACO-04 · X MENSAGEM
+- EST-ACO-05 · D RESOURCE_NOT_FOUND
 - EST-ACO-05 · X EtapaExecucao
-- EST-ACO-05 · X MENSAGEM
+- EST-ACO-06 · D RESOURCE_NOT_FOUND
 - EST-ACO-06 · X EtapaExecucao
-- EST-ACO-06 · X MENSAGEM
-- EST-ACO-08 · X MENSAGEM
+- EST-ACO-08 · D RESOURCE_NOT_FOUND
 - EST-ACO-08 · X RegistroImpacto
 - EST-APR-01 · E PendenciaAprovacao
 - EST-APR-02 · E PendenciaAprovacao
@@ -325,36 +356,40 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - EST-APR-06 · E PendenciaAprovacao
 - EST-APR-07 · E PendenciaAprovacao
 - EST-APR-08 · E PendenciaAprovacao
+- EST-APR-09 · D ETAPA_APPROVER_MISMATCH
+- EST-APR-09 · D ETAPA_NOT_PENDING
+- EST-APR-09 · D RESOURCE_VERSION_CONFLICT
 - EST-APR-09 · E PendenciaAprovacao
-- EST-APR-09 · X MENSAGEM
 - EST-APR-09 · X PendenciaAprovacao
+- SIS-CAD-01 · D SISTEMA_IDENTIFIER_CONFLICT
 - SIS-CAD-01 · E Sistema
-- SIS-CAD-01 · X MENSAGEM
 - SIS-CAD-01 · X Sistema
 - SIS-CAD-02 · E Sistema
 - SIS-CAD-03 · E Sistema
-- SIS-CAD-03 · X MENSAGEM
 - SIS-CAD-04 · E Sistema
 - SIS-CAD-05 · E Sistema
-- SIS-CAD-05 · X MENSAGEM
+- SIS-CAD-05 · X Sistema
 - SIS-CFG-01 · E Sistema
+- SIS-CFG-02 · D VALIDATION_ERROR
 - SIS-CFG-02 · E Sistema
-- SIS-CFG-02 · X MENSAGEM
 - SIS-CFG-02 · X Sistema
 - SIS-CFG-03 · E Sistema
-- SIS-CFG-03 · X MENSAGEM
 - SIS-CFG-04 · E FerramentaDemandas
-- SIS-CFG-04 · X MENSAGEM
+- SIS-CFG-04 · X FerramentaDemandas
 
-## Excluídos (26)
+## Excluídos (32)
 
 - ADM-CTA-01 · E Usuario
 - ADM-CTA-01 · X Usuario
 - ADM-CTA-02 · E Usuario
 - ADM-CTA-03 · E Usuario
+- ADM-ORG-01 · D RECUSA
 - ADM-ORG-02 · E Conta
 - ADM-PER-02 · E Funcionalidade
 - ADM-PER-03 · E Funcionalidade
+- ADM-USR-02 · D RECUSA
+- ADM-USR-03 · D RECUSA
+- ADM-USR-06 · D RECUSA
 - ADM-USR-06 · E Convite
 - AGT-EXE-01 · E ExecucaoAgente
 - AGT-EXE-02 · E ExecucaoAgente
@@ -364,7 +399,7 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - AGT-EXE-06 · E ExecucaoAgente
 - AGT-EXE-07 · E ExecucaoAgente
 - AGT-EXE-08 · E ExecucaoAgente
-- AGT-EXE-09 · X MENSAGEM
+- AGT-EXE-09 · X ExecucaoAgente
 - AGT-EXE-10 · E RegistroImpacto
 - EST-ACO-01 · E EsteiraExecucao
 - EST-ACO-02 · E EtapaExecucao
@@ -374,6 +409,8 @@ Tamanho anterior: 290 PFO · tamanho posterior: 492 PFO · níveis: R → R
 - EST-ACO-06 · E EtapaExecucao
 - EST-ACO-07 · E EtapaExecucao
 - EST-ACO-08 · E RegistroImpacto
+- SIS-CAD-03 · D RECUSA
+- SIS-CFG-03 · D RECUSA
 
 Processos novos: ADM-CTA-04, ADM-MOD-01, ADM-PER-06, AGT-EXE-09.2, AGT-EXE-11, DEM-INT-03, DEM-PAI-02, EST-ACO-09, EST-ACO-10, EST-ACO-11, EST-APR-10, OPE-GCO-01, OPE-GCO-01.2, OPE-GCO-02, OPE-GCO-03, OPE-GCO-04, OPE-GCO-05, OPE-GCO-06, OPE-GCO-07, SIS-ACE-01, SIS-ACE-02, SIS-CAD-05.2, SIS-CAD-05.3, SIS-CAD-05.4 · processos removidos: —
 
@@ -383,6 +420,6 @@ Processos novos: ADM-CTA-04, ADM-MOD-01, ADM-PER-06, AGT-EXE-09.2, AGT-EXE-11, D
 |---|---|---|---|
 | M0 humano | 0 | 0 | 0% |
 | M1 IA assistida | 0 | 0 | 0% |
-| M2 IA dirigida | 85 | 360 | 100% |
+| M2 IA dirigida | 84 | 397 | 100% |
 | M3 IA autônoma | 0 | 0 | 0% |
 

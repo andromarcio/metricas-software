@@ -21,7 +21,7 @@ ROTAS = {
 
 
 def tratar(rota: str, corpo: dict = None, params: dict = None) -> dict:
-    """Despacha uma requisição; erros de negócio viram mensagens (X MENSAGEM)."""
+    """Despacha uma requisição; erros de negócio viram desfechos (RI-12)."""
     try:
         return ROTAS[rota](corpo or {}, params or {})
     except servicos.ErroDeNegocio as erro:

@@ -158,11 +158,10 @@
             "minLength": 1,
             "not": {
               "enum": [
-                "MENSAGEM",
                 "DISPARO"
               ]
             },
-            "description": "Nome estável da entidade; reservadas não são declaradas."
+            "description": "Nome estável da entidade; a reservada DISPARO não é declarada."
           },
           "descricao": {
             "type": "string"
@@ -241,7 +240,7 @@
           },
           "movimentos": {
             "type": "array",
-            "minItems": 2,
+            "minItems": 1,
             "items": {
               "type": "object",
               "required": [
@@ -260,7 +259,7 @@
                 "entidade": {
                   "type": "string",
                   "minLength": 1,
-                  "description": "id de entidade declarada, ou MENSAGEM (só X) ou DISPARO (só E)."
+                  "description": "id de entidade declarada, ou DISPARO (só E)."
                 },
                 "usuario": {
                   "type": "string",
@@ -271,7 +270,7 @@
                   "items": {
                     "type": "string"
                   },
-                  "description": "Opcional; habilita o suplemento D (RC-05)."
+                  "description": "Opcional; habilita a derivação informativa (seção 3.5)."
                 },
                 "evidencia": {
                   "$ref": "#/$defs/evidencia"
@@ -291,25 +290,6 @@
                 }
               },
               "allOf": [
-                {
-                  "if": {
-                    "properties": {
-                      "entidade": {
-                        "const": "MENSAGEM"
-                      }
-                    },
-                    "required": [
-                      "entidade"
-                    ]
-                  },
-                  "then": {
-                    "properties": {
-                      "tipo": {
-                        "const": "X"
-                      }
-                    }
-                  }
-                },
                 {
                   "if": {
                     "properties": {
@@ -406,79 +386,42 @@
             ],
             "description": "Tipo do processo para perfis e estimativa (RE-01); quando ausente, inferido pelo verbo do nome."
           },
-          "decisoes": {
-            "type": "object",
-            "description": "Suplemento D (RC-05, capítulo 12): D1 = desfechos distinguíveis na fronteira por um teste de aceite (código, mensagem ou condição de disparo); D2 = regras declaradas. Contados à parte, nunca somados ao PFO.",
-            "required": [
-              "desfechos",
-              "regras"
-            ],
-            "properties": {
-              "desfechos": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "id"
-                  ],
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "descricao": {
-                      "type": "string"
-                    },
-                    "tipo": {
-                      "type": "string",
-                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
-                    },
-                    "evidencia": {
-                      "$ref": "#/$defs/evidencia"
-                    },
-                    "inferido": {
-                      "type": "boolean"
-                    },
-                    "justificativa": {
-                      "type": "string"
-                    },
-                    "oculto": {
-                      "type": "boolean",
-                      "description": "Desfecho distinguível na fronteira apenas pela condição de entrada declarada na fonte (mesmo código ou mensagem de outro desfecho); conta em D1 e o relatório o informa à parte (RC-05 a)."
-                    }
-                  }
-                }
-              },
-              "regras": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "id"
-                  ],
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "descricao": {
-                      "type": "string"
-                    },
-                    "tipo": {
-                      "type": "string",
-                      "description": "livre: recusa, sucesso, validacao, calculo, limite, estado…"
-                    },
-                    "evidencia": {
-                      "$ref": "#/$defs/evidencia"
-                    },
-                    "inferido": {
-                      "type": "boolean"
-                    },
-                    "justificativa": {
-                      "type": "string"
-                    }
-                  }
+          "desfechos": {
+            "type": "array",
+            "description": "RI-12 e RC-05: desfechos distintos além do principal, um por código ou mensagem que o processo emite ao usuário funcional (recusa, erro de negócio, variante de sucesso). Cada um vale 1 PFO.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Código ou nome da mensagem; único no processo."
+                },
+                "descricao": {
+                  "type": "string"
+                },
+                "tipo": {
+                  "type": "string",
+                  "description": "livre: recusa, variante, limite…"
+                },
+                "evidencia": {
+                  "$ref": "#/$defs/evidencia"
+                },
+                "inferido": {
+                  "type": "boolean"
+                },
+                "justificativa": {
+                  "type": "string"
+                },
+                "alterado": {
+                  "type": "boolean",
+                  "description": "RC-03: desfecho alterado em relação ao modelo anterior."
+                },
+                "nota": {
+                  "type": "string"
                 }
               }
             }

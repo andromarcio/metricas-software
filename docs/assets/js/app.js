@@ -393,20 +393,21 @@
       (CFG.version ? ' · <a href="#/introducao#estado-da-especificacao">versão ' + esc(CFG.version) + "</a>" : "") +
       "</p>" +
       "<h1>Tamanho de software que duas medições reproduzem e uma máquina confere.</h1>" +
-      "<p>A MFO conta o que um software move entre seus usuários e seu armazenamento: uma unidade por entidade em movimento, com evidência verificável em cada item. A mesma régua vale para requisitos, código e diff, e para o que pessoas e agentes de IA produzem.</p>" +
+      "<p>A MFO conta o que um software move entre seus usuários e seu armazenamento e o que ele devolve de diferente: uma unidade por entidade em movimento e por desfecho, com evidência verificável em cada item. A mesma régua vale para requisitos, código e diff, e para o que pessoas e agentes de IA produzem.</p>" +
       '<div class="home-mfo-actions">' +
       '<a class="home-mfo-button home-mfo-button--primary" href="#/introducao">Começar pela visão geral</a>' +
       '<a class="home-mfo-button home-mfo-button--secondary" href="#/regras-de-contagem">Ler as regras</a>' +
       "</div></div>" +
       '<aside class="home-mfo-flow" aria-label="Os quatro movimentos da MFO">' +
-      "<h2>Quatro movimentos. Uma unidade.</h2>" +
+      "<h2>Quatro movimentos e o desfecho. Uma unidade.</h2>" +
       '<div class="home-mfo-flow__steps">' +
       "<div><span>E</span><p><strong>Entrada</strong><small>Uma entidade entra, vinda de um usuário funcional.</small></p></div>" +
       "<div><span>X</span><p><strong>Saída</strong><small>Uma entidade sai para um usuário funcional.</small></p></div>" +
       "<div><span>R</span><p><strong>Leitura</strong><small>Uma entidade é lida do armazenamento.</small></p></div>" +
       "<div><span>W</span><p><strong>Gravação</strong><small>Uma entidade é gravada no armazenamento.</small></p></div>" +
+      "<div><span>D</span><p><strong>Desfecho</strong><small>Cada recusa ou variante com código ou mensagem próprios.</small></p></div>" +
       "</div>" +
-      '<p class="home-mfo-flow__note">Cada chave (processo, tipo, entidade) vale 1 PFO. Sem pesos, sem fatores de ajuste.</p>' +
+      '<p class="home-mfo-flow__note">Cada movimento e cada desfecho valem 1 PFO. Sem pesos, sem fatores de ajuste.</p>' +
       "</aside>" +
       "</div></section>" +
       '<div class="home-mfo-shell home-mfo-main">' +
@@ -417,12 +418,12 @@
       '<div class="home-mfo-principles">' +
       "<article><span>01</span><h3>Evidência por item</h3><p>Todo processo e todo movimento citam um artefato localizável. A ferramenta abre cada evidência e diz quantas conferem.</p></article>" +
       "<article><span>02</span><h3>Concordância medida</h3><p>Duas medições do mesmo software se comparam por chaves. A divergência é localizada e resolvida por regra, nunca por opinião.</p></article>" +
-      "<article><span>03</span><h3>A segunda dimensão</h3><p>Decisões se contam à parte do tamanho: desfechos que um teste de aceite distingue e regras declaradas, com evidência, sem inflar o PFO.</p></article>" +
+      "<article><span>03</span><h3>A decisão no número</h3><p>O que um processo decide entra na conta pelo que devolve de diferente: um desfecho por código ou mensagem. Um número só, sem segunda dimensão.</p></article>" +
       "</div></section>" +
       '<section class="home-mfo-trace">' +
       "<div><strong>Fonte</strong><span>Requisitos, código, diff entre versões ou o sistema em execução.</span></div><b>→</b>" +
-      "<div><strong>Modelo canônico</strong><span>Processos, movimentos e decisões, cada um com evidência, validados por V-01 a V-11.</span></div><b>→</b>" +
-      "<div><strong>PFO e indicadores</strong><span>Tamanho, mudança, decisões, produção com IA e estimativa, sempre com rótulo.</span></div>" +
+      "<div><strong>Modelo canônico</strong><span>Processos, movimentos e desfechos, cada um com evidência, validados por V-01 a V-11.</span></div><b>→</b>" +
+      "<div><strong>PFO e indicadores</strong><span>Tamanho, mudança, produção com IA e estimativa, sempre com rótulo.</span></div>" +
       "</section>" +
       '<section class="home-mfo-next">' +
       '<div><p class="home-mfo-kicker">Próximo passo</p><h2>Veja o método aplicado a um sistema real.</h2></div>' +

@@ -88,10 +88,13 @@
           "entidade": "Livro",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -128,10 +131,13 @@
           "entidade": "Livro",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'alterar' (E1); confirmar na extração"
         }
@@ -164,14 +170,17 @@
           "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
         },
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
-        },
-        {
           "tipo": "R",
           "entidade": "Emprestimo",
+          "inferido": true,
+          "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
+        }
+      ],
+      "desfechos": [
+        {
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'excluir' (E1); confirmar na extração"
         }
@@ -208,12 +217,6 @@
           "entidade": "Livro",
           "inferido": true,
           "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'consultar' (E1); confirmar na extração"
         }
       ]
     },
@@ -248,10 +251,13 @@
           "entidade": "Leitor",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
+        }
+      ],
+      "desfechos": [
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -290,12 +296,6 @@
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         },
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
-        {
           "tipo": "R",
           "entidade": "Leitor",
           "inferido": true,
@@ -304,6 +304,15 @@
         {
           "tipo": "R",
           "entidade": "Livro",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ],
+      "desfechos": [
+        {
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -342,14 +351,17 @@
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         },
         {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
-          "inferido": true,
-          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
-        },
-        {
           "tipo": "R",
           "entidade": "ParametroMulta",
+          "inferido": true,
+          "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
+        }
+      ],
+      "desfechos": [
+        {
+          "id": "RECUSA1",
+          "descricao": "recusa de negócio típica do tipo",
+          "tipo": "recusa",
           "inferido": true,
           "justificativa": "perfil típico 'criar' (E1); confirmar na extração"
         }
@@ -384,12 +396,6 @@
         {
           "tipo": "X",
           "entidade": "Emprestimo",
-          "inferido": true,
-          "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
-        },
-        {
-          "tipo": "X",
-          "entidade": "MENSAGEM",
           "inferido": true,
           "justificativa": "perfil típico 'relatorio' (E1); confirmar na extração"
         },
@@ -474,12 +480,12 @@
   ],
   "estimativa": {
     "nivel": "E1",
-    "pfo_modelo": 45,
+    "pfo_modelo": 43,
     "fator_calibracao": 1.0,
-    "pfo_calibrado": 45,
+    "pfo_calibrado": 43,
     "intervalo_pct": 25,
-    "pfo_min": 34,
-    "pfo_max": 56,
+    "pfo_min": 32,
+    "pfo_max": 54,
     "base": "perfis padrão do capítulo 11 (sem calibração local)"
   }
 }
