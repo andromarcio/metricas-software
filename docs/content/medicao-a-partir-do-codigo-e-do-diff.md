@@ -1,9 +1,9 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/08-medicao-a-partir-do-codigo-e-do-diff.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/08-medicao-a-partir-do-codigo-e-do-diff.md. Não edite: edite a fonte e gere de novo. -->
 # 8. Medição a partir do código e do diff
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
-A APF exige documentação de requisitos e um medidor treinado. A MFO em nível C dispensa
+A APF exige documentação de requisitos e um medidor treinado. O PFC em nível C dispensa
 as duas coisas: o código é a fonte, o modelo é gerado a partir dele, e cada movimento
 contado aponta para um arquivo e um trecho que qualquer pessoa pode abrir. Este capítulo
 define como a unidade é reconhecida no código, como o diff entre duas versões delimita e
@@ -13,8 +13,8 @@ prova uma mudança, e como a medição é auditada por máquina.
 
 Linhas de código não medem funcionalidade: variam com a linguagem, o estilo, o framework
 e, cada vez mais, com a verbosidade da IA que as escreveu. Um diff de 2.000 linhas pode
-ser uma refatoração de 0 PFO; um diff de 40 linhas pode acrescentar um processo de 9 PFO.
-Por isso a MFO não conta o diff. Ela conta a diferença entre os **modelos funcionais** das
+ser uma refatoração de 0 PFC; um diff de 40 linhas pode acrescentar um processo de 9 PFC.
+Por isso o PFC não conta o diff. Ele conta a diferença entre os **modelos funcionais** das
 duas versões (RC-03) e usa o diff para duas coisas:
 
 - **delimitar**: só os processos cujo código mudou precisam ser reextraídos; o custo da
@@ -66,12 +66,12 @@ Regras de leitura do código:
 >    opcional.
 >
 > b) A evidência deve ser **verificável por máquina**: a ferramenta confere que o arquivo
->    existe e contém o trecho (`mfo.py auditar`). Evidência que não passa invalida o
+>    existe e contém o trecho (`pfc.py auditar`). Evidência que não passa invalida o
 >    movimento, que volta a inferido.
 
 > **RD-04 — Mudança sem movimento**
 >
-> Manutenção corretiva, técnica, de plataforma e de desempenho tem tamanho zero em PFO e
+> Manutenção corretiva, técnica, de plataforma e de desempenho tem tamanho zero em PFC e
 > é tratada fora da métrica, por acordo contratual (como o Guia STI faz nas seções 4.4 a
 > 4.8). O relatório de impacto registra que houve diff sem movimento, para que o
 > trabalho fique visível sem inflar o tamanho.
@@ -82,16 +82,16 @@ Regras de leitura do código:
  versão A (ref ou pasta)             versão B (ref ou pasta)
         │                                    │
         ▼                                    ▼
- modelo A (baseline) ─── mfo.py impacto ───▶ processos afetados, trechos mudados,
+ modelo A (baseline) ─── pfc.py impacto ───▶ processos afetados, trechos mudados,
                            A → B             arquivos sem processo (entradas novas)
                                                       │
                                     extração só do que foi afetado (IA ou pessoa),
                                     com evidências em B e 'alterado' conforme RD-01
                                                       │
                                                       ▼
-                                              modelo B  ──▶ mfo.py auditar (RD-03)
+                                              modelo B  ──▶ pfc.py auditar (RD-03)
                                                       │
-                 mfo.py mudanca A B ◀─────────────────┘
+                 pfc.py mudanca A B ◀─────────────────┘
                    incluídos · alterados · excluídos · por modo de produção (cap. 9)
                                                       │
                                                       ▼
@@ -100,7 +100,7 @@ Regras de leitura do código:
 
 1. **Baseline.** Modelo da versão A, arquivado na medição anterior. Na primeira medição
    de um sistema legado, o modelo A é extraído do código inteiro uma única vez.
-2. **Impacto.** `mfo.py impacto` cruza as evidências do modelo A com os arquivos do diff
+2. **Impacto.** `pfc.py impacto` cruza as evidências do modelo A com os arquivos do diff
    (dois diretórios ou duas referências git). Para cada processo diz se não foi afetado,
    se apenas um arquivo citado mudou, ou se o trecho citado mudou; lista os movimentos
    candidatos a alterado e os arquivos alterados que nenhum processo cita, onde podem
@@ -108,9 +108,9 @@ Regras de leitura do código:
 3. **Extração dirigida.** A IA (ou o medidor) reextrai apenas os processos afetados e
    procura processos novos nos arquivos sem processo. Candidatos a alterado são
    confirmados ou descartados pela RD-01.
-4. **Auditoria.** `mfo.py auditar` confirma que toda evidência do modelo B existe no
+4. **Auditoria.** `pfc.py auditar` confirma que toda evidência do modelo B existe no
    código da versão B.
-5. **Mudança.** `mfo.py mudanca A B` conta incluídos, alterados e excluídos, por modo de
+5. **Mudança.** `pfc.py mudanca A B` conta incluídos, alterados e excluídos, por modo de
    produção quando declarado (capítulo 9).
 6. **Arquivo.** O modelo B passa a ser o baseline. O histórico de modelos é o inventário
    funcional do sistema, versão a versão, sem documentação adicional.
@@ -121,13 +121,13 @@ as duas versões; é uma aproximação deliberadamente simples, e por isso o pas
 
 ## 8.4 Auditoria
 
-Uma medição MFO de nível C é auditável em três camadas, da mais barata para a mais cara:
+Uma medição PFC de nível C é auditável em três camadas, da mais barata para a mais cara:
 
 | Camada | Pergunta | Como | Custo |
 |---|---|---|---|
-| Mecânica | Toda evidência existe no código? | `mfo.py auditar` | segundos |
+| Mecânica | Toda evidência existe no código? | `pfc.py auditar` | segundos |
 | Amostral | As evidências sustentam os movimentos? | sortear movimentos e abrir os trechos; conferir tipo e entidade pelas regras RI | minutos por amostra |
-| Independente | Outra extração chega ao mesmo modelo? | segunda extração e `mfo.py concordancia` | uma extração |
+| Independente | Outra extração chega ao mesmo modelo? | segunda extração e `pfc.py concordancia` | uma extração |
 
 O modelo é o laudo: quem audita não precisa do medidor, só do código na versão citada e
 das regras.
@@ -137,12 +137,12 @@ das regras.
 Os requisitos do capítulo 6 foram implementados em
 [`exemplos/codigo-biblioteca/`](#/exemplo-codigo) (Python sem
 dependências, uma função por processo). Os modelos
-[`biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v1.mfc.json) e
-[`biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v2.mfc.json) estão em nível RC, com
+[`biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v1.mfc.json) e
+[`biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v2.mfc.json) estão em nível RC, com
 evidências de requisito (`REQ`), de código (`COD`, no formato RD-03) e de teste de
 aceitação (`TST`, uma função de teste por processo).
 
-**Impacto.** `mfo.py impacto biblioteca-v1.mfc.json --dirs codigo-biblioteca/v1 codigo-biblioteca/v2`:
+**Impacto.** `pfc.py impacto biblioteca-v1.mfc.json --dirs codigo-biblioteca/v1 codigo-biblioteca/v2`:
 
 ```
 Arquivos alterados: 5 (M 5, A 0, D 0) · fonte de evidências: COD
@@ -178,14 +178,14 @@ saída de Emprestimo perdeu um atributo (alterada) e a leitura de ParametroMulta
 desapareceu (excluída). O processo novo P10 não aparece no impacto, por definição; é
 encontrado na extração da v2 a partir da nova rota em `api.py`.
 
-**Auditoria.** `mfo.py auditar biblioteca-v2.mfc.json --raiz codigo-biblioteca --fonte COD --fonte TST`:
+**Auditoria.** `pfc.py auditar biblioteca-v2.mfc.json --raiz codigo-biblioteca --fonte COD --fonte TST`:
 
 ```
 **93 de 93 evidências verificadas (100%)**
 ```
 
-**Mudança.** `mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json` produz os
-mesmos 9 PFO de mudança do capítulo 6 (5 incluídos, 3 alterados, 1 excluído), agora com
+**Mudança.** `pfc.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json` produz os
+mesmos 9 PFC de mudança do capítulo 6 (5 incluídos, 3 alterados, 1 excluído), agora com
 evidências de código em cada chave e com a composição por modo de produção do capítulo 9.
 
 **Aceite.** Os testes em `codigo-biblioteca/testes/teste_aceitacao.py` exercitam um
@@ -193,7 +193,7 @@ processo por função; rodá-los contra a v2 é a evidência do campo `aceite` d
 processo:
 
 ```
-python3 -I MFO/exemplos/codigo-biblioteca/testes/teste_aceitacao.py v2
+python3 -I PFC/exemplos/codigo-biblioteca/testes/teste_aceitacao.py v2
 ```
 
 ## 8.6 Limites

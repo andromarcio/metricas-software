@@ -1,0 +1,126 @@
+# 5. Comparação entre softwares
+
+> PFC — Pontos de Função Caixa · Versão 1.0
+
+## 5.1 Condições de comparabilidade
+
+Dois tamanhos PFC são comparáveis quando:
+
+1. foram medidos com a **mesma versão do método**;
+2. têm o **mesmo nível** de medição (R, C ou RC);
+3. têm **escopo declarado** e fronteiras definidas pelo mesmo critério (aplicação inteira,
+   serviço, módulo), na mesma camada;
+4. têm **grau de evidência** compatível (a organização fixa um mínimo; 90% é um ponto de
+   partida razoável para comparações com efeito contratual);
+5. para comparações de produtividade ou custo, o esforço ou custo associados foram
+   apurados com a mesma definição (as mesmas fases, como o Guia STI faz ao distribuir
+   esforço por refino, implementação e teste).
+
+Comparações que violem uma dessas condições devem dizer qual e por quê.
+
+## 5.2 Perfil funcional
+
+O total esconde a forma do software. Dois sistemas de 500 PFC podem ser muito diferentes:
+um com 40 processos densos, outro com 150 processos simples. O relatório PFC traz, além do
+total, o **perfil funcional**, calculado pela ferramenta:
+
+| Indicador | Definição | O que revela |
+|---|---|---|
+| PFC | total de movimentos e desfechos | tamanho |
+| NP | número de processos | amplitude funcional |
+| NE | número de entidades declaradas (sem as reservadas) | amplitude do domínio de dados |
+| E, X, R, W, D | movimentos por tipo e desfechos | forma |
+| Densidade | PFC / NP | complexidade média das transações |
+| Persistência | (R + W) / PFC | quanto o software gira em torno de dados armazenados |
+| Interface | (E + X + D) / PFC | quanto gira em torno de troca com usuários e sistemas, respostas incluídas |
+| Entidades por processo | NE / NP | acoplamento médio entre funções e dados |
+| Evidência | movimentos e desfechos com evidência / PFC | confiabilidade do modelo |
+
+Perfis típicos:
+
+- **CRUD administrativo:** densidade 4 a 5; persistência próxima de 0,45; muitos processos, um desfecho de recusa em quase todos.
+- **Integração / API de orquestração:** interface alta (> 0,6), muitas X para sistemas.
+- **Relatórios e BI operacional:** R dominante, X por várias entidades, densidade alta.
+- **Embarcado / controle:** E e X de dispositivos, poucas entidades, persistência baixa.
+
+Comparar perfis permite afirmar, por exemplo, que "o sistema A é 20% maior que o B, mas
+tem metade da densidade; o esforço por processo tende a ser menor em A", sem sair dos
+números.
+
+## 5.3 Indicadores derivados
+
+O PFC é tamanho. Indicadores de gestão nascem de sua combinação com dados da organização:
+
+| Indicador | Fórmula | Condição |
+|---|---|---|
+| Produtividade | PFC entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
+| Custo unitário | custo / PFC | idem |
+| Densidade de defeitos | defeitos / PFC | mesma definição de defeito e janela |
+| Velocidade de evolução | PFC de mudança por período | mesmo software, modelos consecutivos |
+| Aderência R × C | PFC(C) / PFC(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |
+| Cobertura de testes funcional | processos com teste automatizado / NP | nível C |
+| Erro de estimativa | (PFC estimado − PFC medido) / PFC medido | estimativa rotulada e medição do mesmo escopo (capítulo 11) |
+
+Os valores de referência (taxa de entrega, custo por PFC) devem ser calibrados pela
+própria organização, como se faz com PF e CFP. O PFC não publica valores de mercado. Os
+indicadores de produção com IA (PFC por modo, alavancagem humana, custo por PFC, aceite,
+excedente) estão no capítulo 9.
+
+## 5.4 Relação com APF e COSMIC
+
+### Correspondência conceitual
+
+| PFC | APF (IFPUG) | COSMIC |
+|---|---|---|
+| Processo | Processo elementar (EE, SE, CE) | Processo funcional |
+| Entidade | Arquivo lógico (ALI, AIE) ou seu RLR | Objeto de interesse / grupo de dados |
+| E | DER de entrada; a própria EE | Entry |
+| X | DER de saída; SE ou CE | Exit |
+| R | ALR referenciado; AIE | Read |
+| W | ALI mantido | Write |
+| Desfecho (D) | DER de mensagem; parte da lógica de processamento | uma única Exit para todas as mensagens de erro e confirmação do processo |
+| E `DISPARO` | ação do usuário (DER de ação) | Entry disparadora de um atributo |
+| PFC de mudança | PF incluído, alterado, excluído | CFP incluído, alterado, excluído |
+
+### Diferenças de resultado esperadas
+
+- **Em relação ao COSMIC:** os movimentos são o mesmo primitivo, e o PFC soma a eles os
+  desfechos, que o COSMIC comprime numa única Exit de mensagens por processo. Sistemas
+  com muitas recusas distintas medem mais em PFC do que em CFP. As demais diferenças
+  aparecem onde o COSMIC deixa ao medidor a identificação de grupos de dados em saídas
+  compostas (RI-06 a fixa uma X por entidade) e onde o PFC fixa casos frequentes (canais,
+  formatos, lista e detalhe). O exemplo do capítulo 6 mostra uma faixa de 47 a 51 CFP
+  para 54 PFC, 43 deles movimentos.
+- **Em relação à APF:** a APF conta funções de dados diretamente (7 a 15 PF por arquivo
+  lógico) e limita cada transação a 7 PF. Sistemas com muitos arquivos e transações
+  simples tendem a ter mais PF que PFC; sistemas com transações ricas (muitas entidades por
+  processo) tendem ao contrário. Não existe fator fixo de conversão. No sistema real do
+  capítulo 10, a razão PFC/PF de transação variou de 0,87 a 1,48 entre domínios (1,28 no
+  total), pelos motivos acima.
+
+### Procedimento de calibração local
+
+1. Selecionar de 10 a 20 softwares (ou demandas) já medidos em PF ou CFP.
+2. Medir cada um em PFC no mesmo nível e com o mesmo escopo.
+3. Ajustar uma regressão simples (PF = a × PFC + b) e registrar o coeficiente de
+   determinação e a dispersão.
+4. Usar o fator **apenas** para converter históricos; novas medições são feitas em PFC.
+5. Repetir a calibração a cada versão do método ou mudança relevante de carteira.
+
+## 5.5 Limites e cuidados
+
+- **O julgamento não desaparece; é confinado.** Decidir fronteira, entidades e processos
+  ainda exige interpretação. O PFC reduz a variação com testes de decisão, exige evidência
+  e **mede** a variação restante pelo índice de concordância. Um resultado sem segunda
+  medição é uma medição, não uma prova de objetividade.
+- **Atributos não pesam.** Um processo que move uma entidade de 3 atributos e outro que
+  move uma de 60 têm o mesmo tamanho. É a mesma simplificação do COSMIC. Quem precisar
+  disso deve criar uma extensão local, reportada à parte, nunca somada.
+- **Pedaços pequenos.** Mudanças de 1 a 3 PFC podem exigir esforço desproporcional. Use
+  pisos contratuais, não ajustes na contagem.
+- **Interfaces ricas** (editores, mapas, gráficos interativos) são subdimensionadas por
+  qualquer método funcional. Registre o requisito não funcional e trate-o fora.
+- **Software intensivo em algoritmos** (otimização, simulação, aprendizado de máquina): o
+  tamanho funcional captura entradas, saídas e dados persistidos, não a dificuldade do
+  algoritmo. A derivação informativa (seção 3.5) indica onde há cálculo, mas não quanto
+  custa; os desfechos contam o que a regra devolve, não a dificuldade de decidir.

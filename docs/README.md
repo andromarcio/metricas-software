@@ -2,7 +2,7 @@
 
 Site estático (HTML/CSS/JS, sem build) no padrão do `docqui-caixa-engine`: barra lateral
 com navegação, busca, tema claro/escuro, conteúdo em **Markdown** renderizado no
-navegador. As páginas são **geradas da fonte** (a especificação em `MFO/`, o prompt, os
+navegador. As páginas são **geradas da fonte** (a especificação em `PFC/`, o prompt, os
 exemplos e os índices dos manuais de referência) por `scripts/gera-docs.py`; não se
 editam à mão.
 
@@ -16,7 +16,7 @@ docs/
 ├── content/              # as páginas, em Markdown (GERADAS: python3 scripts/gera-docs.py)
 └── assets/
     ├── css/styles.css    # tema base (tokens claro/escuro), do template docqui
-    ├── css/mfo.css       # paleta azul e layout de página desta documentação
+    ├── css/pfc.css       # paleta azul e layout de página desta documentação
     ├── js/app.js         # navegação, rotas (#/pagina), render de Markdown, tema
     ├── vendor/marked.min.js
     └── img/              # logo e favicon
@@ -29,7 +29,7 @@ python3 scripts/gera-docs.py           # escreve docs/content/*.md a partir da f
 python3 scripts/gera-docs.py --check   # acusa página desatualizada, sobrando ou citada e inexistente
 ```
 
-O gerador reescreve os links: capítulo ou documento da MFO vira rota `#/pagina`; arquivo
+O gerador reescreve os links: capítulo ou documento do PFC vira rota `#/pagina`; arquivo
 que não é página (JSON, Python, relatório gerado, manual de referência) vira link para o
 GitHub. O workflow de publicação roda o `--check` e recusa publicar um site que não
 espelha a fonte. Mudou um capítulo: gere de novo e commite `docs/content/` junto.
@@ -68,10 +68,10 @@ toda página é servida de `content/`.
 |---|---|
 | Nome, repositório, itens do menu | `config.js` |
 | Versão no selo do topo | `config.js` → `version`, igual ao `VERSION` da raiz (o `--check` confere) |
-| Texto das páginas | a fonte (`MFO/*.md`, `README.md`…) e gere de novo |
+| Texto das páginas | a fonte (`PFC/*.md`, `README.md`…) e gere de novo |
 | Quais arquivos viram página, e com que nome | `PAGINAS` em `scripts/gera-docs.py` |
 | Página inicial | `homeHtml()` em `assets/js/app.js` |
-| Cores, fontes, espaçamentos | `assets/css/styles.css` (base) e `assets/css/mfo.css` (paleta e layout) |
+| Cores, fontes, espaçamentos | `assets/css/styles.css` (base) e `assets/css/pfc.css` (paleta e layout) |
 | Logo / favicon | `assets/img/logo.svg`, `assets/img/favicon.svg` |
 
 ### Adicionar uma página
@@ -81,7 +81,7 @@ toda página é servida de `content/`.
 3. Gere: `python3 scripts/gera-docs.py`.
 
 Links internos entre páginas usam o formato de rota `#/minha-pagina`; um documento da
-MFO alcançado por link vira página automaticamente, com o nome derivado do caminho.
+PFC alcançado por link vira página automaticamente, com o nome derivado do caminho.
 
 ### Renomear uma página
 

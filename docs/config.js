@@ -1,5 +1,5 @@
 /* =========================================================================
-   Configuração do site — MFO (Medição Funcional Objetiva)
+   Configuração do site — PFC (Pontos de Função Caixa)
    -------------------------------------------------------------------------
    Único arquivo a editar para adaptar o site: nome, repositório e árvore de
    navegação. Cada item aponta para um arquivo Markdown em /content (sem a
@@ -8,19 +8,26 @@
    ========================================================================= */
 window.DOKU_CONFIG = {
   /* Identidade do site */
-  name: "MFO · Medição Funcional Objetiva",
-  fullName: "MFO — Medição Funcional Objetiva",
+  name: "PFC · Pontos de Função Caixa",
+  fullName: "PFC — Pontos de Função Caixa",
   repo: "https://github.com/andromarcio/metricas-software",
   branch: "main",
   defaultPage: "introducao",
 
-  /* Versão da MFO, no selo ao lado do nome (toda página) e na página inicial.
+  /* Versão do PFC, no selo ao lado do nome (toda página) e na página inicial.
      Espelha o VERSION da raiz, que o site, servido só de docs/, não alcança.
      Troque os dois no mesmo commit: `python3 scripts/gera-docs.py --check` acusa a divergência. */
   version: "1.0",
 
   /* Páginas renomeadas: o endereço antigo (link, favorito) leva ao novo. */
-  redirects: {},
+  redirects: {
+    "mfo-exemplos-aval-concordancia-adm-usr": "pfc-exemplos-aval-concordancia-adm-usr",
+    "mfo-exemplos-aval-impacto-aval-1.23.1-para-5.0.0": "pfc-exemplos-aval-impacto-aval-1.23.1-para-5.0.0",
+    "mfo-exemplos-aval-mudanca-aval-1.23.1-para-5.0.0": "pfc-exemplos-aval-mudanca-aval-1.23.1-para-5.0.0",
+    "mfo-exemplos-aval-perfis-calibrados": "pfc-exemplos-aval-perfis-calibrados",
+    "mfo-exemplos-aval-pfo-vs-pf-aval-5.0.0": "pfc-exemplos-aval-pfc-vs-pf-aval-5.0.0",
+    "mfo-exemplos-aval-relatorio-aval-5.0.0": "pfc-exemplos-aval-relatorio-aval-5.0.0",
+  },
 
   /* Ícones opcionais por item (chaves definidas em assets/js/app.js → ICONS) */
   nav: [
@@ -33,7 +40,7 @@ window.DOKU_CONFIG = {
       ],
     },
     {
-      section: "A especificação MFO 1.0",
+      section: "A especificação PFC 1.0",
       items: [
         { title: "1. Motivação e princípios", page: "motivacao-e-principios", icon: "rocket" },
         { title: "2. Modelo funcional canônico", page: "modelo-funcional-canonico", icon: "layers" },

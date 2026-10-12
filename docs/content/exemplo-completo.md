@@ -1,13 +1,13 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/06-exemplo-completo.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/06-exemplo-completo.md. Não edite: edite a fonte e gere de novo. -->
 # 6. Exemplo completo — sistema de biblioteca
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 Este capítulo percorre o protocolo inteiro em um sistema pequeno: requisitos, modelo,
 relatório gerado pela ferramenta, medição de uma mudança, segunda medição com índice de
 concordância e, ao final, o mesmo sistema contado em APF e em COSMIC para situar o
-resultado. Os modelos estão em [`exemplos/`](https://github.com/andromarcio/metricas-software/tree/main/MFO/exemplos) e todos os números abaixo foram
-produzidos por `ferramentas/mfo.py`.
+resultado. Os modelos estão em [`exemplos/`](https://github.com/andromarcio/metricas-software/tree/main/PFC/exemplos) e todos os números abaixo foram
+produzidos por `ferramentas/pfc.py`.
 
 ## 6.1 Requisitos funcionais (fonte `REQ`)
 
@@ -70,10 +70,10 @@ Decisões de fronteira registradas antes da extração:
 
 ## 6.3 Modelo Funcional Canônico (passo 2)
 
-Modelo completo: [`exemplos/biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v1.mfc.json).
+Modelo completo: [`exemplos/biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v1.mfc.json).
 Abaixo, os movimentos de cada processo com a regra que os sustenta.
 
-**P01 Cadastrar livro** (UF1) — 4 PFO
+**P01 Cadastrar livro** (UF1) — 4 PFC
 
 | Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
@@ -82,10 +82,10 @@ Abaixo, os movimentos de cada processo com a regra que os sustenta.
 | W | Livro | isbn, titulo, autor, ano, quantidade | RF-01 · RI-08 a |
 | D | ISBN_DUPLICADO | — | RF-01 "ISBN único": recusa com mensagem própria · RI-12 |
 
-**P02 Alterar livro** (UF1) — 4 PFO: E Livro · R Livro · W Livro · D NAO_ENCONTRADO. A exibição
+**P02 Alterar livro** (UF1) — 4 PFC: E Livro · R Livro · W Livro · D NAO_ENCONTRADO. A exibição
 dos dados atuais antes da alteração pertence a P04 (tabela de casos frequentes).
 
-**P03 Excluir livro** (UF1) — 4 PFO
+**P03 Excluir livro** (UF1) — 4 PFC
 
 | Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
@@ -96,12 +96,12 @@ dos dados atuais antes da alteração pertence a P04 (tabela de casos frequentes
 
 Não há R de Livro: a existência do livro é verificada implicitamente pela exclusão (RI-07 b).
 
-**P04 Consultar livros** (UF1) — 4 PFO: E Livro (filtros titulo, autor) · R Livro · X Livro ·
+**P04 Consultar livros** (UF1) — 4 PFC: E Livro (filtros titulo, autor) · R Livro · X Livro ·
 D VAZIO ("nenhum encontrado" é mensagem distinta do resultado). O CSV é formato, não processo.
 
-**P05 Cadastrar leitor** (UF1) — 4 PFO: E Leitor · R Leitor (CPF único) · W Leitor · D CPF_DUPLICADO.
+**P05 Cadastrar leitor** (UF1) — 4 PFC: E Leitor · R Leitor (CPF único) · W Leitor · D CPF_DUPLICADO.
 
-**P06 Registrar empréstimo** (UF1) — 10 PFO
+**P06 Registrar empréstimo** (UF1) — 10 PFC
 
 | Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
@@ -116,11 +116,11 @@ D VAZIO ("nenhum encontrado" é mensagem distinta do resultado). O CSV é format
 | D | SEM_EXEMPLAR | — | RF-06 "exemplar disponível" |
 | D | LIMITE | — | RF-06 "menos de três empréstimos ativos" |
 
-**P07 Registrar devolução** (UF1) — 6 PFO: E Emprestimo (id, data_devolucao) · R Emprestimo ·
+**P07 Registrar devolução** (UF1) — 6 PFC: E Emprestimo (id, data_devolucao) · R Emprestimo ·
 R ParametroMulta (valor_dia) · W Emprestimo (data_devolucao, multa, status) · X Emprestimo
 (multa) · D NAO_ATIVO ("empréstimo não encontrado ou já devolvido").
 
-**P08 Relatório de atrasos** (UF1) — 9 PFO
+**P08 Relatório de atrasos** (UF1) — 9 PFC
 
 | Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
@@ -134,7 +134,7 @@ R ParametroMulta (valor_dia) · W Emprestimo (data_devolucao, multa, status) · 
 | X | Livro | titulo | RF-08 · RI-06 a |
 | D | VAZIO | — | RF-08 "não há atrasos" · RI-12 |
 
-**P09 Notificar atrasos** (UF2 relógio) — 9 PFO, sem desfecho: o status de envio é atributo gravado em Notificacao, não mensagem a um usuário funcional
+**P09 Notificar atrasos** (UF2 relógio) — 9 PFC, sem desfecho: o status de envio é atributo gravado em Notificacao, não mensagem a um usuário funcional
 
 | Tipo | Entidade ou desfecho | Atributos | Evidência e regra |
 |---|---|---|---|
@@ -150,35 +150,35 @@ R ParametroMulta (valor_dia) · W Emprestimo (data_devolucao, multa, status) · 
 
 ## 6.4 Relatório gerado (passo 3)
 
-Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca-v1.mfc.json`:
+Saída literal de `python3 PFC/ferramentas/pfc.py contar PFC/exemplos/biblioteca-v1.mfc.json`:
 
 ```
-# Relatório MFO — Biblioteca 1.0
+# Relatório PFC — Biblioteca 1.0
 
-**Rótulo:** 54 PFO · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue
+**Rótulo:** 54 PFC · PFC 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 1.0, Requisitos RF-01 a RF-09 (acervo, leitores, empréstimos, devoluções, atrasos), conciliados com o código entregue
 
-**Produção:** M0 humano 54 PFO (100%) · aceitos 54/54
+**Produção:** M0 humano 54 PFC (100%) · aceitos 54/54
 
-**Propósito:** Dimensionar o sistema para contratação e servir de exemplo de referência da MFO
+**Propósito:** Dimensionar o sistema para contratação e servir de exemplo de referência do PFC
 
 ## Perfil funcional
 
 | Indicador | Valor |
 |---|---|
-| PFO | **54** |
+| PFC | **54** |
 | NP (processos) | 9 |
 | NE (entidades) | 5 |
 | E / X / R / W / D | 10 / 9 / 17 / 7 / 11 |
-| Densidade (PFO/NP) | 6,00 |
-| Persistência ((R+W)/PFO) | 0,44 |
-| Interface ((E+X+D)/PFO) | 0,56 |
+| Densidade (PFC/NP) | 6,00 |
+| Persistência ((R+W)/PFC) | 0,44 |
+| Interface ((E+X+D)/PFC) | 0,56 |
 | Entidades por processo (NE/NP) | 0,56 |
 | Evidência | 100% (0 inferidos) |
 | Derivação (processos com atributo calculado) | 4 de 9 |
 
 ## Processos
 
-| ID | Processo | E | X | R | W | D | PFO | Deriv. | Evid. | Modo | Aceite |
+| ID | Processo | E | X | R | W | D | PFC | Deriv. | Evid. | Modo | Aceite |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | P01 | Cadastrar livro | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
 | P02 | Alterar livro | 1 | 0 | 1 | 1 | 1 | **4** | não | 4/4 | M0 | aceito |
@@ -195,7 +195,7 @@ Saída literal de `python3 MFO/ferramentas/mfo.py contar MFO/exemplos/biblioteca
 O relatório segue com a seção **Produção** (modo de produção, aceite e indicadores de
 alavancagem e custo), descrita no capítulo 9.
 
-Leitura do perfil: dos 54 PFO, 43 são movimentos e 11 são desfechos, um por recusa ou
+Leitura do perfil: dos 54 PFC, 43 são movimentos e 11 são desfechos, um por recusa ou
 mensagem distinta. Só Registrar empréstimo tem quatro, e Notificar atrasos não tem
 nenhum. A densidade (6,00) é alta para um sistema de cadastro, puxada por esse processo e
 pelos dois de atraso, que cruzam quatro entidades. A derivação informativa aponta
@@ -213,19 +213,19 @@ A versão 2.0 traz três alterações de requisitos:
 - **RF-10 (novo) Consultar leitor:** o bibliotecário informa o CPF; o sistema apresenta
   nome, CPF, e-mail, telefone e situação, ou informa que o leitor não foi encontrado.
 
-No modelo da v2 ([`exemplos/biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v2.mfc.json)),
+No modelo da v2 ([`exemplos/biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v2.mfc.json)),
 os movimentos E e W de Emprestimo em P07 ganharam atributos e foram marcados
 `"alterado": true`, e P07 ganhou o desfecho da isenção sem justificativa; em P08, a R de
 ParametroMulta foi removida e a X de Emprestimo perdeu um atributo (marcada alterada); P10
 foi incluído, com o desfecho de leitor não encontrado. Saída de
-`mfo.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json`:
+`pfc.py mudanca biblioteca-v1.mfc.json biblioteca-v2.mfc.json`:
 
 ```
-**Rótulo:** 9 PFO de mudança (5 incluídos, 3 alterados, 1 excluídos) · MFO 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
+**Rótulo:** 9 PFC de mudança (5 incluídos, 3 alterados, 1 excluídos) · PFC 1.0 · nível RC · evidência 100% · agente: ia (assistente de medição (exemplo)) + revisão humana · escopo: Biblioteca 2.0, Requisitos RF-01 a RF-10, com RF-07 e RF-08 revisados, conciliados com o código entregue
 
-**Produção da mudança:** M2 IA dirigida 5 PFO (56%) · M3 IA autônoma 4 PFO (44%) · aceitos 9/9
+**Produção da mudança:** M2 IA dirigida 5 PFC (56%) · M3 IA autônoma 4 PFC (44%) · aceitos 9/9
 
-Tamanho anterior: 54 PFO · tamanho posterior: 58 PFO · níveis: RC → RC
+Tamanho anterior: 54 PFC · tamanho posterior: 58 PFC · níveis: RC → RC
 
 ## Incluídos (5)
 
@@ -246,22 +246,22 @@ Tamanho anterior: 54 PFO · tamanho posterior: 58 PFO · níveis: RC → RC
 - P08 · R ParametroMulta
 ```
 
-A mudança mede 9 PFO embora o software tenha crescido apenas 4 PFO (54 para 58): o
-tamanho da mudança inclui o que foi alterado e removido, exatamente como PF e PFC de
+A mudança mede 9 PFC embora o software tenha crescido apenas 4 PFC (54 para 58): o
+tamanho da mudança inclui o que foi alterado e removido, exatamente como PF e CFP de
 melhoria. A mesma mudança, vista pelo diff do código, está na seção 8.5; sua composição
 por modo de produção e os indicadores de custo, na seção 9.9.
 
 ## 6.6 Segunda medição e concordância (passos 4 e 5)
 
 Um segundo medidor, sem acesso ao primeiro modelo e com o mesmo glossário, produziu
-[`exemplos/biblioteca-v1-medicao-B.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v1-medicao-B.mfc.json)
+[`exemplos/biblioteca-v1-medicao-B.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v1-medicao-B.mfc.json)
 a partir dos requisitos (nível R). Comparar uma medição de nível R com a de nível RC do
-mesmo software é legítimo (seção 3.6). Saída de `mfo.py concordancia`:
+mesmo software é legítimo (seção 3.6). Saída de `pfc.py concordancia`:
 
 ```
 **Índice de concordância:** 0,825 (47 chaves comuns de 57)
 
-PFO em A: 54 · PFO em B: 50
+PFC em A: 54 · PFC em B: 50
 
 Leitura: divergência localizada: revisar os processos divergentes e o glossário de entidades
 
@@ -299,7 +299,7 @@ organização, as cinco linhas acima entram na base de exemplos que realimenta o
 
 ## 6.7 O mesmo sistema em APF e em COSMIC (ilustrativo)
 
-As contagens abaixo foram feitas pelas regras de cada método para situar o PFO. São
+As contagens abaixo foram feitas pelas regras de cada método para situar o PFC. São
 ilustrativas: contagens oficiais exigem medidores certificados, e alguns itens admitem
 leituras diferentes, indicadas nas observações.
 
@@ -327,11 +327,11 @@ Observações: o parâmetro de multa foi tratado como dados de código (CPM Part
 Guia STI 4.15); se fosse ALI, somaria 7 PF e elevaria a complexidade de duas transações.
 "Notificar atrasos" foi classificado como SE por enviar dados derivados para fora da
 fronteira e manter um ALI. A APF chega a 64 PF porque conta os quatro arquivos lógicos
-diretamente (28 PF, 44% do total), enquanto na MFO os dados só pesam quando movimentados.
+diretamente (28 PF, 44% do total), enquanto no PFC os dados só pesam quando movimentados.
 
 ### COSMIC 3.0.1
 
-| Processo funcional | E | X | R | W | PFC |
+| Processo funcional | E | X | R | W | CFP |
 |---|---|---|---|---|---|
 | Cadastrar livro | 1 | 1 | 1 | 1 | 4 |
 | Alterar livro | 1 | 1 | 1 | 1 | 4 |
@@ -342,15 +342,15 @@ diretamente (28 PF, 44% do total), enquanto na MFO os dados só pesam quando mov
 | Registrar devolução | 1 | 2 | 2 | 1 | 6 |
 | Relatório de atrasos | 1 | 2 a 4 | 4 | 0 | 7 a 9 |
 | Notificar atrasos | 2 | 1 a 3 | 3 | 1 | 7 a 9 |
-| **Total** | | | | | **47 a 51 PFC** |
+| **Total** | | | | | **47 a 51 CFP** |
 
 Observação: a faixa vem de um único ponto de julgamento, a identificação dos grupos de
 dados nas saídas compostas (a linha do relatório e o e-mail descrevem um objeto de
 interesse "empréstimo em atraso" ou três objetos?). O manual COSMIC admite as duas
-leituras conforme os RFU. A MFO fixa a leitura por entidade (RI-06 a) e por isso seus
-movimentos dão sempre 43. Os 11 desfechos que completam os 54 PFO são diferença de
+leituras conforme os RFU. O PFC fixa a leitura por entidade (RI-06 a) e por isso seus
+movimentos dão sempre 43. Os 11 desfechos que completam os 54 PFC são diferença de
 primitivo, não de julgamento: o COSMIC comprime todas as mensagens de um processo numa
-Exit só (8 no total aqui), e a MFO conta uma por recusa ou mensagem distinta. A segunda
+Exit só (8 no total aqui), e o PFC conta uma por recusa ou mensagem distinta. A segunda
 medição da seção 6.6 mostrou a divergência de grupos de dados sendo detectada e fechada
 por regra.
 
@@ -359,5 +359,5 @@ por regra.
 | Método | Tamanho | Fonte de variação entre medidores |
 |---|---|---|
 | APF | 64 PF | classificação de dados de código, SE × CE, faixas de complexidade |
-| COSMIC | 47 a 51 PFC | grupos de dados em saídas compostas |
-| MFO | 54 PFO | nenhuma após as regras; divergências restantes medidas pelo índice de concordância |
+| COSMIC | 47 a 51 CFP | grupos de dados em saídas compostas |
+| PFC | 54 PFC | nenhuma após as regras; divergências restantes medidas pelo índice de concordância |
