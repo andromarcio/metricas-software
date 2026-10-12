@@ -46,10 +46,14 @@ python3 -m http.server -d docs 8080
 
 ## Publicar no GitHub Pages
 
-1. Em **Settings → Pages → Build and deployment → Source**, selecione **GitHub Actions**.
-2. Faça merge na branch `main`. O workflow
-   [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) publica a pasta `docs/`.
-3. A URL aparece ao final do job (algo como `https://<usuário>.github.io/metricas-software/`).
+1. Faça merge na branch `main`. O workflow
+   [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) habilita o Pages na
+   primeira execução (`enablement: true`) e publica a pasta `docs/`.
+2. A URL aparece ao final do job (algo como `https://<usuário>.github.io/metricas-software/`).
+3. Se a etapa **Configure Pages** falhar com "Not Found", o plano do repositório não
+   permite Pages em repositório privado: habilite em **Settings → Pages → Build and
+   deployment → Source: GitHub Actions** (ou torne o repositório público) e rode o
+   workflow de novo em **Actions → Deploy documentation to GitHub Pages → Run workflow**.
 
 > Alternativa sem Actions: **Settings → Pages → Source: Deploy from a branch**, branch
 > `main`, pasta `/docs`. Nesse modo o `--check` não roda; rode-o antes do merge.
