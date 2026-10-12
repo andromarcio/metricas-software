@@ -1,4 +1,4 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/exemplos/cartao/autorizacao-requisitos.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/exemplos/cartao/autorizacao-requisitos.md. Não edite: edite a fonte e gere de novo. -->
 # Autorização de compra com cartão — requisitos ilustrativos
 
 Exemplo hipotético, simplificado, de um autorizador de compras com cartão, usado no

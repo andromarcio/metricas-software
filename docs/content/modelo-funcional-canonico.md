@@ -1,7 +1,7 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/02-modelo-funcional-canonico.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/02-modelo-funcional-canonico.md. Não edite: edite a fonte e gere de novo. -->
 # 2. Modelo Funcional Canônico (MFC)
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 O Modelo Funcional Canônico é a representação, em formato estruturado, do que o software
 faz para seus usuários funcionais. É o único insumo da contagem: tudo que não está no
@@ -268,8 +268,8 @@ movimento é a tripla (processo, tipo, entidade).
 ## 2.7 Desfechos
 
 Um processo não devolve só dados: devolve um **resultado**, e um processo que recusa por
-dez motivos diferentes faz mais pelo usuário funcional do que um que recusa por um. A
-MFO conta isso pelo que o sistema **emite de diferente**, nunca pela regra que o produz.
+dez motivos diferentes faz mais pelo usuário funcional do que um que recusa por um. O
+PFC conta isso pelo que o sistema **emite de diferente**, nunca pela regra que o produz.
 
 > **RI-12 — Desfecho**
 >
@@ -289,7 +289,7 @@ MFO conta isso pelo que o sistema **emite de diferente**, nunca pela regra que o
 >
 > d) Cada desfecho tem identificador (o código ou o nome da mensagem, único no processo),
 >    descrição e evidência (RI-11), e é registrado na lista `desfechos` do processo. Vale
->    1 PFO, como uma chave de movimento (RC-01).
+>    1 PFC, como uma chave de movimento (RC-01).
 
 O capítulo 12 mostra por que a unidade é o desfecho e não a regra, e o que acontece com
 um processo que esconde várias regras sob um código só.
@@ -311,12 +311,12 @@ um processo que esconde várias regras sob um código só.
 
 ## 2.9 Estrutura do modelo
 
-O modelo é um documento JSON validado pelo esquema [`schema/mfc.schema.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/schema/mfc.schema.json).
+O modelo é um documento JSON validado pelo esquema [`schema/mfc.schema.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/schema/mfc.schema.json).
 Campos marcados com * são obrigatórios.
 
 ```jsonc
 {
-  "mfo": "1.0",                                    // * versão do método
+  "pfc": "1.0",                                    // * versão do método
   "software": "Biblioteca",                        // * nome do software ou escopo
   "versao": "1.0",                                 //   versão do software medida
   "proposito": "Dimensionar para contratação",     // * RI-01a

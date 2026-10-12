@@ -1,7 +1,7 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/01-motivacao-e-principios.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/01-motivacao-e-principios.md. Não edite: edite a fonte e gere de novo. -->
 # 1. Motivação e princípios de projeto
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 ## 1.1 O problema
 
@@ -26,16 +26,16 @@ grandes de software:
    evidência, não há como validar automaticamente a contagem nem detectar funções
    inventadas ou omitidas.
 
-## 1.2 Objetivos da MFO
+## 1.2 Objetivos do PFC
 
-| Id | Objetivo | Como a MFO atende |
+| Id | Objetivo | Como o PFC atende |
 |---|---|---|
 | O1 | Objetividade | Regras de identificação escritas como testes sim/não (RI-xx), contagem por função determinística (RC-xx), validações automáticas (V-xx). |
 | O2 | Simplicidade | Sete conceitos, duas coisas contadas do mesmo jeito (o movimento e o desfecho), um peso (1), uma entidade reservada. O núcleo cabe em uma página. |
 | O3 | Independência de tecnologia | Mede o que o software faz para seus usuários funcionais; nunca como foi construído. Aplicável a sistemas de negócio, APIs, batch, embarcados, mobile e linhas de comando. |
 | O4 | Aplicabilidade por IA | O produto da interpretação é um modelo JSON com evidências; o número sai de uma ferramenta; a reprodutibilidade é medida por índice de concordância. |
 | O5 | Comparabilidade | Rótulo obrigatório (nível, evidência, agente, escopo) e perfil funcional (distribuição E/X/R/W, densidade) além do total. |
-| O6 | Produção com IA | O tamanho não depende de quem produziu; o modo de produção (humano a IA autônoma) e o aceite são registrados por processo com evidência, e o relatório traz PFO por modo, por hora humana e por custo (capítulo 9). |
+| O6 | Produção com IA | O tamanho não depende de quem produziu; o modo de produção (humano a IA autônoma) e o aceite são registrados por processo com evidência, e o relatório traz PFC por modo, por hora humana e por custo (capítulo 9). |
 | O7 | Estimativa | Estimar com o mesmo modelo e a mesma unidade: movimentos inferidos por perfis típicos calibráveis, níveis E0 a E2, intervalo obrigatório e convergência para a medição (capítulo 11). |
 
 ## 1.3 Princípios de projeto
@@ -47,7 +47,7 @@ no rótulo e tratados fora da métrica, como fazem APF e COSMIC.
 **P2 — Um peso só.** O tamanho é o número de coisas distintas que cruzam a fronteira ou o
 armazenamento: as movimentações de dados (princípio P-03 do COSMIC) e os desfechos
 distintos que o processo devolve. Não há tabelas de complexidade, pesos por tipo nem
-fator de ajuste: cada movimento e cada desfecho vale 1 PFO. Toda regra que precisaria de
+fator de ajuste: cada movimento e cada desfecho vale 1 PFC. Toda regra que precisaria de
 um "peso" é substituída por uma regra de identificação.
 
 **P3 — Interpretar e calcular são passos separados.** A interpretação produz o Modelo
@@ -71,15 +71,15 @@ resultado observável do processo, não uma propriedade declarada.
 **P7 — Comparar só o comparável.** Resultados carregam rótulo; só se comparam tamanhos
 do mesmo nível de medição (requisitos, código ou conciliado) com escopo declarado.
 
-**P8 — Neutralidade de produtor.** O PFO mede o produto. Pessoa, IA assistida, IA dirigida
+**P8 — Neutralidade de produtor.** O PFC mede o produto. Pessoa, IA assistida, IA dirigida
 ou IA autônoma produzem o mesmo tamanho para a mesma funcionalidade; o que varia, e é
 medido à parte, é esforço, custo, modo de produção e qualidade.
 
 ## 1.4 Comparação conceitual
 
-| Dimensão | APF (IFPUG CPM 4.3.1) | COSMIC 3.0.1 | MFO 1.0 |
+| Dimensão | APF (IFPUG CPM 4.3.1) | COSMIC 3.0.1 | PFC 1.0 |
 |---|---|---|---|
-| Unidade | PF | PFC | PFO |
+| Unidade | PF | CFP | PFC |
 | Primitivo contado | Funções de dados (ALI, AIE) e de transação (EE, SE, CE) | Movimentações de dados (E, X, R, W) | Movimentações de dados (E, X, R, W) e desfechos distintos (D) |
 | Peso | 3 a 15 por tabela de complexidade | 1 por movimentação | 1 por movimento ou desfecho |
 | Teto por função | Sim (máx. 7 por transação, 15 por dado) | Não | Não |
@@ -89,19 +89,23 @@ medido à parte, é esforço, custo, modo de produção e qualidade.
 | Saídas com várias entidades | Uma função; DER/ALR contam complexidade | Depende da identificação de grupos de dados | Uma X por entidade cujos atributos saem (RI-06) |
 | Mensagens de erro | DER de mensagem | Uma Exit por processo | Um desfecho por código ou mensagem distinto (RI-12) |
 | Vários canais da mesma função | Single ou multiple instance (escolha do medidor) | Geralmente um processo | Um processo (RI-04) |
-| Mudanças | PF incluído, alterado, excluído | PFC incluído, alterado, excluído | Diferença de chaves entre dois modelos |
+| Mudanças | PF incluído, alterado, excluído | CFP incluído, alterado, excluído | Diferença de chaves entre dois modelos |
 | Verificação automática | Não prevista | Não prevista | Validações V-01 a V-11, auditoria de evidências e índice de concordância |
 | Medição a partir do código | Não prevista; exige requisitos | Admite derivar RFU do software instalado | Nível C com evidência `arquivo#trecho` verificável por máquina; diff delimita e prova a mudança (capítulo 8) |
 | Produtor do software | Não distingue | Não distingue | Neutro no tamanho; modo de produção e aceite por processo (capítulo 9) |
 | Estimativa antecipada | Contagem estimativa e indicativa (NESMA), exige funções já classificadas | Dimensionamento aproximado por tamanhos médios | Mesmo modelo com movimentos inferidos; níveis E0 a E2 com intervalo; calibração por modelos medidos (capítulo 11) |
 | Complexidade de decisão | Três faixas por DER e ALR, com teto | Não medida | Dentro do tamanho, pelo que a decisão devolve: um desfecho por código ou mensagem distinto, com evidência por item (capítulo 12) |
 
-## 1.5 O que a MFO não mede
+A unidade do COSMIC aparece na tabela como CFP, o símbolo do manual original. A tradução
+brasileira do manual a abrevia PFC, sigla que esta especificação reserva ao Ponto de
+Função Caixa.
 
-- Esforço, custo, prazo ou produtividade. O PFO é tamanho; esses indicadores derivam dele
+## 1.5 O que o PFC não mede
+
+- Esforço, custo, prazo ou produtividade. O PFC é tamanho; esses indicadores derivam dele
   quando combinados com dados da organização (seção 5.3).
 - Requisitos não funcionais e qualidade do código.
-- Complexidade algorítmica. Como o COSMIC, a MFO assume que a manipulação de dados está
+- Complexidade algorítmica. Como o COSMIC, o PFC assume que a manipulação de dados está
   embutida nos movimentos. Da decisão entra no tamanho só o que ela produz de visível: um
   desfecho por código ou mensagem distinto (RI-12, capítulo 12); regras que não mudam o
   que o processo devolve não contam.

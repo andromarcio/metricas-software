@@ -1,4 +1,4 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/exemplos/codigo-biblioteca/README.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/exemplos/codigo-biblioteca/README.md. Não edite: edite a fonte e gere de novo. -->
 # Código de exemplo — sistema de biblioteca (v1 e v2)
 
 Implementação mínima, em Python sem dependências, dos requisitos do capítulo 6
@@ -9,15 +9,15 @@ demonstrar a medição a partir do código e do diff (capítulo 8):
   disparadores (rotas e job diário);
 - `repositorio.py` concentra os movimentos R e W; `email_cliente.py` é o usuário
   funcional externo (X ao enviar, E no status devolvido);
-- as evidências do modelo [`../biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v2.mfc.json)
+- as evidências do modelo [`../biblioteca-v2.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v2.mfc.json)
   apontam para estes arquivos no formato `COD:v2/biblioteca/<arquivo>#<trecho>` e são
-  verificadas por `mfo.py auditar`.
+  verificadas por `pfc.py auditar`.
 
 Teste rápido (a partir da raiz do repositório):
 
 ```bash
 python3 -I -c "
-import sys; sys.path.insert(0, 'MFO/exemplos/codigo-biblioteca/v2')
+import sys; sys.path.insert(0, 'PFC/exemplos/codigo-biblioteca/v2')
 from datetime import date
 from biblioteca import api, repositorio
 repositorio.conectar()

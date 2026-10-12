@@ -1,7 +1,7 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/03-regras-de-contagem.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/03-regras-de-contagem.md. Não edite: edite a fonte e gere de novo. -->
 # 3. Regras de contagem, validação e mudança
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 A contagem é uma função determinística sobre um Modelo Funcional Canônico válido. Este
 capítulo define a função (RC), as validações que o modelo deve satisfazer antes de ser
@@ -11,22 +11,22 @@ contado (V) e as regras para mudanças, agregação, derivação informativa e r
 
 > **RC-01 — Tamanho de um processo**
 >
-> PFO(processo) = número de chaves distintas (tipo, entidade) entre os movimentos do
+> PFC(processo) = número de chaves distintas (tipo, entidade) entre os movimentos do
 > processo **mais** o número de desfechos distintos além do principal (RI-12). Cada chave
-> e cada desfecho vale 1 PFO, sem peso por tipo, por entidade, por quantidade de atributos
+> e cada desfecho vale 1 PFC, sem peso por tipo, por entidade, por quantidade de atributos
 > ou por dificuldade da regra que produz o desfecho.
 
 > **RC-02 — Tamanho do software**
 >
-> PFO(software) = Σ PFO(processo) para todos os processos do escopo.
+> PFC(software) = Σ PFC(processo) para todos os processos do escopo.
 >
 > O resultado é um inteiro, sem limite superior, e é aditivo: o tamanho de dois escopos
 > disjuntos na mesma camada é a soma dos tamanhos, observada a RC-04.
 
 Consequências diretas:
 
-- O menor processo possível tem 2 PFO: uma E e uma X, uma W ou um desfecho.
-- Um processo que recusa por três códigos distintos tem 3 PFO a mais do que o mesmo
+- O menor processo possível tem 2 PFC: uma E e uma X, uma W ou um desfecho.
+- Um processo que recusa por três códigos distintos tem 3 PFC a mais do que o mesmo
   processo sem recusa; dez validações sob o mesmo código valem 1.
 - Um processo que lê e grava a mesma entidade tem duas chaves (R e W) para ela.
 - Repetições de uma mesma chave no modelo são erro de validação (V-06), não dedução
@@ -39,7 +39,7 @@ não impedem a contagem, mas são listados no relatório.
 
 | Id | Nível | Regra verificada |
 |---|---|---|
-| V-01 | erro | Identificadores de usuários funcionais, entidades e processos são únicos; `mfo`, `software`, `proposito`, `escopo`, `nivel`, `agente`, `fontes`, `usuarios_funcionais`, `entidades` e `processos` estão presentes; `nivel` é `R`, `C` ou `RC`. |
+| V-01 | erro | Identificadores de usuários funcionais, entidades e processos são únicos; `pfc`, `software`, `proposito`, `escopo`, `nivel`, `agente`, `fontes`, `usuarios_funcionais`, `entidades` e `processos` estão presentes; `nivel` é `R`, `C` ou `RC`. |
 | V-02 | erro | Todo processo tem pelo menos um movimento E (RI-04 T1). |
 | V-03 | erro | Todo processo tem pelo menos um movimento X ou W, ou um desfecho (RI-04 T2). |
 | V-04 | erro | Todo movimento referencia uma entidade declarada ou a reservada `DISPARO`; toda entidade declarada é referenciada por pelo menos um movimento. |
@@ -51,7 +51,7 @@ não impedem a contagem, mas são listados no relatório.
 | V-10 | erro | Quando declarados: `producao.modo` é M0, M1, M2 ou M3 e `aceite.status` é aceito, pendente ou rejeitado, ambos com evidência ou inferência justificada; o bloco `producao` do modelo tem `abrange` (software ou mudanca) e valores numéricos não negativos (capítulo 9). |
 | V-11 | erro | Quando declarados: `desfechos` é uma lista e cada item tem `id` único no processo e evidência ou inferência justificada (RI-12, RC-05). |
 
-A ferramenta de referência (`ferramentas/mfo.py validar`) implementa todas as validações.
+A ferramenta de referência (`ferramentas/pfc.py validar`) implementa todas as validações.
 O esquema JSON cobre a parte estrutural de V-01, V-04, V-05, V-10 e V-11; as demais são
 semânticas. O campo `agente.tipo` admite `humano`, `ia` e `ferramenta` (extrator
 determinístico, como o do capítulo 10).
@@ -70,7 +70,7 @@ determinístico, como o do capítulo 10).
 > - **alterados** = chaves presentes em A e em B cujo movimento em B está marcado com
 >   `"alterado": true`.
 >
-> PFO(mudança) = incluídos + alterados + excluídos.
+> PFC(mudança) = incluídos + alterados + excluídos.
 >
 > As chaves de um modelo são as de movimento (processo, tipo, entidade) e as de desfecho
 > (processo, D, identificador). Um movimento é marcado como alterado quando mudou o
@@ -81,13 +81,13 @@ determinístico, como o do capítulo 10).
 > tratadas fora da métrica, por acordo contratual, como faz o Guia STI para manutenção
 > corretiva e adaptações não funcionais.
 
-Marcação automática: em medição de nível C, `mfo.py impacto` aponta os movimentos cuja
+Marcação automática: em medição de nível C, `pfc.py impacto` aponta os movimentos cuja
 evidência está em trecho modificado entre as duas versões (candidatos). A confirmação
 segue a RD-01 do capítulo 8, pois nem toda modificação de código muda o movimento.
 
 O tamanho de uma mudança também é um inteiro sem peso: incluir, alterar ou excluir um
-movimento custa 1 PFO. Organizações que precisem remunerar esses três casos de forma
-diferente devem fazê-lo por fator contratual aplicado **sobre** o PFO, e nunca alterar a
+movimento custa 1 PFC. Organizações que precisem remunerar esses três casos de forma
+diferente devem fazê-lo por fator contratual aplicado **sobre** o PFC, e nunca alterar a
 contagem.
 
 ## 3.4 Agregação e componentes
@@ -112,13 +112,13 @@ contagem.
 > **RC-05 — Desfechos no tamanho**
 >
 > a) Os desfechos identificados pela RI-12 (um por código ou mensagem distinto, além do
->    principal) entram na contagem como as chaves de movimento: 1 PFO cada, na RC-01, na
+>    principal) entram na contagem como as chaves de movimento: 1 PFC cada, na RC-01, na
 >    mudança (RC-03) e na concordância (seção 4.4). Cada um tem evidência (V-07, V-11).
 >
 > b) Não há segunda dimensão, suplemento nem peso por regra: da decisão entra no número só
 >    o que ela devolve de visível. Regras sem desfecho próprio não contam, e dez
->    validações sob um mesmo código valem um desfecho. O capítulo 12 registra por que a
->    MFO escolheu assim.
+>    validações sob um mesmo código valem um desfecho. O capítulo 12 registra por que o
+>    PFC escolheu assim.
 
 O relatório mantém, a título informativo, a derivação por atributos (processo cujas
 saídas ou gravações têm atributo ausente das entradas e leituras), que corresponde ao
@@ -130,11 +130,11 @@ critério "dados derivados" da APF; ela não entra no tamanho.
 >
 > Todo resultado é apresentado com o rótulo, nesta ordem:
 >
-> `<n> PFO · MFO <versão do método> · nível <R|C|RC> · evidência <p>% · agente: <tipo e nome; revisão humana sim/não> · escopo: <software, versão, escopo>`
+> `<n> PFC · PFC <versão do método> · nível <R|C|RC> · evidência <p>% · agente: <tipo e nome; revisão humana sim/não> · escopo: <software, versão, escopo>`
 >
 > em que `evidência` é a porcentagem de movimentos e desfechos com pelo menos uma
-> evidência (não inferidos). Mudanças usam a forma `<n> PFO de mudança (<i> incluídos, <a> alterados,
-> <e> excluídos)` seguida do mesmo rótulo. Estimativas usam `≈ <n> PFO (estimativa
+> evidência (não inferidos). Mudanças usam a forma `<n> PFC de mudança (<i> incluídos, <a> alterados,
+> <e> excluídos)` seguida do mesmo rótulo. Estimativas usam `≈ <n> PFC (estimativa
 > <E0|E1|E2>, <mín> a <máx>)` (capítulo 11).
 
 Níveis de medição:

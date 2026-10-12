@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#005CA9" />
-    <title>MFO — Medição Funcional Objetiva</title>
+    <title>PFC — Pontos de Função Caixa</title>
     <meta
       name="description"
-      content="MFO — Medição Funcional Objetiva: métrica de tamanho funcional de software objetiva, independente de tecnologia e aplicável por IA. Unidade: PFO."
+      content="PFC — Pontos de Função Caixa: métrica de tamanho funcional de software objetiva, independente de tecnologia e aplicável por IA."
     />
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
 
@@ -35,11 +35,11 @@
     <script>
       var styleVersion = Date.now();
       document.write('<link rel="stylesheet" href="assets/css/styles.css?v=' + styleVersion + '" />');
-      document.write('<link rel="stylesheet" href="assets/css/mfo.css?v=' + styleVersion + '" />');
+      document.write('<link rel="stylesheet" href="assets/css/pfc.css?v=' + styleVersion + '" />');
     </script>
     <noscript>
       <link rel="stylesheet" href="assets/css/styles.css" />
-      <link rel="stylesheet" href="assets/css/mfo.css" />
+      <link rel="stylesheet" href="assets/css/pfc.css" />
     </noscript>
 
     <!-- Set theme before paint to avoid flash -->
@@ -47,7 +47,7 @@
       (function () {
         try {
           /* padrão: claro (Papel); escuro (Planta) por alternância explícita */
-          var t = localStorage.getItem("mfo-theme") || "light";
+          var t = localStorage.getItem("pfc-theme") || "light";
           var dark =
             t === "dark" ||
             (t === "system" &&
@@ -70,7 +70,7 @@
 
         <a class="brand" href="#/" aria-label="Início">
           <img class="brand__logo" src="assets/img/logo.svg" alt="" width="34" height="34" />
-          <span class="brand__name" id="brandName">MFO</span>
+          <span class="brand__name" id="brandName">PFC</span>
         </a>
 
         <nav class="breadcrumb" id="breadcrumb" aria-label="Trilha"></nav>
@@ -81,7 +81,7 @@
             id="brandVersion"
             href="#/introducao#estado-da-especificacao"
             aria-live="polite"
-            aria-label="Versão atual da MFO"
+            aria-label="Versão atual do PFC"
           >v1.0</a>
           <div class="theme-switch" role="group" aria-label="Tema">
             <button data-theme-set="system" title="Sistema" aria-label="Tema do sistema">

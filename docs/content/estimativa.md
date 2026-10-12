@@ -1,10 +1,10 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/11-estimativa.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/11-estimativa.md. Não edite: edite a fonte e gere de novo. -->
 # 11. Estimativa
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 Medir exige artefato: requisitos, código ou sistema. Estimar é dizer quanto o software vai
-ter antes de o artefato existir, para orçar, contratar e planejar. A MFO trata os dois com
+ter antes de o artefato existir, para orçar, contratar e planejar. O PFC trata os dois com
 o **mesmo modelo e a mesma unidade**: uma estimativa é um modelo canônico cujos movimentos
 foram **inferidos** por perfis típicos em vez de extraídos com evidência. O grau de
 evidência do rótulo diz quanto do número ainda é estimativa, e o número converge para a
@@ -28,13 +28,13 @@ evidenciados. Não há um segundo método nem uma segunda unidade.
 >
 > c) Todo movimento e desfecho estimado leva `inferido: true` com a justificativa "perfil típico". O
 >    modelo passa pelas mesmas validações de um modelo medido e é contado pela mesma
->    função. O rótulo muda: `≈ n PFO (estimativa Ex, mín a máx)`.
+>    função. O rótulo muda: `≈ n PFC (estimativa Ex, mín a máx)`.
 
 > **RE-02 — Calibração local**
 >
-> Os perfis padrão servem para começar. Cada modelo medido é uma observação: PFO por
-> processo, por tipo. `mfo.py perfis` consolida essas observações (mediana, quartis) e
-> `mfo.py estimar --perfis` as usa no lugar dos padrões. A base de calibração é registrada
+> Os perfis padrão servem para começar. Cada modelo medido é uma observação: PFC por
+> processo, por tipo. `pfc.py perfis` consolida essas observações (mediana, quartis) e
+> `pfc.py estimar --perfis` as usa no lugar dos padrões. A base de calibração é registrada
 > na estimativa. Perfis de outro domínio ou de outra organização não substituem os
 > próprios; servem só até existirem medições locais.
 
@@ -48,8 +48,8 @@ evidenciados. Não há um segundo método nem uma segunda unidade.
 > **RE-04 — De tamanho a esforço e custo**
 >
 > A estimativa de tamanho é neutra quanto ao produtor (P8). Esforço e custo saem dela pela
-> alavancagem e pelo custo por PFO **do modo de produção previsto** (capítulo 9): o mesmo
-> escopo estimado em 120 PFO gera horas e preço diferentes se será produzido em M0 ou em
+> alavancagem e pelo custo por PFC **do modo de produção previsto** (capítulo 9): o mesmo
+> escopo estimado em 120 PFC gera horas e preço diferentes se será produzido em M0 ou em
 > M2, e o contrato deve dizer qual.
 
 ## 11.2 Níveis
@@ -60,7 +60,7 @@ evidenciados. Não há um segundo método nem uma segunda unidade.
 | **E1 estimado** | lista de processos nomeados (backlog, histórias, menu), com tipo e entidades tocadas quando conhecidas | perfil típico por processo | ±25% | proposta, planejamento de release, contratação |
 | **E2 detalhado** | modelo parcial: processos com movimentos conhecidos e lacunas marcadas como inferidas | o próprio modelo canônico, com `inferido` nas lacunas | ±10% | especificação em andamento; converge para a medição |
 
-E0 e E1 são produzidos por `mfo.py estimar` a partir de um backlog; E2 é um modelo comum
+E0 e E1 são produzidos por `pfc.py estimar` a partir de um backlog; E2 é um modelo comum
 com movimentos inferidos, produzido pela extração normal (capítulo 4) quando os artefatos
 ainda estão incompletos. Nos três níveis o rótulo carrega o nível e o intervalo.
 
@@ -75,7 +75,7 @@ exatamente o papel dos perfis típicos.
 Derivados da tabela de casos frequentes do capítulo 2. `P` é a entidade principal; cada
 entidade adicional acrescenta os movimentos da última coluna.
 
-| Tipo | Movimentos e desfechos base | PFO base | Por entidade adicional |
+| Tipo | Movimentos e desfechos base | PFC base | Por entidade adicional |
 |---|---|---|---|
 | criar | E P · R P (unicidade) · W P · D (recusa) | 4 | + R |
 | alterar | E P · R P · W P · D (recusa) | 4 | + R |
@@ -88,7 +88,7 @@ entidade adicional acrescenta os movimentos da última coluna.
 | outro | E P · R P · W P · D (recusa) | 4 | + R |
 
 O que os modelos medidos mostram sobre esses padrões: em 101 processos de três modelos
-(Aval mecânico, biblioteca e Usuários revisado), a mediana é 6 PFO por processo e varia
+(Aval mecânico, biblioteca e Usuários revisado), a mediana é 6 PFC por processo e varia
 de 5 a 8 conforme o tipo (processar 5, mudanças de estado 8, 9 no único relatório). O
 tipo discrimina menos do que o número de entidades tocadas e de recusas distintas. Por
 isso a entrada mais valiosa de um backlog é a lista de entidades de cada item, e por isso
@@ -97,8 +97,8 @@ a calibração local pesa mais do que a tabela.
 ## 11.4 Ferramenta e formato do backlog
 
 ```
-python3 mfo.py perfis <modelos medidos...> -o perfis.json     # RE-02: PFO por tipo, com quartis
-python3 mfo.py estimar <backlog.json> [--perfis perfis.json] [--medido modelo.json] [-o estimativa.mfc.json]
+python3 pfc.py perfis <modelos medidos...> -o perfis.json     # RE-02: PFC por tipo, com quartis
+python3 pfc.py estimar <backlog.json> [--perfis perfis.json] [--medido modelo.json] [-o estimativa.mfc.json]
 ```
 
 Backlog mínimo (E1):
@@ -130,10 +130,10 @@ calcula o erro relativo contra um modelo medido do mesmo escopo.
 | Aval E1, idem | calibrada em outros sistemas, 16 processos | 616 (433 a 873) | 542 | 14% | sim |
 | Aval E1, idem | calibrada incluindo o próprio Aval (circular, só ilustra o mecanismo) | 544 (433 a 666) | 542 | 0% | sim |
 
-Arquivos: [`biblioteca-backlog.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-backlog.json),
-[`biblioteca-backlog-indicativo.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-backlog-indicativo.json),
-[`aval/aval-backlog-E1.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/aval/aval-backlog-E1.json),
-[`aval/perfis-calibrados.md`](#/mfo-exemplos-aval-perfis-calibrados) e os relatórios
+Arquivos: [`biblioteca-backlog.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-backlog.json),
+[`biblioteca-backlog-indicativo.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-backlog-indicativo.json),
+[`aval/aval-backlog-E1.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/aval/aval-backlog-E1.json),
+[`aval/perfis-calibrados.md`](#/pfc-exemplos-aval-perfis-calibrados) e os relatórios
 `*-estimativa-*.md` ao lado de cada um.
 
 Três leituras. A estimativa da biblioteca ficou dentro do intervalo nos três casos porque o
@@ -156,7 +156,7 @@ estimador.
 
 ## 11.7 Onde entra na esteira do Aval
 
-| Etapa | Insumo disponível | Nível MFO |
+| Etapa | Insumo disponível | Nível PFC |
 |---|---|---|
 | Triagem | texto da demanda e features impactadas | E0 ou E1 pelo mapa de features |
 | História de usuário | ações nomeadas por ator | E1 |
@@ -165,7 +165,7 @@ estimador.
 | Código entregue | repositório | medição de nível C e aderência R × C |
 
 A estimativa de triagem é o que a APF não consegue dar cedo: a Contagem Estimativa exige
-identificar arquivos lógicos e transações classificadas, o que só existe no 3B. Com a MFO,
+identificar arquivos lógicos e transações classificadas, o que só existe no 3B. Com o PFC,
 o mapa de features impactadas da triagem já produz um E1 com intervalo, e a análise de
 impacto de uma sprint pode ser estimada como `mudança`: features novas pelo perfil
 inteiro, features alteradas por um movimento alterado por entidade tocada, até que a

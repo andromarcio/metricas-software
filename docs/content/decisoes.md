@@ -1,7 +1,7 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/12-decisoes.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/12-decisoes.md. Não edite: edite a fonte e gere de novo. -->
 # 12. Desfechos: a decisão dentro do tamanho
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 ## 12.1 O teto que o movimento não vê
 
@@ -18,7 +18,7 @@ processo numa única Exit.
 A resposta não é pesar o movimento por complexidade, o que devolveria o julgamento ao
 número, nem um segundo número ao lado do primeiro, o que dobraria o que um contrato tem
 de carregar. A resposta é reconhecer que a decisão já deixa uma marca na fronteira: o
-processo devolve **resultados distintos**. A MFO conta essa marca com a mesma unidade e
+processo devolve **resultados distintos**. O PFC conta essa marca com a mesma unidade e
 o mesmo peso de um movimento (RI-12, RC-05), e o tamanho continua um número só.
 
 ## 12.2 Por que o desfecho, e não a regra
@@ -36,19 +36,19 @@ Contra os dois critérios que decidem, objetividade e resistência a inflar:
 | Convergência entre medidores | alta: a lista de códigos é fechada | média: depende da granularidade de quem escreve |
 
 O desfecho vence nos dois critérios, e por uma razão que vale para o método inteiro: ele
-é a decisão vista **da fronteira**, que é de onde a MFO mede tudo. A regra é a decisão
+é a decisão vista **da fronteira**, que é de onde o PFC mede tudo. A regra é a decisão
 vista de dentro, e tudo que se conta de dentro abre espaço para inflar.
 
 Uma segunda escolha ficou implícita e vale registrar. Um desfecho poderia ser qualquer
 resultado que um teste de aceite distingue, inclusive duas causas sob o mesmo código,
-separáveis pela entrada que as dispara. A MFO não conta assim: conta o que o sistema
+separáveis pela entrada que as dispara. O PFC não conta assim: conta o que o sistema
 **emite** de diferente, e duas causas sob o mesmo código são um desfecho (RI-12 b). É a
 definição mais curta, a lista é fechada e fecha a única porta de inflar que restava, a
 de enumerar condições sob um código genérico. O custo está na seção 12.4.
 
 ## 12.3 Os mesmos processos, com os desfechos no número
 
-| Processo | Movimentos | Desfechos | PFO |
+| Processo | Movimentos | Desfechos | PFC |
 |---|---|---|---|
 | `ADM-USR-06 — Aceitar convite` (Aval, leitura revisada) | 11 | 3 | 14 |
 | `ADM-USR-02 — Convidar usuário` (Aval) | 8 | 3 | 11 |
@@ -58,14 +58,14 @@ de enumerar condições sob um código genérico. O custo está na seção 12.4.
 
 O autorizador e o aceite de convite, empatados em movimentos, separam-se por um fator de
 dois. Os modelos estão em
-[`exemplos/cartao/`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/cartao/autorizacao-cartao.mfc.json),
-[`exemplos/aval/adm-usr-revisado.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/aval/adm-usr-revisado.mfc.json) e
-[`exemplos/biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/MFO/exemplos/biblioteca-v1.mfc.json), com evidência em
+[`exemplos/cartao/`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/cartao/autorizacao-cartao.mfc.json),
+[`exemplos/aval/adm-usr-revisado.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/aval/adm-usr-revisado.mfc.json) e
+[`exemplos/biblioteca-v1.mfc.json`](https://github.com/andromarcio/metricas-software/blob/main/PFC/exemplos/biblioteca-v1.mfc.json), com evidência em
 cada desfecho, verificada por `auditar`.
 
 Totais por sistema:
 
-| Sistema | Processos | Movimentos | Desfechos | PFO | Desfechos por processo |
+| Sistema | Processos | Movimentos | Desfechos | PFC | Desfechos por processo |
 |---|---|---|---|---|---|
 | Biblioteca v1 (leitura) | 9 | 43 | 11 | 54 | 1,2 |
 | Aval, Usuários (leitura revisada) | 7 | 50 | 14 | 64 | 2,0 |
@@ -91,7 +91,7 @@ tem um desfecho, não dez. Três situações aparecem na prática:
    comportamento visível e um teste de aceite, que é o incentivo que a métrica quer criar.
 3. **Apagamento intencional.** O autorizador de cartão do exemplo responde a seis regras
    de prevenção à fraude com o mesmo código 59, por decisão de segurança: a rede e o
-   portador não devem saber qual regra recusou. Conta um. É o caso em que a MFO
+   portador não devem saber qual regra recusou. Conta um. É o caso em que o PFC
    deliberadamente mede menos do que o sistema decide, e é assim por desenho: o que a
    fronteira esconde de propósito, a métrica não revela. A dificuldade dessa lógica
    pertence à classe contratual do sistema, como a latência e a segurança.
@@ -100,7 +100,7 @@ Em nenhum dos três casos o medidor decide; decide o que o sistema emite.
 
 ## 12.5 Para que serve
 
-- **Contrato.** Um número só, com dois primitivos que valem o mesmo. O preço por PFO
+- **Contrato.** Um número só, com dois primitivos que valem o mesmo. O preço por PFC
   continua um coeficiente, calibrado por classe de sistema, e o fornecedor deixa de
   perder no autorizador sem que o cadastro fique mais caro.
 - **Teste e aceite.** Cada desfecho é um caso de teste com entrada e resultado próprios.
@@ -116,7 +116,7 @@ Em nenhum dos três casos o medidor decide; decide o que o sistema emite.
 Desfecho não é esforço. Dezoito recusas simples custam menos que três recusas com cálculo
 atuarial, e o número não distingue as duas. Regras que não mudam o que o processo devolve
 não contam, e lógica deliberadamente opaca, como a de fraude, conta pelo que mostra. O que
-a MFO entrega é a contagem objetiva; o peso de cada decisão por domínio é calibração, não
+o PFC entrega é a contagem objetiva; o peso de cada decisão por domínio é calibração, não
 contagem, e o passo 6 do bcp-agent mostra a tentação a evitar: pontuar cada regra de 1 a
 8 por julgamento devolve a subjetividade que o número tirou. Fora do tamanho ficam, como
 sempre, os requisitos de qualidade, que pertencem à classe contratual do sistema.

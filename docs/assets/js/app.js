@@ -1,5 +1,5 @@
 /* =========================================================================
-   MFO — app (base: template de documentação do docqui)
+   PFC — app (base: template de documentação do docqui)
    Build sidebar from config, route by hash, render Markdown, theme, TOC.
    ========================================================================= */
 (function () {
@@ -76,8 +76,8 @@
   var $brandVersion = document.getElementById("brandVersion");
   if ($brandVersion && CFG.version) {
     $brandVersion.textContent = "v" + CFG.version;
-    $brandVersion.title = "Versão da MFO — estado da especificação";
-    $brandVersion.setAttribute("aria-label", "Versão " + CFG.version + " da MFO — estado da especificação");
+    $brandVersion.title = "Versão do PFC — estado da especificação";
+    $brandVersion.setAttribute("aria-label", "Versão " + CFG.version + " do PFC — estado da especificação");
   }
 
   /* ---------- Build sidebar ---------- */
@@ -385,49 +385,49 @@
   /* ---------- Home (landing) ---------- */
   function homeHtml() {
     return (
-      '<div class="home-mfo">' +
-      '<section class="home-mfo-hero">' +
-      '<div class="home-mfo-shell home-mfo-hero__content">' +
-      '<div class="home-mfo-intro">' +
-      '<p class="home-mfo-eyebrow">Medição funcional objetiva' +
+      '<div class="home-pfc">' +
+      '<section class="home-pfc-hero">' +
+      '<div class="home-pfc-shell home-pfc-hero__content">' +
+      '<div class="home-pfc-intro">' +
+      '<p class="home-pfc-eyebrow">Pontos de Função Caixa' +
       (CFG.version ? ' · <a href="#/introducao#estado-da-especificacao">versão ' + esc(CFG.version) + "</a>" : "") +
       "</p>" +
       "<h1>Tamanho de software que duas medições reproduzem e uma máquina confere.</h1>" +
-      "<p>A MFO conta o que um software move entre seus usuários e seu armazenamento e o que ele devolve de diferente: uma unidade por entidade em movimento e por desfecho, com evidência verificável em cada item. A mesma régua vale para requisitos, código e diff, e para o que pessoas e agentes de IA produzem.</p>" +
-      '<div class="home-mfo-actions">' +
-      '<a class="home-mfo-button home-mfo-button--primary" href="#/introducao">Começar pela visão geral</a>' +
-      '<a class="home-mfo-button home-mfo-button--secondary" href="#/regras-de-contagem">Ler as regras</a>' +
+      "<p>O PFC conta o que um software move entre seus usuários e seu armazenamento e o que ele devolve de diferente: uma unidade por entidade em movimento e por desfecho, com evidência verificável em cada item. A mesma régua vale para requisitos, código e diff, e para o que pessoas e agentes de IA produzem.</p>" +
+      '<div class="home-pfc-actions">' +
+      '<a class="home-pfc-button home-pfc-button--primary" href="#/introducao">Começar pela visão geral</a>' +
+      '<a class="home-pfc-button home-pfc-button--secondary" href="#/regras-de-contagem">Ler as regras</a>' +
       "</div></div>" +
-      '<aside class="home-mfo-flow" aria-label="Os quatro movimentos da MFO">' +
+      '<aside class="home-pfc-flow" aria-label="Os quatro movimentos do PFC">' +
       "<h2>Quatro movimentos e o desfecho. Uma unidade.</h2>" +
-      '<div class="home-mfo-flow__steps">' +
+      '<div class="home-pfc-flow__steps">' +
       "<div><span>E</span><p><strong>Entrada</strong><small>Uma entidade entra, vinda de um usuário funcional.</small></p></div>" +
       "<div><span>X</span><p><strong>Saída</strong><small>Uma entidade sai para um usuário funcional.</small></p></div>" +
       "<div><span>R</span><p><strong>Leitura</strong><small>Uma entidade é lida do armazenamento.</small></p></div>" +
       "<div><span>W</span><p><strong>Gravação</strong><small>Uma entidade é gravada no armazenamento.</small></p></div>" +
       "<div><span>D</span><p><strong>Desfecho</strong><small>Cada recusa ou variante com código ou mensagem próprios.</small></p></div>" +
       "</div>" +
-      '<p class="home-mfo-flow__note">Cada movimento e cada desfecho valem 1 PFO. Sem pesos, sem fatores de ajuste.</p>' +
+      '<p class="home-pfc-flow__note">Cada movimento e cada desfecho valem 1 PFC. Sem pesos, sem fatores de ajuste.</p>' +
       "</aside>" +
       "</div></section>" +
-      '<div class="home-mfo-shell home-mfo-main">' +
-      '<section class="home-mfo-section">' +
-      '<p class="home-mfo-kicker">Objetiva e auditável</p>' +
+      '<div class="home-pfc-shell home-pfc-main">' +
+      '<section class="home-pfc-section">' +
+      '<p class="home-pfc-kicker">Objetiva e auditável</p>' +
       "<h2>Interpretar com evidência, calcular sem julgamento.</h2>" +
-      '<p class="home-mfo-lead">A medição separa o modelo, que cita a fonte de cada processo e movimento, da contagem, que é uma função determinística sobre ele. É o que permite medir por IA, auditar por máquina e comparar softwares de qualquer tecnologia.</p>' +
-      '<div class="home-mfo-principles">' +
+      '<p class="home-pfc-lead">A medição separa o modelo, que cita a fonte de cada processo e movimento, da contagem, que é uma função determinística sobre ele. É o que permite medir por IA, auditar por máquina e comparar softwares de qualquer tecnologia.</p>' +
+      '<div class="home-pfc-principles">' +
       "<article><span>01</span><h3>Evidência por item</h3><p>Todo processo e todo movimento citam um artefato localizável. A ferramenta abre cada evidência e diz quantas conferem.</p></article>" +
       "<article><span>02</span><h3>Concordância medida</h3><p>Duas medições do mesmo software se comparam por chaves. A divergência é localizada e resolvida por regra, nunca por opinião.</p></article>" +
       "<article><span>03</span><h3>A decisão no número</h3><p>O que um processo decide entra na conta pelo que devolve de diferente: um desfecho por código ou mensagem. Um número só, sem segunda dimensão.</p></article>" +
       "</div></section>" +
-      '<section class="home-mfo-trace">' +
+      '<section class="home-pfc-trace">' +
       "<div><strong>Fonte</strong><span>Requisitos, código, diff entre versões ou o sistema em execução.</span></div><b>→</b>" +
       "<div><strong>Modelo canônico</strong><span>Processos, movimentos e desfechos, cada um com evidência, validados por V-01 a V-11.</span></div><b>→</b>" +
-      "<div><strong>PFO e indicadores</strong><span>Tamanho, mudança, produção com IA e estimativa, sempre com rótulo.</span></div>" +
+      "<div><strong>PFC e indicadores</strong><span>Tamanho, mudança, produção com IA e estimativa, sempre com rótulo.</span></div>" +
       "</section>" +
-      '<section class="home-mfo-next">' +
-      '<div><p class="home-mfo-kicker">Próximo passo</p><h2>Veja o método aplicado a um sistema real.</h2></div>' +
-      '<a class="home-mfo-button home-mfo-button--blue" href="#/exemplo-real-aval">Abrir o exemplo do Aval</a>' +
+      '<section class="home-pfc-next">' +
+      '<div><p class="home-pfc-kicker">Próximo passo</p><h2>Veja o método aplicado a um sistema real.</h2></div>' +
+      '<a class="home-pfc-button home-pfc-button--blue" href="#/exemplo-real-aval">Abrir o exemplo do Aval</a>' +
       "</section></div>" +
       "</div>"
     );
@@ -588,14 +588,14 @@
   function initTheme() {
     var mode = "light";
     try {
-      mode = localStorage.getItem("mfo-theme") || "light";
+      mode = localStorage.getItem("pfc-theme") || "light";
     } catch (e) {}
     applyTheme(mode);
     document.querySelectorAll(".theme-switch button").forEach(function (b) {
       b.addEventListener("click", function () {
         var m = b.dataset.themeSet;
         try {
-          localStorage.setItem("mfo-theme", m);
+          localStorage.setItem("pfc-theme", m);
         } catch (e) {}
         applyTheme(m);
       });
@@ -605,7 +605,7 @@
       .addEventListener("change", function () {
         var m = "light";
         try {
-          m = localStorage.getItem("mfo-theme") || "light";
+          m = localStorage.getItem("pfc-theme") || "light";
         } catch (e) {}
         if (m === "system") applyTheme("system");
       });
@@ -695,7 +695,7 @@
   }
 
   /* ---------- Sidebar resize (desktop) ---------- */
-  var SIDEBAR_WIDTH_KEY = "mfo-sidebar-width";
+  var SIDEBAR_WIDTH_KEY = "pfc-sidebar-width";
   var SIDEBAR_MIN_WIDTH = 220;
   var SIDEBAR_MAX_WIDTH = 480;
 

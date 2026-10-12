@@ -1,11 +1,11 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/05-comparacao-entre-softwares.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/05-comparacao-entre-softwares.md. Não edite: edite a fonte e gere de novo. -->
 # 5. Comparação entre softwares
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
 ## 5.1 Condições de comparabilidade
 
-Dois tamanhos MFO são comparáveis quando:
+Dois tamanhos PFC são comparáveis quando:
 
 1. foram medidos com a **mesma versão do método**;
 2. têm o **mesmo nível** de medição (R, C ou RC);
@@ -21,21 +21,21 @@ Comparações que violem uma dessas condições devem dizer qual e por quê.
 
 ## 5.2 Perfil funcional
 
-O total esconde a forma do software. Dois sistemas de 500 PFO podem ser muito diferentes:
-um com 40 processos densos, outro com 150 processos simples. O relatório MFO traz, além do
+O total esconde a forma do software. Dois sistemas de 500 PFC podem ser muito diferentes:
+um com 40 processos densos, outro com 150 processos simples. O relatório PFC traz, além do
 total, o **perfil funcional**, calculado pela ferramenta:
 
 | Indicador | Definição | O que revela |
 |---|---|---|
-| PFO | total de movimentos e desfechos | tamanho |
+| PFC | total de movimentos e desfechos | tamanho |
 | NP | número de processos | amplitude funcional |
 | NE | número de entidades declaradas (sem as reservadas) | amplitude do domínio de dados |
 | E, X, R, W, D | movimentos por tipo e desfechos | forma |
-| Densidade | PFO / NP | complexidade média das transações |
-| Persistência | (R + W) / PFO | quanto o software gira em torno de dados armazenados |
-| Interface | (E + X + D) / PFO | quanto gira em torno de troca com usuários e sistemas, respostas incluídas |
+| Densidade | PFC / NP | complexidade média das transações |
+| Persistência | (R + W) / PFC | quanto o software gira em torno de dados armazenados |
+| Interface | (E + X + D) / PFC | quanto gira em torno de troca com usuários e sistemas, respostas incluídas |
 | Entidades por processo | NE / NP | acoplamento médio entre funções e dados |
-| Evidência | movimentos e desfechos com evidência / PFO | confiabilidade do modelo |
+| Evidência | movimentos e desfechos com evidência / PFC | confiabilidade do modelo |
 
 Perfis típicos:
 
@@ -50,28 +50,28 @@ números.
 
 ## 5.3 Indicadores derivados
 
-O PFO é tamanho. Indicadores de gestão nascem de sua combinação com dados da organização:
+O PFC é tamanho. Indicadores de gestão nascem de sua combinação com dados da organização:
 
 | Indicador | Fórmula | Condição |
 |---|---|---|
-| Produtividade | PFO entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
-| Custo unitário | custo / PFO | idem |
-| Densidade de defeitos | defeitos / PFO | mesma definição de defeito e janela |
-| Velocidade de evolução | PFO de mudança por período | mesmo software, modelos consecutivos |
-| Aderência R × C | PFO(C) / PFO(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |
+| Produtividade | PFC entregues / horas (ou pessoa-dia) | mesmo nível, mesma definição de esforço |
+| Custo unitário | custo / PFC | idem |
+| Densidade de defeitos | defeitos / PFC | mesma definição de defeito e janela |
+| Velocidade de evolução | PFC de mudança por período | mesmo software, modelos consecutivos |
+| Aderência R × C | PFC(C) / PFC(R) e lista de chaves só em R ou só em C | mesmo software, mesma versão |
 | Cobertura de testes funcional | processos com teste automatizado / NP | nível C |
-| Erro de estimativa | (PFO estimado − PFO medido) / PFO medido | estimativa rotulada e medição do mesmo escopo (capítulo 11) |
+| Erro de estimativa | (PFC estimado − PFC medido) / PFC medido | estimativa rotulada e medição do mesmo escopo (capítulo 11) |
 
-Os valores de referência (taxa de entrega, custo por PFO) devem ser calibrados pela
-própria organização, como se faz com PF e PFC. A MFO não publica valores de mercado. Os
-indicadores de produção com IA (PFO por modo, alavancagem humana, custo por PFO, aceite,
+Os valores de referência (taxa de entrega, custo por PFC) devem ser calibrados pela
+própria organização, como se faz com PF e CFP. O PFC não publica valores de mercado. Os
+indicadores de produção com IA (PFC por modo, alavancagem humana, custo por PFC, aceite,
 excedente) estão no capítulo 9.
 
 ## 5.4 Relação com APF e COSMIC
 
 ### Correspondência conceitual
 
-| MFO | APF (IFPUG) | COSMIC |
+| PFC | APF (IFPUG) | COSMIC |
 |---|---|---|
 | Processo | Processo elementar (EE, SE, CE) | Processo funcional |
 | Entidade | Arquivo lógico (ALI, AIE) ou seu RLR | Objeto de interesse / grupo de dados |
@@ -81,43 +81,43 @@ excedente) estão no capítulo 9.
 | W | ALI mantido | Write |
 | Desfecho (D) | DER de mensagem; parte da lógica de processamento | uma única Exit para todas as mensagens de erro e confirmação do processo |
 | E `DISPARO` | ação do usuário (DER de ação) | Entry disparadora de um atributo |
-| PFO de mudança | PF incluído, alterado, excluído | PFC incluído, alterado, excluído |
+| PFC de mudança | PF incluído, alterado, excluído | CFP incluído, alterado, excluído |
 
 ### Diferenças de resultado esperadas
 
-- **Em relação ao COSMIC:** os movimentos são o mesmo primitivo, e a MFO soma a eles os
+- **Em relação ao COSMIC:** os movimentos são o mesmo primitivo, e o PFC soma a eles os
   desfechos, que o COSMIC comprime numa única Exit de mensagens por processo. Sistemas
-  com muitas recusas distintas medem mais em PFO do que em PFC. As demais diferenças
+  com muitas recusas distintas medem mais em PFC do que em CFP. As demais diferenças
   aparecem onde o COSMIC deixa ao medidor a identificação de grupos de dados em saídas
-  compostas (RI-06 a fixa uma X por entidade) e onde a MFO fixa casos frequentes (canais,
-  formatos, lista e detalhe). O exemplo do capítulo 6 mostra uma faixa de 47 a 51 PFC
-  para 54 PFO, 43 deles movimentos.
+  compostas (RI-06 a fixa uma X por entidade) e onde o PFC fixa casos frequentes (canais,
+  formatos, lista e detalhe). O exemplo do capítulo 6 mostra uma faixa de 47 a 51 CFP
+  para 54 PFC, 43 deles movimentos.
 - **Em relação à APF:** a APF conta funções de dados diretamente (7 a 15 PF por arquivo
   lógico) e limita cada transação a 7 PF. Sistemas com muitos arquivos e transações
-  simples tendem a ter mais PF que PFO; sistemas com transações ricas (muitas entidades por
+  simples tendem a ter mais PF que PFC; sistemas com transações ricas (muitas entidades por
   processo) tendem ao contrário. Não existe fator fixo de conversão. No sistema real do
-  capítulo 10, a razão PFO/PF de transação variou de 0,87 a 1,48 entre domínios (1,28 no
+  capítulo 10, a razão PFC/PF de transação variou de 0,87 a 1,48 entre domínios (1,28 no
   total), pelos motivos acima.
 
 ### Procedimento de calibração local
 
-1. Selecionar de 10 a 20 softwares (ou demandas) já medidos em PF ou PFC.
-2. Medir cada um em PFO no mesmo nível e com o mesmo escopo.
-3. Ajustar uma regressão simples (PF = a × PFO + b) e registrar o coeficiente de
+1. Selecionar de 10 a 20 softwares (ou demandas) já medidos em PF ou CFP.
+2. Medir cada um em PFC no mesmo nível e com o mesmo escopo.
+3. Ajustar uma regressão simples (PF = a × PFC + b) e registrar o coeficiente de
    determinação e a dispersão.
-4. Usar o fator **apenas** para converter históricos; novas medições são feitas em PFO.
+4. Usar o fator **apenas** para converter históricos; novas medições são feitas em PFC.
 5. Repetir a calibração a cada versão do método ou mudança relevante de carteira.
 
 ## 5.5 Limites e cuidados
 
 - **O julgamento não desaparece; é confinado.** Decidir fronteira, entidades e processos
-  ainda exige interpretação. A MFO reduz a variação com testes de decisão, exige evidência
+  ainda exige interpretação. O PFC reduz a variação com testes de decisão, exige evidência
   e **mede** a variação restante pelo índice de concordância. Um resultado sem segunda
   medição é uma medição, não uma prova de objetividade.
 - **Atributos não pesam.** Um processo que move uma entidade de 3 atributos e outro que
   move uma de 60 têm o mesmo tamanho. É a mesma simplificação do COSMIC. Quem precisar
   disso deve criar uma extensão local, reportada à parte, nunca somada.
-- **Pedaços pequenos.** Mudanças de 1 a 3 PFO podem exigir esforço desproporcional. Use
+- **Pedaços pequenos.** Mudanças de 1 a 3 PFC podem exigir esforço desproporcional. Use
   pisos contratuais, não ajustes na contagem.
 - **Interfaces ricas** (editores, mapas, gráficos interativos) são subdimensionadas por
   qualquer método funcional. Registre o requisito não funcional e trate-o fora.

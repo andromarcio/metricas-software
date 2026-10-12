@@ -1,8 +1,8 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/prompts/extracao-mfc.md. Não edite: edite a fonte e gere de novo. -->
-# Prompt de extração do Modelo Funcional Canônico (MFC) — MFO 1.0
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/prompts/extracao-mfc.md. Não edite: edite a fonte e gere de novo. -->
+# Prompt de extração do Modelo Funcional Canônico (MFC) — PFC 1.0
 
 Use este prompt com um modelo de linguagem para produzir o modelo JSON que a ferramenta
-`mfo.py` valida e conta. Substitua os campos entre `<...>`. Anexe ou cole os artefatos
+`pfc.py` valida e conta. Substitua os campos entre `<...>`. Anexe ou cole os artefatos
 (requisitos, telas, contratos de API, código, esquema de banco). Em bases grandes, rode o
 prompt por módulo e consolide os modelos (RC-04). Registre a versão deste prompt e o
 modelo de IA usado no campo `agente` (o texto do prompt faz parte do agente).
@@ -10,8 +10,8 @@ modelo de IA usado no campo `agente` (o texto do prompt faz parte do agente).
 ---
 
 ```text
-Você é um medidor de tamanho funcional de software que aplica o método MFO 1.0
-(Medição Funcional Objetiva). Sua tarefa NÃO é calcular um número: é produzir um
+Você é um medidor de tamanho funcional de software que aplica o método PFC 1.0
+(Pontos de Função Caixa). Sua tarefa NÃO é calcular um número: é produzir um
 Modelo Funcional Canônico (MFC) em JSON, com evidências, que uma ferramenta contará.
 Qualquer elemento que você não consiga sustentar com evidência deve ser marcado como
 inferido, com justificativa. Não invente processos, entidades ou movimentos.
@@ -81,7 +81,7 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
    principal NÃO é listado: já está nas X e W. Mesmo código ou mesma mensagem produzidos
    por condições diferentes = UM desfecho. Erros técnicos (RI-10) não contam. Cada item
    tem "id" (o código ou o nome da mensagem, único no processo), "descricao" e
-   "evidencia", e vale 1 PFO como um movimento.
+   "evidencia", e vale 1 PFC como um movimento.
 
 ## Casos frequentes (decisões fixadas)
 - Cadastro com unicidade (CPF único): E, R (verifica), W; desfecho: duplicidade.
@@ -110,7 +110,7 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
 
 ## Formato de saída
 {
-  "mfo": "1.0",
+  "pfc": "1.0",
   "software": "<nome>", "versao": "<versão>",
   "proposito": "<...>", "escopo": "<...>", "nivel": "<R|C|RC>",
   "agente": { "tipo": "ia", "nome": "<modelo e versão>", "revisao_humana": false, "prompt": "extracao-mfc.md@1.0" },
@@ -143,12 +143,12 @@ inferido, com justificativa. Não invente processos, entidades ou movimentos.
 
 ## Prompt complementar: conciliação de duas medições
 
-Após `mfo.py concordancia A.json B.json`, use o prompt abaixo para fechar as divergências
+Após `pfc.py concordancia A.json B.json`, use o prompt abaixo para fechar as divergências
 por regra. A saída esperada é um registro por divergência; a decisão final é humana
 quando a medição tem efeito contratual.
 
 ```text
-Você recebe duas medições MFO 1.0 do mesmo software (A e B) e a lista de chaves
+Você recebe duas medições PFC 1.0 do mesmo software (A e B) e a lista de chaves
 (processo, tipo, entidade) presentes em apenas uma delas. Para cada chave divergente:
 1. Localize a evidência citada em cada modelo e abra o artefato.
 2. Decida se a chave deve existir aplicando a regra pertinente (RI-03 a RI-10), citando-a.
@@ -165,7 +165,7 @@ e, quando houver, aos logs de sessão de agentes. A saída alimenta `producao.mo
 processo e é auditada por amostragem.
 
 ```text
-Você recebe um Modelo Funcional Canônico (MFO 1.0) de nível C e o histórico do
+Você recebe um Modelo Funcional Canônico (PFC 1.0) de nível C e o histórico do
 repositório entre as versões <REF_A> e <REF_B>. Para cada processo do modelo:
 1. Liste os commits que tocam os arquivos citados nas evidências COD do processo
    (git log <REF_A>..<REF_B> -- <arquivos>).

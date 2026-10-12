@@ -1,0 +1,335 @@
+{
+  "pfc": "1.0",
+  "software": "Autorizador de cartão (exemplo hipotético)",
+  "versao": "ilustrativo",
+  "proposito": "Mostrar movimentos e desfechos do PFC num processo de alta complexidade de regras",
+  "escopo": "Um único processo: RF-01 Autorizar compra (doméstica e internacional, sem token), com o bloco de prevenção à fraude sob um código único",
+  "nivel": "R",
+  "agente": {
+    "tipo": "ia",
+    "nome": "assistente de medição (exemplo hipotético)",
+    "revisao_humana": false
+  },
+  "fontes": [
+    {
+      "id": "REQ",
+      "tipo": "requisitos",
+      "ref": "PFC/exemplos/cartao/autorizacao-requisitos.md (raiz das evidências: PFC/exemplos/cartao)"
+    }
+  ],
+  "usuarios_funcionais": [
+    {
+      "id": "UF-REDE",
+      "nome": "Rede ou adquirente (mensagem de autorização)",
+      "tipo": "sistema"
+    },
+    {
+      "id": "UF-FRAUDE",
+      "nome": "Motor antifraude",
+      "tipo": "sistema"
+    }
+  ],
+  "entidades": [
+    {
+      "id": "Transacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Cartao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Portador",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Conta",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Estabelecimento",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ParametroAutorizacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ListaBloqueio",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "Cotacao",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    },
+    {
+      "id": "ScoreFraude",
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+      ]
+    }
+  ],
+  "processos": [
+    {
+      "id": "AUT-01",
+      "nome": "Autorizar compra",
+      "tipo_processo": "integrar",
+      "disparadores": [
+        {
+          "usuario": "UF-REDE",
+          "evento": "mensagem de autorização recebida da rede"
+        }
+      ],
+      "evidencia": [
+        "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+      ],
+      "movimentos": [
+        {
+          "tipo": "E",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+          ],
+          "nota": "mensagem de autorização",
+          "usuario": "UF-REDE"
+        },
+        {
+          "tipo": "R",
+          "entidade": "Cartao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Portador",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Conta",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Estabelecimento",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ParametroAutorizacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "ListaBloqueio",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "R",
+          "entidade": "Cotacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "X",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#RF-01 Autorizar compra"
+          ],
+          "nota": "envio ao antifraude e resposta à rede: uma chave só (RI-09)",
+          "usuario": "UF-REDE"
+        },
+        {
+          "tipo": "E",
+          "entidade": "ScoreFraude",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ],
+          "nota": "resposta do motor antifraude usada na decisão (RI-05 c)",
+          "usuario": "UF-FRAUDE"
+        },
+        {
+          "tipo": "W",
+          "entidade": "Transacao",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ]
+        },
+        {
+          "tipo": "W",
+          "entidade": "Conta",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Dados lidos e gravados"
+          ],
+          "nota": "reserva de limite"
+        }
+      ],
+      "desfechos": [
+        {
+          "id": "10",
+          "descricao": "aprovada parcialmente",
+          "tipo": "sucesso",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "14",
+          "descricao": "cartão inválido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "54",
+          "descricao": "cartão vencido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "62",
+          "descricao": "cartão bloqueado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "41",
+          "descricao": "portador bloqueado",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "03",
+          "descricao": "estabelecimento inválido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "57",
+          "descricao": "categoria não permitida",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "51",
+          "descricao": "saldo ou limite insuficiente",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "61",
+          "descricao": "excede limite por transação",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "65",
+          "descricao": "excede frequência de transações",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "88",
+          "descricao": "criptograma inválido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "55",
+          "descricao": "senha inválida",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "75",
+          "descricao": "tentativas de senha excedidas",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "59",
+          "descricao": "suspeita de fraude: score acima do limiar ou qualquer regra de prevenção (20 a 25), sempre sob o mesmo código",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "94",
+          "descricao": "transação duplicada",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "58",
+          "descricao": "canal não permitido",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        },
+        {
+          "id": "30",
+          "descricao": "erro de formato",
+          "tipo": "recusa",
+          "evidencia": [
+            "REQ:autorizacao-requisitos.md#Códigos de resposta à rede"
+          ]
+        }
+      ]
+    }
+  ]
+}

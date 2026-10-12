@@ -1,16 +1,16 @@
-<!-- Gerado por scripts/gera-docs.py a partir de MFO/04-medicao-assistida-por-ia.md. Não edite: edite a fonte e gere de novo. -->
+<!-- Gerado por scripts/gera-docs.py a partir de PFC/04-medicao-assistida-por-ia.md. Não edite: edite a fonte e gere de novo. -->
 # 4. Medição assistida por IA
 
-> MFO — Medição Funcional Objetiva · Versão 1.0
+> PFC — Pontos de Função Caixa · Versão 1.0
 
-## 4.1 Por que a MFO funciona com IA
+## 4.1 Por que o PFC funciona com IA
 
 Um modelo de linguagem é bom em ler artefatos heterogêneos (requisitos, telas, código em
 qualquer linguagem, esquemas de banco, contratos de API) e extrair deles uma estrutura.
 É ruim em ser consistente de uma execução para outra e em distinguir o que leu do que
-supôs. A MFO foi desenhada em torno disso:
+supôs. O PFC foi desenhado em torno disso:
 
-| Risco com IA | Salvaguarda na MFO |
+| Risco com IA | Salvaguarda no PFC |
 |---|---|
 | A IA conta de um jeito hoje e de outro amanhã | A IA não conta. Ela produz o modelo; a ferramenta conta (P3). |
 | A IA inventa um processo ou uma entidade | Todo elemento exige evidência localizável (RI-11, V-07); o grau de evidência vai no rótulo. |
@@ -23,8 +23,8 @@ supôs. A MFO foi desenhada em torno disso:
 
 ```
  1. Preparar      2. Extrair          3. Validar e contar    4. Segunda medição   5. Conciliar      6. Rotular e arquivar
- artefatos  ───▶  modelo (IA)   ───▶  mfo.py validar   ───▶  modelo B (IA ou  ───▶ divergências ───▶ relatório + modelo
- e escopo         com evidências      mfo.py contar          humano)               por regra         versionados
+ artefatos  ───▶  modelo (IA)   ───▶  pfc.py validar   ───▶  modelo B (IA ou  ───▶ divergências ───▶ relatório + modelo
+ e escopo         com evidências      pfc.py contar          humano)               por regra         versionados
 ```
 
 **Passo 1 — Preparar.** Declarar propósito, escopo, nível (R, C ou RC) e fontes com
@@ -36,14 +36,14 @@ divergências de nomenclatura entre medições.
 com os artefatos. A saída é o modelo JSON. Para bases de código grandes, extrair por
 módulo ou por conjunto de pontos de entrada e consolidar em um único modelo (RC-04).
 
-**Passo 3 — Validar e contar.** `mfo.py validar` deve retornar zero erros; corrigir o
-modelo (não o número) até que retorne. `mfo.py contar` gera o relatório.
+**Passo 3 — Validar e contar.** `pfc.py validar` deve retornar zero erros; corrigir o
+modelo (não o número) até que retorne. `pfc.py contar` gera o relatório.
 
 **Passo 4 — Segunda medição.** Repetir o passo 2 com outro agente (outro modelo de IA,
 outra configuração, ou um medidor humano) sem acesso ao primeiro modelo, reutilizando o
 glossário de entidades do passo 1.
 
-**Passo 5 — Conciliar.** `mfo.py concordancia` lista as divergências por processo e
+**Passo 5 — Conciliar.** `pfc.py concordancia` lista as divergências por processo e
 movimento. Cada divergência é resolvida citando a regra (RI-xx) e a evidência. O modelo
 conciliado recebe nível e agente adequados.
 
@@ -122,18 +122,18 @@ formam, com o tempo, a base de exemplos da organização e realimentam o prompt.
 
 ## 4.6 Ferramenta de referência
 
-`ferramentas/mfo.py` é a implementação de referência das regras RC-01 a RC-06 e V-01 a
+`ferramentas/pfc.py` é a implementação de referência das regras RC-01 a RC-06 e V-01 a
 V-11. Não tem dependências externas.
 
 ```
-python3 mfo.py validar <modelo.json>                 # lista erros e avisos; código de saída 1 se houver erro
-python3 mfo.py contar <modelo.json> [--json]         # relatório com rótulo, perfil, produção e tabela por processo
-python3 mfo.py mudanca <antes.json> <depois.json>    # tamanho da mudança (RC-03), por modo de produção
-python3 mfo.py concordancia <a.json> <b.json>        # índice de concordância e divergências por processo
-python3 mfo.py impacto <modelo.json> --dirs A B      # processos afetados por um diff (ou --git REPO REF_A REF_B)
-python3 mfo.py auditar <modelo.json> --raiz DIR      # confere que cada evidência de código existe (RD-03)
-python3 mfo.py perfis <modelos...> -o perfis.json    # PFO típico por tipo de processo (RE-02)
-python3 mfo.py estimar <backlog.json> [--perfis P]   # estimativa E0/E1 como modelo com movimentos inferidos (RE-01)
+python3 pfc.py validar <modelo.json>                 # lista erros e avisos; código de saída 1 se houver erro
+python3 pfc.py contar <modelo.json> [--json]         # relatório com rótulo, perfil, produção e tabela por processo
+python3 pfc.py mudanca <antes.json> <depois.json>    # tamanho da mudança (RC-03), por modo de produção
+python3 pfc.py concordancia <a.json> <b.json>        # índice de concordância e divergências por processo
+python3 pfc.py impacto <modelo.json> --dirs A B      # processos afetados por um diff (ou --git REPO REF_A REF_B)
+python3 pfc.py auditar <modelo.json> --raiz DIR      # confere que cada evidência de código existe (RD-03)
+python3 pfc.py perfis <modelos...> -o perfis.json    # PFC típico por tipo de processo (RE-02)
+python3 pfc.py estimar <backlog.json> [--perfis P]   # estimativa E0/E1 como modelo com movimentos inferidos (RE-01)
 ```
 
 O extrator `extrair_n3.py` (capítulo 10) produz modelos a partir da estrutura de

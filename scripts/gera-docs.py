@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """gera-docs.py — gera as páginas do site (docs/content/*.md) a partir da fonte Markdown.
 
-A fonte é a especificação (MFO/*.md), o prompt de extração, os exemplos em Markdown
+A fonte é a especificação (PFC/*.md), o prompt de extração, os exemplos em Markdown
 e os índices dos manuais de referência; as páginas em docs/content são derivadas e não
-se editam à mão. O script reescreve os links: capítulo ou documento da MFO vira rota
+se editam à mão. O script reescreve os links: capítulo ou documento do PFC vira rota
 `#/pagina` do site; arquivo que não é página vira link para o GitHub.
 
 Uso, a partir da raiz do repositório:
@@ -24,24 +24,24 @@ CONFIG = RAIZ / "docs" / "config.js"
 REPO = "https://github.com/andromarcio/metricas-software"
 BRANCH = "main"
 
-# Páginas com identificador próprio (as do menu). As demais páginas da MFO alcançadas
+# Páginas com identificador próprio (as do menu). As demais páginas do PFC alcançadas
 # por link recebem o identificador derivado do caminho (exemplos-aval-relatorio-aval-5.0.0).
 PAGINAS = {
-    "introducao": "MFO/README.md",
+    "introducao": "PFC/README.md",
     "repositorio": "README.md",
-    "prompt-extracao": "MFO/prompts/extracao-mfc.md",
-    "exemplo-cartao": "MFO/exemplos/cartao/autorizacao-requisitos.md",
-    "exemplo-codigo": "MFO/exemplos/codigo-biblioteca/README.md",
+    "prompt-extracao": "PFC/prompts/extracao-mfc.md",
+    "exemplo-cartao": "PFC/exemplos/cartao/autorizacao-requisitos.md",
+    "exemplo-codigo": "PFC/exemplos/codigo-biblioteca/README.md",
     "apf": "APF/README.md",
     "cosmic": "COSMIC/README.md",
     "sti": "STI/README.md",
 }
-for cap in sorted((RAIZ / "MFO").glob("[0-9][0-9]-*.md")):
-    PAGINAS[cap.stem[3:]] = f"MFO/{cap.name}"
+for cap in sorted((RAIZ / "PFC").glob("[0-9][0-9]-*.md")):
+    PAGINAS[cap.stem[3:]] = f"PFC/{cap.name}"
 
-# Só os documentos da MFO entram no site por fechamento de links; os manuais de
+# Só os documentos do PFC entram no site por fechamento de links; os manuais de
 # referência (APF, COSMIC, STI) ficam no GitHub, com o índice de cada um como página.
-FECHAMENTO = re.compile(r"^MFO/.*\.md$")
+FECHAMENTO = re.compile(r"^PFC/.*\.md$")
 
 LINK = re.compile(r"\]\(([^)\s]+)\)")
 CERCA = re.compile(r"^\s*(```|~~~)")

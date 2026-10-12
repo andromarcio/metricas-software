@@ -1,0 +1,45 @@
+# 7. Glossário
+
+> PFC — Pontos de Função Caixa · Versão 1.0
+
+| Termo | Definição |
+|---|---|
+| **Aceite** | Registro, por processo, de que o contratante aceitou a entrega, com evidência (RP-03). PFC aceitos são a base de remuneração. |
+| **Agente** | Quem produziu o modelo: pessoa (`humano`), modelo de linguagem (`ia`) ou extrator determinístico (`ferramenta`), identificado por nome e versão. Faz parte do rótulo. |
+| **Alavancagem humana** | PFC produzidos por hora humana de todo o ciclo (RP-02). |
+| **Alterado** | Movimento ou desfecho presente em dois modelos consecutivos cujos atributos, manipulação, código ou mensagem mudaram (RC-03). |
+| **Armazenamento persistente** | Qualquer meio em que dados sobrevivem ao término de um processo e podem ser lidos por outro: banco de dados, arquivo, memória não volátil. |
+| **CFP** | Ponto de função COSMIC, unidade do método COSMIC, grafada com o símbolo do manual original. A tradução brasileira do manual a abrevia PFC, sigla que esta especificação reserva ao Ponto de Função Caixa. |
+| **Chave** | Tripla (processo, tipo, entidade) que identifica um movimento, ou (processo, D, identificador) que identifica um desfecho. Cada chave vale 1 PFC. |
+| **Concordância (índice de)** | Razão entre chaves comuns e chaves totais de dois modelos do mesmo software (seção 4.4). |
+| **Derivação** | Indicador informativo: processo cujas saídas ou gravações contêm atributo ausente das entradas e leituras (seção 3.5). |
+| **Desfecho** | Resultado distinto que um processo devolve ao usuário funcional, além do principal, identificado por código ou mensagem próprios: recusa, erro de negócio ou variante de sucesso (RI-12). Vale 1 PFC (RC-05). |
+| **Densidade** | PFC dividido pelo número de processos. |
+| **DISPARO** | Entidade reservada para o movimento E de um disparador sem atributos de entidade. |
+| **Disparador** | Evento percebido por um usuário funcional que inicia um processo, com o usuário funcional que o gera. |
+| **Entidade** | Grupo nomeado de atributos que descreve uma única coisa de interesse, persistida ou trocada como unidade (RI-03). |
+| **Entrada (E)** | Movimento de uma entidade de um usuário funcional para o processo (RI-05). |
+| **Escopo** | Conjunto de funcionalidades incluídas na medição (RI-01). |
+| **Estimativa (E0, E1, E2)** | Modelo canônico com movimentos inferidos por perfis típicos, rotulado por nível e com intervalo (capítulo 11): E0 a partir de entidades, E1 a partir de processos nomeados, E2 a partir de modelo parcial. |
+| **Evidência** | Referência `FONTE:localizador` que permite confirmar um elemento do modelo no artefato (RI-11). Em código, `FONTE:caminho#trecho`, verificável por máquina (RD-03). |
+| **Excedente** | PFC presentes no modelo de código sem correspondente no modelo de requisitos: produção não solicitada (RP-03). |
+| **Fonte** | Artefato declarado no modelo, com identificador e versão, de onde vêm as evidências. |
+| **Fronteira** | Linha conceitual entre o software medido e seus usuários funcionais (RI-01). |
+| **Grau de evidência** | Porcentagem de movimentos e desfechos não inferidos. Faz parte do rótulo. |
+| **Gravação (W)** | Movimento de uma entidade do processo para o armazenamento persistente: criar, alterar ou excluir (RI-08). |
+| **Inferido** | Elemento incluído no modelo sem evidência localizável, com justificativa (RI-11 b). |
+| **Leitura (R)** | Movimento de uma entidade do armazenamento persistente para o processo (RI-07). |
+| **MFC — Modelo Funcional Canônico** | Documento JSON que descreve usuários funcionais, entidades, processos, movimentos e desfechos com evidências. Insumo único da contagem. |
+| **PFC — Pontos de Função Caixa** | O método descrito nesta especificação e sua unidade de tamanho: um PFC por chave de movimento ou de desfecho. |
+| **Modo de produção** | Classificação, por processo e por versão, de como ele foi produzido: M0 humano, M1 IA assistida, M2 IA dirigida, M3 IA autônoma (RP-01). |
+| **Movimento** | Deslocamento de uma entidade em um processo; tipos E, X, R, W. |
+| **Nível de medição** | Origem do modelo: R (requisitos), C (código ou sistema) ou RC (conciliado). |
+| **NP, NE** | Número de processos e número de entidades declaradas. |
+| **Perfil funcional** | Conjunto de indicadores derivados do modelo (seção 5.2). |
+| **Perfil típico** | Movimentos e desfechos esperados de um processo pelo seu tipo (criar, alterar, excluir, estado, consultar, relatório, processar, integrar), usados na estimativa e calibrados por modelos medidos (RE-01, RE-02). |
+| **Processo** | Menor unidade de funcionalidade com disparador, efeito e autonomia (RI-04). |
+| **Rótulo** | Identificação obrigatória de um resultado (RC-06). |
+| **Saída (X)** | Movimento de uma entidade do processo para um usuário funcional (RI-06). |
+| **Usuário funcional (UF)** | Origem ou destino de dados através da fronteira: pessoa, sistema, dispositivo ou relógio (RI-02). |
+| **Validação (V-xx)** | Verificação que o modelo deve satisfazer para ser contado (seção 3.2). |
+| **Regras RD, RP, RM e RE** | Regras do diff e do código (capítulo 8), da produção com IA (capítulo 9), de mapeamento da estrutura N3 do siesa-engine (capítulo 10) e de estimativa (capítulo 11). |
