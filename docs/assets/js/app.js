@@ -570,17 +570,14 @@
   }
 
   /* ---------- Theme ---------- */
-  var hljsLight = document.getElementById("hljs-light");
-  var hljsDark = document.getElementById("hljs-dark");
-
+  /* O tema do highlight.js não alterna: o bloco de código é escuro nos dois temas
+     (pfc.css) e o index.html carrega só o tema escuro do realce. */
   function applyTheme(mode) {
     var dark =
       mode === "dark" ||
       (mode === "system" &&
         window.matchMedia("(prefers-color-scheme: dark)").matches);
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-    if (hljsLight) hljsLight.disabled = dark;
-    if (hljsDark) hljsDark.disabled = !dark;
     document.querySelectorAll(".theme-switch button").forEach(function (b) {
       b.classList.toggle("is-active", b.dataset.themeSet === mode);
     });
